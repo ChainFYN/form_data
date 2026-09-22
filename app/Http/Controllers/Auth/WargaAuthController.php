@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pengguna;
-use App\Models\Kecamatan;
 use App\Models\Desa;
+use App\Models\Kecamatan;
+use App\Models\Pengguna;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -23,20 +22,30 @@ class WargaAuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'role' => 'required|in:warga,pupr,kecamatan',
         ]);
 
         $user = Pengguna::where('email', $request->email)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            // Cek role harus Warga (id_peran = 1)
-            if ($user->id_peran == 1) {
-                // Login manual karena tabel berbeda dari default 'users'
+            $role = $request->role;
+
+            if ($role == 'warga' && $user->id_peran == 1) {
                 Session::put('warga_id', $user->id_pengguna);
                 Session::put('warga_name', $user->nama_lengkap);
-                
-                return redirect()->route('warga.dashboard')->with('success', 'Selamat datang, ' . $user->nama_lengkap);
+
+                return redirect()->route('warga.dashboard')->with('success', 'Selamat datang Warga, '.$user->nama_lengkap);
+            } elseif ($role == 'pupr' && $user->id_peran == 3) {
+                Session::put('pupr_id', $user->id_pengguna);
+                Session::put('pupr_name', $user->nama_lengkap);
+
+                return redirect()->route('pupr.dashboard')->with('success', 'Selamat datang Admin PUPR, '.$user->nama_lengkap);
+            } elseif ($role == 'kecamatan' && $user->id_peran == 2) {
+                // Kosongin dulu untuk kecamatan
+                return back()->withErrors(['email' => 'Beranda Kecamatan belum tersedia.']);
             }
-            return back()->withErrors(['email' => 'Halaman ini khusus untuk Warga/Pelapor.']);
+
+            return back()->withErrors(['role' => 'Role tidak sesuai dengan akun Anda.']);
         }
 
         return back()->withErrors(['email' => 'Email atau password salah.']);
@@ -46,6 +55,7 @@ class WargaAuthController extends Controller
     {
         $kecamatan = Kecamatan::all();
         $desaGrouped = Desa::all()->groupBy('id_kecamatan');
+
         return view('auth.warga.register', compact('kecamatan', 'desaGrouped'));
     }
 
@@ -83,7 +93,8 @@ class WargaAuthController extends Controller
 
     public function logout()
     {
-        Session::forget(['warga_id', 'warga_name']);
+        Session::forget(['warga_id', 'warga_name', 'pupr_id', 'pupr_name', 'kecamatan_id', 'kecamatan_name']);
+
         return redirect()->route('warga.login')->with('success', 'Berhasil logout.');
     }
 }
