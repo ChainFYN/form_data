@@ -83,11 +83,11 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="password" class="form-label fw-semibold">Password</label>
-                            <input type="password" name="password" id="password" class="form-control" required>
+                            <input type="password" name="password" class="form-control" maxlength="12" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="password_confirmation" class="form-label fw-semibold">Konfirmasi Password</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" maxlength="12" required>
                         </div>
                     </div>
 

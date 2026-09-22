@@ -70,7 +70,7 @@
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Deskripsi Kerusakan</label>
-                    <textarea name="deskripsi" class="form-control" rows="4" placeholder="Jelaskan kondisi kerusakan, patokan lokasi, dll." required>{{ old('deskripsi') }}</textarea>
+                    <textarea name="deskripsi" class="form-control" rows="4" oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\n\r.,!?\-()]/g, ''); this.placeholder = 'Jelaskan kondisi kerusakan, patokan lokasi, dll.';" required>{{ old('deskripsi') }}</textarea>
                 </div>
 
                 <!-- Geolocation -->
