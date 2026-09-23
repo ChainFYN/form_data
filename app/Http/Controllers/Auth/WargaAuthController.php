@@ -63,7 +63,7 @@ class WargaAuthController extends Controller
     {
         $request->validate([
             'username' => ['required', 'alpha', 'max:10', 'unique:pengguna,username'],
-            'email' => ['required', 'email', 'ends_with:@gmail.com', 'unique:pengguna,email', 'max:100'],
+            'email' => ['required', 'email', 'unique:pengguna,email', 'max:100'],
             'password' => ['required', 'min:8', 'max:12', 'confirmed'],
             'nama_lengkap' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:100'],
             'telepon' => ['required', 'digits_between:12,15'],
@@ -71,7 +71,6 @@ class WargaAuthController extends Controller
         ], [
             'username.alpha' => 'Username hanya boleh berisi huruf.',
             'username.max' => 'Username maksimal 10 karakter.',
-            'email.ends_with' => 'Pendaftaran akun hanya diperbolehkan menggunakan @gmail.com.',
             'nama_lengkap.regex' => 'Nama lengkap hanya boleh berisi huruf.',
             'telepon.digits_between' => 'Nomor telepon harus berupa angka antara 12-15 digit.',
             'password.max' => 'Password tidak boleh lebih dari 12 karakter.',
