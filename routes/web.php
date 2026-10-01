@@ -126,4 +126,5 @@ Route::prefix('kecamatan')->name('kecamatan.')->group(function () {
     Route::get('/lapor-baru', [KecamatanReport::class, 'create'])->name('reports.create');
     Route::post('/lapor-baru', [KecamatanReport::class, 'store'])->name('reports.store');
     Route::get('/bast', [KecamatanBast::class, 'index'])->name('bast.index');
+    Route::post('/logout', [WargaAuthController::class, 'logout'])->name('logout');
 });

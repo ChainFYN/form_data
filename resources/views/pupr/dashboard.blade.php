@@ -43,7 +43,7 @@
 
         <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32">
             <div class="flex items-start justify-between">
-                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SELESAI DITANGANI</div>
+                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SELESAI DIVERIFIKASI</div>
                 <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center border border-emerald-100">
                     <i class="fa-solid fa-check-double text-xs"></i>
                 </div>

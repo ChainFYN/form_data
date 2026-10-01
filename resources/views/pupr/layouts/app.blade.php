@@ -39,6 +39,12 @@
 
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 <body class="h-full flex flex-col text-slate-800 antialiased">
 
@@ -78,13 +84,27 @@
                         <span class="absolute top-0 right-0 w-3.5 h-3.5 bg-amber-500 border-2 border-white rounded-full"></span>
                     </div>
 
-                    <div class="flex items-center gap-3 pl-5 border-l border-slate-200">
-                        <div class="text-right hidden sm:block">
-                            <div class="text-xs font-extrabold text-slate-900">{{ session('pupr_name', 'Ir. Hendra Gunawan, S.T.') }}</div>
-                            <div class="text-[10px] text-slate-500 font-medium">Koordinator UPT<br>Pemeliharaan Jalan Wilayah 1</div>
-                        </div>
-                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 shrink-0">
-                            <i class="fa-regular fa-user"></i>
+                    <!-- User Profile & Logout Dropdown -->
+                    <div class="relative" x-data="{ profileOpen: false }">
+                        <button @click="profileOpen = !profileOpen" class="flex items-center gap-3 pl-5 border-l border-slate-200 focus:outline-none">
+                            <div class="text-right hidden sm:block text-slate-900">
+                                <div class="text-xs font-extrabold">{{ session('pupr_name', 'Ir. Hendra Gunawan, S.T.') }}</div>
+                                <div class="text-[10px] text-slate-500 font-medium">Koordinator UPT<br>Pemeliharaan Jalan Wilayah 1</div>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 shrink-0 hover:bg-slate-300 transition-colors">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                        </button>
+
+                        <!-- Profile Dropdown -->
+                        <div x-show="profileOpen" @click.away="profileOpen = false" x-cloak
+                             class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                            <form method="POST" action="{{ route('pupr.logout') }}">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 font-semibold hover:bg-red-50 hover:text-red-700 transition-colors flex items-center gap-2">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

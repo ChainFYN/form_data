@@ -22,7 +22,6 @@
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
                     <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-6">
                         <h3 class="font-bold text-lg text-slate-800">Form Update Log Progres Lapangan</h3>
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded font-medium">Kode: HWPT-09-24</span>
                     </div>
                     
                     <!-- GRID 2 KOLOM: Tahapan & Persentase -->
@@ -86,11 +85,10 @@
             <!-- ================= KOLOM KANAN (Spesifikasi & Visual Menjadi Form Input) ================= -->
             <div class="space-y-6">
                 
-<!-- Card: Spesifikasi Teknis (FR-04) Berbentuk Form Input -->
+<!-- Card: Spesifikasi Teknis Berbentuk Form Input -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
                     <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
-                        <h3 class="font-bold text-lg text-slate-800">Spesifikasi Teknis (FR-04)</h3>
-                        <span class="bg-slate-100 text-slate-600 text-[10px] font-extrabold px-2 py-1 rounded">REV-02</span>
+                        <h3 class="font-bold text-lg text-slate-800">Spesifikasi Teknis</h3>
                     </div>
                     
                     <div class="space-y-4">
@@ -118,7 +116,7 @@
                             <div class="flex items-center justify-between gap-2">
                                 <span class="text-xs text-slate-600 font-medium">Aspal Hotmix Laston AC-WC</span>
                                 <div class="flex items-center gap-1 w-32">
-                                    <input type="number" step="0.1" id="material_asphalt" value="3,2" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
+                                    <input type="number" min="0" step="0.1" id="material_asphalt" value="3.2" oninput="checkNegativeMaterial(this)" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
                                     <span class="text-xs text-slate-500 font-bold">Ton</span>
                                 </div>
                             </div>
@@ -126,7 +124,7 @@
                             <div class="flex items-center justify-between gap-2">
                                 <span class="text-xs text-slate-600 font-medium">Emulsi Tack Coat CRS-1</span>
                                 <div class="flex items-center gap-1 w-32">
-                                    <input type="number" id="material_emulsi" value="40" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
+                                    <input type="number" min="0" id="material_emulsi" value="40" oninput="checkNegativeMaterial(this)" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
                                     <span class="text-xs text-slate-500 font-bold">Liter</span>
                                     </div>
                             </div>
@@ -134,21 +132,24 @@
                             <div class="flex items-center justify-between gap-2">
                                 <span class="text-xs text-slate-600 font-medium">Lapis Pondasi Agregat Kelas A</span>
                                 <div class="flex items-center gap-1 w-32">
-                                    <input type="number" step="0.1" id="material_agregat" value="3,0" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
+                                    <input type="number" min="0" step="0.1" id="material_agregat" value="3.0" oninput="checkNegativeMaterial(this)" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
                                     <span class="text-xs text-slate-500 font-bold">M³</span>
                                 </div>
                             </div>
+                            <p id="error_material" class="text-red-500 text-[10px] mt-1 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Exception: Material tidak boleh bernilai negatif!</p>
                         </div>
 
                         <!-- Estimasi Anggaran & Target Selesai -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 mb-1">Estimasi Anggaran (Rp)</label>
-                                <input type="text" id="estimasi_anggaran" placeholder="Contoh: 8.450.000" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-teal-500 placeholder:font-normal placeholder:text-slate-400">
+                                <input type="text" id="estimasi_anggaran" placeholder="Contoh: 8.450.000" oninput="formatAnggaran(this)" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-teal-500 placeholder:font-normal placeholder:text-slate-400">
+                                <p id="error_anggaran" class="text-red-500 text-[10px] mt-1 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Exception: Angka tidak boleh negatif!</p>
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 mb-1">Target Selesai</label>
-                                <input type="date" id="target_selesai" value="2026-09-26" class="w-full border border-slate-300 rounded-lg p-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-teal-500 bg-white">
+                                <input type="date" id="target_selesai" min="{{ date('Y-m-d', strtotime('+1 day')) }}" onchange="validateDate(this)" class="w-full border border-slate-300 rounded-lg p-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-teal-500 bg-white">
+                                <p id="error_target" class="text-red-500 text-[10px] mt-1 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Exception: Tidak boleh memilih hari ini atau tanggal berlalu!</p>
                             </div>
                         </div>
                     </div>
@@ -269,6 +270,74 @@
             if(document.getElementById('btnSubmitModal')) {
                 document.getElementById('btnSubmitModal').innerText = 'Ya, Publikasikan Sekarang';
             }
+        }
+    }
+</script>
+
+<!-- SCRIPT UNTUK FORMAT ANGGARAN & EXCEPTION NEGATIF -->
+<script>
+    function formatAnggaran(input) {
+        // Cek jika ada tanda negatif
+        if (input.value.includes('-')) {
+            document.getElementById('error_anggaran').classList.remove('hidden');
+            // Hapus tanda negatif langsung
+            input.value = input.value.replace(/-/g, '');
+            
+            // Sembunyikan notif setelah 3 detik
+            setTimeout(() => {
+                document.getElementById('error_anggaran').classList.add('hidden');
+            }, 3000);
+        } else {
+            document.getElementById('error_anggaran').classList.add('hidden');
+        }
+        
+        // Hapus semua karakter selain angka
+        let val = input.value.replace(/[^0-9]/g, '');
+        
+        // Format dengan titik (Ribuan)
+        if (val !== '') {
+            input.value = new Intl.NumberFormat('id-ID').format(val);
+        } else {
+            input.value = '';
+        }
+    }
+
+    function validateDate(input) {
+        if(!input.value) return;
+
+        let selectedDate = new Date(input.value);
+        let minDate = new Date("{{ date('Y-m-d', strtotime('+1 day')) }}");
+        
+        selectedDate.setHours(0,0,0,0);
+        minDate.setHours(0,0,0,0);
+
+        if (selectedDate < minDate) {
+            document.getElementById('error_target').classList.remove('hidden');
+            input.value = ""; // Reset value
+            setTimeout(() => {
+                document.getElementById('error_target').classList.add('hidden');
+            }, 3000);
+        } else {
+            document.getElementById('error_target').classList.add('hidden');
+        }
+    }
+
+    function checkNegativeMaterial(input) {
+        if (input.value.includes('-') || input.value < 0) {
+            document.getElementById('error_material').classList.remove('hidden');
+            
+            // Hapus tanda negatif
+            input.value = Math.abs(input.value);
+            if(input.value == 0 || input.value === "") {
+                input.value = "";
+            }
+            
+            // Sembunyikan notif setelah 3 detik
+            setTimeout(() => {
+                document.getElementById('error_material').classList.add('hidden');
+            }, 3000);
+        } else {
+            document.getElementById('error_material').classList.add('hidden');
         }
     }
 </script>

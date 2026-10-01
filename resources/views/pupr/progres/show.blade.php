@@ -39,9 +39,9 @@
                 </div>
             </div>
 
-            <!-- 2. Bagian Spesifikasi Teknis (FR-04) -->
+            <!-- 2. Bagian Spesifikasi Teknis -->
             <div class="bg-slate-50 p-4 rounded-xl text-xs space-y-2 border border-slate-200">
-                <p class="font-bold text-slate-700 uppercase tracking-wide border-b border-slate-200 pb-1 mb-2">B. Spesifikasi Teknis (FR-04)</p>
+                <p class="font-bold text-slate-700 uppercase tracking-wide border-b border-slate-200 pb-1 mb-2">B. Spesifikasi Teknis</p>
                 
                 <div class="flex justify-between">
                     <span class="text-slate-500 font-medium">Metode Penanganan:</span>
