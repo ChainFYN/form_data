@@ -66,7 +66,7 @@
                         <a href="#" class="px-4 py-2.5 text-xs font-bold rounded-xl text-slate-600 hover:bg-slate-100 transition-all">
                             Laporan Tervalidasi (ACC)
                         </a>
-                        <a href="#" class="px-4 py-2.5 text-xs font-bold rounded-xl text-slate-600 hover:bg-slate-100 transition-all">
+                        <a href="{{ route('pupr.progres.index') }}" class="px-4 py-2.5 text-xs font-bold rounded-xl transition-all {{ request()->routeIs('pupr.progres.*') ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100' }}">
                             Progres Rekonstruksi
                         </a>
                         <a href="#" class="px-4 py-2.5 text-xs font-bold rounded-xl text-slate-600 hover:bg-slate-100 transition-all">

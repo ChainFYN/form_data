@@ -8,6 +8,7 @@ use App\Http\Controllers\Kecamatan\ValidationController as KecamatanValidation;
 use App\Http\Controllers\Kecamatan\ReportController as KecamatanReport;
 use App\Http\Controllers\Kecamatan\BastController as KecamatanBast;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Pupr\ProgresController;
 
 Route::get('/', function () {
     return redirect()->route('warga.login');
@@ -88,6 +89,9 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
     Route::post('/laporan/{id}/rekomendasi', function ($id) {
         return back()->with('success', 'Rekomendasi berhasil disimpan (Mock)');
     })->name('laporan.rekomendasi');
+    Route::get('/progres', [ProgresController::class, 'index'])->name('progres.index');
+    Route::get('/progres/{id}', [ProgresController::class, 'show'])->name('progres.show');
+    Route::post('/progres/{id}', [ProgresController::class, 'update'])->name('progres.update');
 });
 
 // Kecamatan Routes
