@@ -36,10 +36,10 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
 
         return view('pupr.dashboard', [
             'statistik' => [
-                'total' => 15,
-                'menunggu' => 5,
-                'diproses' => 8,
-                'selesai' => 2,
+                'total' => 0,
+                'menunggu' => 0,
+                'diproses' => 0,
+                'selesai' => 0,
             ],
         ]);
     })->name('dashboard');

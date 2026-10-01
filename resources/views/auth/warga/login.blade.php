@@ -20,26 +20,6 @@
 
                 <form action="{{ route('warga.login') }}" method="POST">
                     @csrf
-                    <!-- Hidden input to store selected role -->
-                    <input type="hidden" name="role" id="selected_role" value="warga">
-
-                    <!-- Role Selector Tabs -->
-                    <div class="d-flex bg-light rounded p-1 mb-3 shadow-sm border">
-                        <button type="button" class="btn flex-fill fw-semibold role-tab active-tab" data-role="warga">
-                            👤 Warga / Pelapor
-                        </button>
-                        <button type="button" class="btn flex-fill fw-semibold role-tab text-muted" data-role="kecamatan">
-                            🏢 Admin Kecamatan
-                        </button>
-                        <button type="button" class="btn flex-fill fw-semibold role-tab text-muted" data-role="pupr">
-                            👨‍🔧 Admin Dinas PUPR
-                        </button>
-                    </div>
-
-                    <!-- Info Alert -->
-                    <div class="alert alert-info mb-4 py-2">
-                        <small id="role_info">ⓘ Masuk sebagai Warga / Pelapor untuk memantau laporan dan status jalan.</small>
-                    </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label fw-semibold">Email Terdaftar</label>
@@ -77,50 +57,8 @@
     </div>
 </div>
 
-@push('styles')
-<style>
-    .role-tab {
-        transition: all 0.2s;
-        font-size: 0.9rem;
-    }
-    .active-tab {
-        background-color: #f8f9fa;
-        color: #1a202c !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    .role-tab:hover:not(.active-tab) {
-        background-color: #f1f5f9;
-    }
-</style>
-@endpush
-
 @push('scripts')
 <script>
-    const roleInfos = {
-        'warga': 'ⓘ Masuk sebagai Warga / Pelapor untuk memantau tiket keluhan dan status jalan.',
-        'kecamatan': 'ⓘ Masuk sebagai Admin Kecamatan untuk melakukan validasi laporan dari warga.',
-        'pupr': 'ⓘ Masuk sebagai Admin Dinas PUPR untuk menindaklanjuti laporan yang telah divalidasi.'
-    };
-
-    document.querySelectorAll('.role-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            // Update UI tabs
-            document.querySelectorAll('.role-tab').forEach(t => {
-                t.classList.remove('active-tab');
-                t.classList.add('text-muted');
-            });
-            this.classList.add('active-tab');
-            this.classList.remove('text-muted');
-
-            // Update hidden input
-            const selectedRole = this.getAttribute('data-role');
-            document.getElementById('selected_role').value = selectedRole;
-
-            // Update info text
-            document.getElementById('role_info').innerText = roleInfos[selectedRole];
-        });
-    });
-
     function togglePassword() {
         const passwordInput = document.getElementById('password');
         if (passwordInput.type === 'password') {
