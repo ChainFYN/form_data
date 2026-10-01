@@ -21,7 +21,6 @@
             </div>
             <div class="flex justify-between items-center text-[10px] font-bold mt-2">
                 <span class="bg-red-100 text-red-800 px-2 py-0.5 rounded">Butuh Respon Cepat</span>
-                <span class="text-red-600"><i class="fa-solid fa-arrow-up mr-1"></i>SLA < 2 Jam</span>
             </div>
         </div>
 

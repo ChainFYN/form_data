@@ -17,9 +17,6 @@
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                     Pemeriksaan & Disposisi Aduan Warga
                 </h1>
-                <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
-                    UNIT KONTROL EKBANG
-                </span>
             </div>
             <p class="text-xs sm:text-sm text-slate-500 font-medium mt-1">
                 Validasi kelayakan data laporan, keabsahan foto bukti lapangan, dan koordinasi disposisi teknis perbaikan ke UPT Dinas PUPR.
@@ -126,19 +123,6 @@
                     Tidak ada laporan pada antrean ini.
                 </div>
                 @endforelse
-            </div>
-
-            <!-- SLA POLICY HELPER BOX -->
-            <div class="bg-amber-50 border border-amber-200/80 rounded-2xl p-4 text-xs">
-                <div class="flex items-start gap-2.5">
-                    <i class="fa-solid fa-circle-info text-amber-600 mt-0.5 text-sm"></i>
-                    <div>
-                        <h4 class="font-bold text-amber-900 leading-tight">Kebijakan Respon Cepat Kecamatan:</h4>
-                        <p class="text-amber-800 text-[11px] leading-relaxed mt-1">
-                            Laporan berstatus Bahaya Tinggi wajib diputuskan dalam tempo <span class="font-bold underline">&lt; 2 jam</span> sejak laporan masuk guna menjamin respon darurat pemeliharaan PUPR.
-                        </p>
-                    </div>
-                </div>
             </div>
 
         </div>
