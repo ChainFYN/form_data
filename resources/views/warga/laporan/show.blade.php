@@ -17,7 +17,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight font-mono">
-                    #LP-{{ $laporan->created_at->format('Y') }}-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }}
+                    LP-{{ $laporan->created_at->format('Y') }}-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }}
                 </h1>
 
                 <!-- Status Badge -->
@@ -260,7 +260,7 @@
                     Jika ada pembaruan kondisi mendesak terkait ruas jalan ini, Anda dapat menghubungi posko koordinasi penanganan jalan dengan menyebutkan nomor tiket:
                 </p>
                 <div class="bg-slate-100 rounded-xl p-3 text-center border border-slate-200 font-mono font-bold text-slate-800 text-xs mb-4">
-                    #LP-{{ $laporan->created_at->format('Y') }}-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }}
+                    LP-{{ $laporan->created_at->format('Y') }}-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }}
                 </div>
                 <div class="text-[11px] text-slate-500 space-y-1">
                     <p><i class="fa-solid fa-phone text-slate-400 mr-1.5"></i>Call Center Jember: 112</p>

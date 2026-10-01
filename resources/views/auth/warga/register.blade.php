@@ -43,6 +43,7 @@
                            maxlength="10" 
                            required 
                            placeholder="Maks 10 huruf" 
+                           oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')"
                            class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                     <span class="text-[10px] text-slate-400 block mt-1">Hanya huruf alfabet, maks. 10 karakter.</span>
                 </div>
@@ -72,9 +73,10 @@
                            name="nama_lengkap" 
                            id="nama_lengkap" 
                            value="{{ old('nama_lengkap') }}" 
-                           maxlength="100" 
+                           maxlength="50" 
                            required 
-                           placeholder="Nama Lengkap Anda" 
+                           placeholder="Nama Lengkap Anda"
+                           oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" 
                            class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                     <span class="text-[10px] text-slate-400 block mt-1">Hanya huruf dan spasi.</span>
                 </div>
@@ -92,14 +94,14 @@
                                name="telepon" 
                                id="telepon" 
                                value="{{ old('telepon') }}" 
-                               minlength="12" 
-                               maxlength="15" 
+                               minlength="11" 
+                               maxlength="12" 
                                required 
                                placeholder="81234567890" 
                                onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
                                class="w-full py-2.5 px-3 text-xs rounded-r-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                     </div>
-                    <span class="text-[10px] text-slate-400 block mt-1">12-15 digit angka (tanpa 0 di depan).</span>
+                    <span class="text-[10px] text-slate-400 block mt-1">11-12 digit angka (tanpa 0 di depan).</span>
                 </div>
             </div>
 

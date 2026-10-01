@@ -87,7 +87,7 @@
                             <!-- Tiket & Waktu -->
                             <td class="py-4 px-4">
                                 <div class="font-mono font-bold text-slate-900 text-xs">
-                                    #LP-{{ $item->created_at->format('Y') }}-{{ str_pad($item->id_laporan, 4, '0', STR_PAD_LEFT) }}
+                                    LP-{{ $item->created_at->format('Y') }}-{{ str_pad($item->id_laporan, 4, '0', STR_PAD_LEFT) }}
                                 </div>
                                 <div class="text-[11px] text-slate-400 mt-0.5">
                                     {{ $item->created_at->format('d M Y, H:i') }} WIB

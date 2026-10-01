@@ -154,7 +154,7 @@
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-1.5">
                                     <div class="text-[11px] font-mono font-bold text-slate-500">
-                                        #LP-{{ $item->created_at->format('Y') }}-{{ str_pad($item->id_laporan, 4, '0', STR_PAD_LEFT) }}
+                                        LP-{{ $item->created_at->format('Y') }}-{{ str_pad($item->id_laporan, 4, '0', STR_PAD_LEFT) }}
                                     </div>
 
                                     <!-- Status Badge -->

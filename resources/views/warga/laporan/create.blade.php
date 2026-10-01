@@ -121,7 +121,8 @@
                     </label>
                     <textarea name="deskripsi" 
                               rows="4" 
-                              placeholder="Jelaskan kondisi kerusakan secara detail, seperti perkiraan kedalaman lubang, patokan lokasi (depan masjid, toko, jembatan), atau potensi bahaya..." 
+                              placeholder="Jelaskan kondisi kerusakan secara detail, seperti perkiraan kedalaman lubang, patokan lokasi (depan masjid, toko, jembatan), atau potensi bahaya..."
+                              oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\n\r.,!?\-()]/g, '')"
                               class="w-full p-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400" 
                               required>{{ old('deskripsi') }}</textarea>
                 </div>
