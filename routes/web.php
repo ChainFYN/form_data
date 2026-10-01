@@ -3,6 +3,9 @@
 use App\Http\Controllers\Auth\WargaAuthController;
 use App\Http\Controllers\Warga\DashboardController;
 use App\Http\Controllers\Warga\LaporanController;
+use App\Http\Controllers\Kecamatan\DashboardController as KecamatanDashboard;
+use App\Http\Controllers\Kecamatan\ValidationController as KecamatanValidation;
+use App\Http\Controllers\Kecamatan\ReportController as KecamatanReport;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -79,3 +82,19 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
         return back()->with('success', 'Rekomendasi berhasil disimpan (Mock)');
     })->name('laporan.rekomendasi');
 });
+
+// Kecamatan Routes
+Route::prefix('kecamatan')->name('kecamatan.')->group(function () {
+    Route::get('/dashboard', [KecamatanDashboard::class, 'index'])->name('dashboard');
+    Route::get('/validasi', [KecamatanValidation::class, 'index'])->name('validation.index');
+    Route::post('/validasi/{id}', [KecamatanValidation::class, 'update'])->name('validation.update');
+    Route::get('/rekapitulasi', [KecamatanReport::class, 'recapitulation'])->name('reports.recapitulation');
+    Route::get('/statistik', [KecamatanReport::class, 'statistics'])->name('reports.statistics');
+    Route::get('/master-desa', [KecamatanReport::class, 'masterDesa'])->name('reports.master-desa');
+    Route::get('/peta-gis', [KecamatanReport::class, 'gisMap'])->name('reports.gis-map');
+    Route::get('/cetak-bap/{id}', [KecamatanReport::class, 'printBap'])->name('reports.print-bap');
+    Route::get('/ekspor-bap', [KecamatanReport::class, 'exportBap'])->name('reports.export-bap');
+    Route::get('/lapor-baru', [KecamatanReport::class, 'create'])->name('reports.create');
+    Route::post('/lapor-baru', [KecamatanReport::class, 'store'])->name('reports.store');
+});
+

@@ -38,8 +38,10 @@ class WargaAuthController extends Controller
 
                 return redirect()->route('pupr.dashboard')->with('success', 'Selamat datang Admin PUPR, '.$user->nama_lengkap);
             } elseif ($user->id_peran == 2) {
-                // Kosongin dulu untuk kecamatan
-                return back()->withErrors(['email' => 'Beranda Kecamatan belum tersedia.']);
+                Session::put('kecamatan_id', $user->id_pengguna);
+                Session::put('kecamatan_name', $user->nama_lengkap);
+
+                return redirect()->route('kecamatan.dashboard')->with('success', 'Selamat datang Admin Kecamatan, '.$user->nama_lengkap);
             }
 
             return back()->withErrors(['email' => 'Role tidak sesuai dengan akun Anda.']);
