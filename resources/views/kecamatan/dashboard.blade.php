@@ -129,7 +129,7 @@
 
                         <div class="flex items-center justify-between mt-auto">
                             <div class="flex items-center gap-1.5 text-[9px] text-slate-500 font-bold">
-                                <i class="fa-solid fa-calendar-day"></i> Dilaporkan pada: {{ $report->created_at->format('d M Y, H:i') }} WIB
+                                <i class="fa-solid fa-calendar-day"></i> Dilaporkan pada: {{ $report->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i') }} WIB
                             </div>
                             <div class="flex items-center gap-2">
                                 <a href="{{ route('kecamatan.validation.index', ['ticket' => $report->id_laporan]) }}" class="px-4 py-1.5 text-[10px] font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-xs transition-colors">Validasi Laporan</a>
