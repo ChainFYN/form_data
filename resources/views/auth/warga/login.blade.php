@@ -75,7 +75,7 @@
 
                 <div class="pt-2">
                     <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-2">
-                        <span>Masuk ke Akun Warga</span>
+                        <span>Masuk ke Akun SIGAP</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                 </div>
