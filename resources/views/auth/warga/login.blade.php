@@ -1,72 +1,113 @@
-@extends('layouts.warga')
+@extends('warga.layouts.app')
 
-@section('title', 'Login - SIGAP')
+@section('title', 'Masuk - SIGAP Warga')
 
 @section('content')
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <div class="card card-sigap p-4">
-            <div class="card-body">
-                <h3 class="text-center mb-4 text-primary fw-bold">MASUK</h3>
-                <p class="text-center text-muted mb-4">Sistem Informasi Pelaporan Kerusakan Jalan</p>
-                
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        @foreach ($errors->all() as $error)
-                            <p class="mb-0">{{ $error }}</p>
-                        @endforeach
-                    </div>
-                @endif
+<div class="min-h-[calc(100vh-280px)] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <div class="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center text-white mx-auto shadow-md mb-4">
+            <i class="fa-solid fa-users text-2xl text-sky-400"></i>
+        </div>
+        <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Masuk Portal Warga</h2>
+        <p class="text-xs text-slate-500 mt-1">Sistem Informasi Pelaporan Kerusakan Jalan (SIGAP) Kab. Jember</p>
+    </div>
 
-                <form action="{{ route('warga.login') }}" method="POST">
-                    @csrf
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label fw-semibold">Email Terdaftar</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0 text-muted"></span>
-                            <input type="email" name="email" id="email" class="form-control border-start-0 ps-0" placeholder="Nama@email.com" required style="box-shadow: none;">
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
+        <div class="bg-white py-8 px-6 sm:px-10 rounded-2xl border border-slate-200 shadow-xs">
+            
+            @if ($errors->any())
+                <div class="bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl p-3.5 mb-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-exclamation text-red-500"></i>
+                            <span>{{ $error }}</span>
                         </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="password" class="form-label fw-semibold">Kata Sandi Akun</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0 text-muted"></span>
-                            <input type="password" name="password" id="password" class="form-control border-start-0 border-end-0 ps-0" placeholder="Minimal 8 karakter " required style="box-shadow: none;">
-                            <span class="input-group-text bg-white border-start-0 text-muted" style="cursor: pointer;" onclick="togglePassword()">👁</span>
-                        </div>
-                    </div>
+                    @endforeach
+                </div>
+            @endif
 
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="remember">
-                            <label class="form-check-label text-muted" for="remember">Ingat saya</label>
-                        </div>
-                        <a href="#" class="text-decoration-none fw-semibold">Lupa Kata Sandi?</a>
-                    </div>
+            <form action="{{ route('warga.login') }}" method="POST" class="space-y-4">
+                @csrf
 
-                    <button type="submit" class="btn btn-sigap-primary w-100 mb-3 fw-bold">MASUK</button>
-                </form>
-                
-                <p class="text-center mb-0 text-muted">
-                    Belum memiliki akun pelapor warga? <a href="{{ route('warga.register') }}" class="text-decoration-none fw-bold">Daftar di sini</a>
+                <div>
+                    <label for="email" class="block text-xs font-bold text-slate-700 mb-1.5">Alamat Email</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-regular fa-envelope text-xs"></i>
+                        </div>
+                        <input type="email" 
+                               name="email" 
+                               id="email" 
+                               value="{{ old('email') }}" 
+                               required 
+                               placeholder="nama@email.com" 
+                               class="w-full pl-9 pr-3 py-2.5 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label for="password" class="block text-xs font-bold text-slate-700">Kata Sandi</label>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <i class="fa-solid fa-lock text-xs"></i>
+                        </div>
+                        <input type="password" 
+                               name="password" 
+                               id="password" 
+                               required 
+                               placeholder="Minimal 8 karakter" 
+                               class="w-full pl-9 pr-10 py-2.5 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
+                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
+                            <i id="password-toggle-icon" class="fa-regular fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-1">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="remember" id="remember" class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900">
+                        <span class="text-xs text-slate-600">Ingat saya</span>
+                    </label>
+                    <span class="text-[11px] text-slate-400">Portal Aman Terenkripsi</span>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-2">
+                        <span>Masuk ke Akun Warga</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6 pt-5 border-t border-slate-100 text-center">
+                <p class="text-xs text-slate-500">
+                    Belum memiliki akun warga? 
+                    <a href="{{ route('warga.register') }}" class="font-bold text-slate-900 hover:text-brand-600 transition">
+                        Daftar sekarang &rarr;
+                    </a>
                 </p>
             </div>
         </div>
     </div>
 </div>
+@endsection
 
 @push('scripts')
 <script>
     function togglePassword() {
         const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('password-toggle-icon');
         if (passwordInput.type === 'password') {
             passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
         } else {
             passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
         }
     }
 </script>
 @endpush
-@endsection

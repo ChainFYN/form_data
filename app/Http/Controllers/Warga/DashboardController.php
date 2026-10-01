@@ -11,7 +11,10 @@ class DashboardController extends Controller
     public function index()
     {
         $wargaId = Session::get('warga_id');
-        $laporan = Laporan::where('id_pengguna', $wargaId)->get();
+        $laporan = Laporan::with(['jalan.desa.kecamatan', 'kategori', 'status'])
+            ->where('id_pengguna', $wargaId)
+            ->latest()
+            ->get();
 
         $statistik = [
             'total' => $laporan->count(),
@@ -21,6 +24,8 @@ class DashboardController extends Controller
             'ditolak' => $laporan->where('id_status', 4)->count(),
         ];
 
-        return view('warga.dashboard', compact('statistik'));
+        $recentLaporan = $laporan->take(5);
+
+        return view('warga.dashboard', compact('statistik', 'recentLaporan'));
     }
 }

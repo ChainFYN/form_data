@@ -7,27 +7,45 @@ use App\Http\Controllers\Kecamatan\DashboardController as KecamatanDashboard;
 use App\Http\Controllers\Kecamatan\ValidationController as KecamatanValidation;
 use App\Http\Controllers\Kecamatan\ReportController as KecamatanReport;
 use App\Http\Controllers\Kecamatan\BastController as KecamatanBast;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pupr\ProgresController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    if (session()->has('warga_id')) {
+        return redirect()->route('warga.dashboard');
+    }
+    if (session()->has('pupr_id')) {
+        return redirect()->route('pupr.dashboard');
+    }
+    if (session()->has('kecamatan_id')) {
+        return redirect()->route('kecamatan.dashboard');
+    }
     return redirect()->route('warga.login');
 });
 
-// Warga Auth
-Route::get('/login', [WargaAuthController::class, 'showLoginForm'])->name('warga.login');
-Route::post('/login', [WargaAuthController::class, 'login']);
-Route::get('/register', [WargaAuthController::class, 'showRegisterForm'])->name('warga.register');
-Route::post('/register', [WargaAuthController::class, 'register']);
-Route::post('/logout', [WargaAuthController::class, 'logout'])->name('warga.logout');
+// Warga Routes (Standardized prefix and naming matching PUPR & Kecamatan)
+Route::prefix('warga')->name('warga.')->group(function () {
+    // Auth Routes
+    Route::get('/login', [WargaAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [WargaAuthController::class, 'login']);
+    Route::get('/register', [WargaAuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [WargaAuthController::class, 'register']);
+    Route::post('/logout', [WargaAuthController::class, 'logout'])->name('logout');
 
-// Warga Dashboard (Middleware simple session check)
-Route::middleware(['warga.auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('warga.dashboard');
-    Route::resource('laporan', LaporanController::class, ['as' => 'warga']);
+    // Protected Warga Area
+    Route::middleware(['warga.auth'])->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('laporan', LaporanController::class);
+    });
 });
 
-// PUPR Preview Routes (MOCK)
+// Backward compatibility redirects for legacy paths
+Route::get('/login', fn () => redirect()->route('warga.login'));
+Route::get('/register', fn () => redirect()->route('warga.register'));
+Route::get('/dashboard', fn () => redirect()->route('warga.dashboard'));
+Route::get('/laporan', fn () => redirect()->route('warga.laporan.index'));
+
+// PUPR Routes
 Route::prefix('pupr')->name('pupr.')->group(function () {
     Route::get('/login', function () {
         return redirect()->route('warga.login');
@@ -109,4 +127,3 @@ Route::prefix('kecamatan')->name('kecamatan.')->group(function () {
     Route::post('/lapor-baru', [KecamatanReport::class, 'store'])->name('reports.store');
     Route::get('/bast', [KecamatanBast::class, 'index'])->name('bast.index');
 });
-

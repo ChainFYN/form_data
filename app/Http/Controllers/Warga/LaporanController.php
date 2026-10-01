@@ -3,23 +3,37 @@
 namespace App\Http\Controllers\Warga;
 
 use App\Http\Controllers\Controller;
-use App\Models\Laporan;
-use App\Models\Kecamatan;
 use App\Models\Desa;
 use App\Models\Jalan;
 use App\Models\KategoriKerusakan;
+use App\Models\Kecamatan;
+use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class LaporanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $wargaId = Session::get('warga_id');
-        $laporan = Laporan::with(['jalan.desa', 'kategori', 'status'])
-            ->where('id_pengguna', $wargaId)
-            ->latest()
-            ->get();
+        $query = Laporan::with(['jalan.desa.kecamatan', 'kategori', 'status'])
+            ->where('id_pengguna', $wargaId);
+
+        if ($request->filled('status')) {
+            $query->where('id_status', $request->status);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('deskripsi', 'like', "%{$search}%")
+                    ->orWhereHas('jalan', function ($j) use ($search) {
+                        $j->where('nama_jalan', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $laporan = $query->latest()->get();
 
         return view('warga.laporan.index', compact('laporan'));
     }
@@ -63,13 +77,20 @@ class LaporanController extends Controller
             'url_foto' => $fotoPath,
         ]);
 
-        return redirect()->route('warga.laporan.index')->with('success', 'Laporan berhasil dikirim!');
+        return redirect()->route('warga.laporan.index')->with('success', 'Laporan berhasil dikirim dan masuk dalam antrean verifikasi!');
     }
 
     public function show($id)
     {
         $wargaId = Session::get('warga_id');
-        $laporan = Laporan::with(['jalan.desa.kecamatan', 'kategori', 'status', 'validasi', 'logProses.status'])
+        $laporan = Laporan::with([
+            'jalan.desa.kecamatan',
+            'kategori',
+            'status',
+            'validasi.pengguna',
+            'logProses.status',
+            'logProses.pengguna',
+        ])
             ->where('id_pengguna', $wargaId)
             ->findOrFail($id);
 
