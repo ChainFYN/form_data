@@ -7,7 +7,7 @@
 
     <!-- KPI CARDS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        
+
         <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32">
             <div class="flex items-start justify-between">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">PERLU TINDAKAN</div>
@@ -78,7 +78,7 @@
 
     <!-- MAIN TWO COLUMNS -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         <!-- LEFT: DAFTAR LAPORAN -->
         <div class="lg:col-span-2">
             <div class="flex items-center justify-between mb-6">
@@ -92,7 +92,7 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                
+
                 @forelse($priorityReports as $report)
                 <div class="bg-white rounded-2xl p-4 border {{ $report->tingkat_bahaya === 'Bahaya Tinggi' ? 'border-red-200 ring-1 ring-red-500/20' : 'border-slate-200' }} shadow-xs flex flex-col sm:flex-row gap-5 relative overflow-hidden">
                     @if($report->tingkat_bahaya === 'Bahaya Tinggi')
@@ -117,7 +117,7 @@
                         </div>
                         <h3 class="text-sm font-extrabold text-slate-900 mb-1">Jl. {{ $report->jalan->nama_jalan ?? 'Tidak diketahui' }} ({{ $report->jalan->desa->nama_desa ?? '-' }})</h3>
                         <p class="text-[11px] text-slate-600 leading-relaxed mb-3">Kategori: <strong>{{ $report->kategori->nama_kategori ?? '-' }}</strong>. {{ Str::limit($report->deskripsi, 80) }}</p>
-                        
+
                         <div class="flex items-center gap-4 mb-3">
                             <div class="flex items-center gap-1.5 text-[10px] font-bold {{ $report->tingkat_bahaya === 'Bahaya Tinggi' ? 'text-red-700 bg-red-50 border-red-200' : 'text-slate-700 bg-slate-100 border-slate-200' }} border px-2.5 py-1.5 rounded-lg">
                                 <i class="fa-solid fa-user"></i> Dilaporkan oleh: {{ $report->pengguna->nama_lengkap ?? 'Warga' }}
@@ -153,7 +153,7 @@
         <!-- RIGHT: REKAPITULASI -->
         <div class="lg:col-span-1">
             <div class="bg-white rounded-2xl border border-slate-200 shadow-xs sticky top-28">
-                
+
                 <div class="p-5 border-b border-slate-100 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center">
@@ -206,7 +206,7 @@
                                     <div class="h-full bg-emerald-500" style="width: 98%"></div>
                                 </div>
                             </div>
-                            
+
                             <div>
                                 <div class="flex justify-between text-[10px] font-bold mb-1.5">
                                     <span class="text-slate-700">Laporan Selesai / Disetujui PUPR</span>
