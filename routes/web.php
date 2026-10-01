@@ -6,6 +6,7 @@ use App\Http\Controllers\Warga\LaporanController;
 use App\Http\Controllers\Kecamatan\DashboardController as KecamatanDashboard;
 use App\Http\Controllers\Kecamatan\ValidationController as KecamatanValidation;
 use App\Http\Controllers\Kecamatan\ReportController as KecamatanReport;
+use App\Http\Controllers\Kecamatan\BastController as KecamatanBast;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,12 +38,18 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
             return redirect()->route('warga.login')->withErrors(['email' => 'Silakan login terlebih dahulu.']);
         }
 
+        $laporan_diproses = \App\Models\Laporan::with(['kategori', 'jalan.desa.kecamatan', 'pengguna'])
+            ->where('id_status', 2)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('pupr.dashboard', [
+            'laporan_diproses' => $laporan_diproses,
             'statistik' => [
-                'total' => 0,
-                'menunggu' => 0,
-                'diproses' => 0,
-                'selesai' => 0,
+                'total' => \App\Models\Laporan::count(),
+                'menunggu' => \App\Models\Laporan::where('id_status', 1)->count(),
+                'diproses' => \App\Models\Laporan::where('id_status', 2)->count(),
+                'selesai' => \App\Models\Laporan::where('id_status', 3)->count(),
             ],
         ]);
     })->name('dashboard');
@@ -96,5 +103,6 @@ Route::prefix('kecamatan')->name('kecamatan.')->group(function () {
     Route::get('/ekspor-bap', [KecamatanReport::class, 'exportBap'])->name('reports.export-bap');
     Route::get('/lapor-baru', [KecamatanReport::class, 'create'])->name('reports.create');
     Route::post('/lapor-baru', [KecamatanReport::class, 'store'])->name('reports.store');
+    Route::get('/bast', [KecamatanBast::class, 'index'])->name('bast.index');
 });
 

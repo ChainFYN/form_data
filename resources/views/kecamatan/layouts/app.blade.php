@@ -114,6 +114,11 @@
                             <span>Validasi Laporan</span>
                             <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full animate-pulse">3</span>
                         </a>
+                        <a href="{{ route('kecamatan.bast.index') }}" 
+                           class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('kecamatan.bast.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            <span>Verifikasi BAST</span>
+                            <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-slate-900 bg-amber-400 rounded">2 Baru</span>
+                        </a>
                         <a href="{{ route('kecamatan.reports.recapitulation') }}" 
                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all {{ request()->routeIs('reports.recapitulation') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             Rekapitulasi Progres
