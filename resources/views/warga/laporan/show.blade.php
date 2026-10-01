@@ -150,7 +150,7 @@
                 </div>
 
                 <div class="relative border-l-2 border-slate-200 ml-3.5 space-y-6 my-3">
-                    
+
                     <!-- STEP 1: LAPORAN DIBUAT -->
                     <div class="relative pl-6">
                         <div class="absolute -left-[19px] top-0 w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shadow-xs">
@@ -197,22 +197,6 @@
                         @endif
                     </div>
 
-<<<<<<< HEAD
-                <div class="list-group-item px-0 border-0 mb-3">
-                    <div class="d-flex w-100 align-items-start">
-                        <div class="{{ $laporan->id_status == 3 || $laporan->id_status == 2 ? 'bg-primary' : 'bg-secondary opacity-50' }} text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px; flex-shrink: 0;">3</div>
-                        <div class="flex-grow-1">
-                            <h6 class="mb-0 fw-bold">Pengerjaan Dinas PUPR</h6>
-                            @if($laporan->logProses->count() > 0)
-                                <p class="mb-0 text-muted small">Proses penanganan sedang/telah dilakukan.</p>
-                                <button type="button" class="btn btn-sm btn-outline-primary fw-semibold rounded-pill px-3 mt-2" data-bs-toggle="modal" data-bs-target="#modalProgresPUPR">
-                                    Lihat Detail Penanganan
-                                </button>
-                            @else
-                                <p class="mb-0 text-muted small">Setelah validasi, tim teknis PUPR akan menjadwalkan perbaikan.</p>
-                            @endif
-                        </div>
-=======
                     <!-- STEP 3: PENANGANAN PUPR -->
                     <div class="relative pl-6">
                         @if($laporan->logProses && $laporan->logProses->count() > 0)
@@ -244,27 +228,13 @@
                             <h3 class="text-xs font-semibold text-slate-400">Pengerjaan Dinas PUPR</h3>
                             <p class="text-[11px] text-slate-400 mt-0.5">Menunggu hasil validasi kecamatan terlebih dahulu.</p>
                         @endif
->>>>>>> ca4a2e5 (Fixing UI Warga)
                     </div>
 
-<<<<<<< HEAD
-
-                @if($laporan->id_status == 3)
-                    <div class="list-group-item px-0 border-0">
-                        <div class="d-flex w-100 justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px;">4</div>
-                                <div>
-                                    <h6 class="mb-0 fw-bold text-success">Perbaikan Selesai</h6>
-                                    <p class="mb-0 text-muted small">Jalan telah diperbaiki dan diverifikasi oleh pihak berwenang.</p>
-                                </div>
-=======
                     <!-- STEP 4: SELESAI -->
                     <div class="relative pl-6">
                         @if($laporan->id_status == 3)
                             <div class="absolute -left-[19px] top-0 w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shadow-xs">
                                 <i class="fa-solid fa-check-double"></i>
->>>>>>> ca4a2e5 (Fixing UI Warga)
                             </div>
                             <h3 class="text-xs font-extrabold text-emerald-800">Perbaikan Selesai 100%</h3>
                             <p class="text-[11px] text-slate-600 mt-0.5">Ruas jalan telah selesai diperbaiki dan diverifikasi oleh pengawas UPT.</p>
@@ -303,49 +273,4 @@
     </div>
 
 </div>
-<<<<<<< HEAD
-
-<!-- Modal Detail Progres PUPR -->
-@if($laporan->logProses->count() > 0)
-<div class="modal fade" id="modalProgresPUPR" tabindex="-1" aria-labelledby="modalProgresPUPRLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content border-0 shadow" style="border-radius: 1rem;">
-            <div class="modal-header border-0 bg-white pt-4 px-4 pb-0">
-                <h5 class="modal-title fw-bolder text-dark" id="modalProgresPUPRLabel">
-                    <i class="fa-solid fa-hard-hat text-primary me-2"></i> Riwayat Penanganan PUPR
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4 bg-white">
-                <div class="timeline-container relative">
-                    @foreach($laporan->logProses as $log)
-                    <div class="card bg-light border-0 mb-3 rounded-4">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-bold">Update Progres</span>
-                                <small class="text-muted fw-bold"><i class="fa-regular fa-clock me-1"></i> {{ $log->created_at->format('d M Y, H:i') }} WIB</small>
-                            </div>
-                            <p class="mb-0 fw-medium text-secondary" style="line-height: 1.6;">{{ $log->catatan_update }}</p>
-                            
-                            @if(!empty($log->url_foto_selesai) && $log->url_foto_selesai !== 'default.jpg' && $log->url_foto_selesai !== '')
-                                <div class="mt-4 text-center">
-                                    <img src="{{ asset('storage/' . $log->url_foto_selesai) }}" class="img-fluid rounded-4 shadow-sm" style="max-height: 300px; object-fit: cover; width: 100%;" alt="Foto Progres Lapangan">
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            <div class="modal-footer border-0 bg-white pb-4 px-4">
-                <button type="button" class="btn btn-secondary rounded-pill px-5 fw-bold" data-bs-dismiss="modal">Tutup</button>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
-
 @endsection
-=======
-@endsection
->>>>>>> ca4a2e5 (Fixing UI Warga)

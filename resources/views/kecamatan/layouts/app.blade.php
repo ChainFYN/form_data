@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dashboard Admin Kecamatan') -SIGAP Kab. Jember</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -87,7 +87,7 @@
     <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs no-print">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                
+
                 <!-- Left: Logo & Portal Title -->
                 <div class="flex items-center gap-8">
                     <a href="{{ route('kecamatan.dashboard') }}" class="flex items-center gap-3">
@@ -102,16 +102,16 @@
 
                     <!-- Main Navigation Menu -->
                     <nav class="hidden md:flex items-center gap-1.5 ml-4">
-                        <a href="{{ route('kecamatan.dashboard') }}" 
+                        <a href="{{ route('kecamatan.dashboard') }}"
                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             Dashboard Kecamatan
                         </a>
-                        <a href="{{ route('kecamatan.validation.index') }}" 
+                        <a href="{{ route('kecamatan.validation.index') }}"
                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('validation.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             <span>Validasi Laporan</span>
-                            
+
                         </a>
-                        <a href="{{ route('kecamatan.bast.index') }}" 
+                        <a href="{{ route('kecamatan.bast.index') }}"
                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('kecamatan.bast.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             <span>Verifikasi BAST</span>
                             <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-slate-900 bg-amber-400 rounded">2 Baru</span>
@@ -122,10 +122,10 @@
 
                 <!-- Right: Notifications & Profile -->
                 <div class="flex items-center gap-5">
-                    
+
                     <!-- Notification Bell Dropdown -->
                     <div class="relative" x-data="{ notifOpen: false }">
-                        <button @click="notifOpen = !notifOpen" 
+                        <button @click="notifOpen = !notifOpen"
                                 class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 relative transition-colors">
                             <i class="fa-regular fa-bell text-lg"></i>
                             <span class="absolute top-0 right-0 w-3.5 h-3.5 bg-amber-500 border-2 border-white rounded-full"></span>
@@ -204,7 +204,7 @@
 
     <!-- TOAST NOTIFICATION -->
     @if(session('status'))
-        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" 
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
              class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-sm font-semibold transition-all transform animate-in slide-in-from-bottom-5 duration-300 {{ session('status_type') == 'success' ? 'bg-emerald-600 text-white border-emerald-500' : (session('status_type') == 'warning' ? 'bg-amber-600 text-white border-amber-500' : 'bg-slate-900 text-white border-slate-800') }}">
             <i class="fa-solid {{ session('status_type') == 'success' ? 'fa-circle-check text-lg' : 'fa-triangle-exclamation text-lg' }}"></i>
             <div>
@@ -257,9 +257,9 @@
         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-xl w-full overflow-hidden" @click.away="searchModalOpen = false">
             <div class="p-4 border-b border-slate-100 flex items-center gap-3">
                 <i class="fa-solid fa-magnifying-glass text-slate-400 text-lg"></i>
-                <input type="text" 
-                       id="modalSearchInput" 
-                       placeholder="Ketik nomor tiket (e.g. LP-2026-0842), nama jalan, atau nama pelapor..." 
+                <input type="text"
+                       id="modalSearchInput"
+                       placeholder="Ketik nomor tiket (e.g. LP-2026-0842), nama jalan, atau nama pelapor..."
                        class="w-full text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
                        @keydown.enter="window.location.href = '{{ route('kecamatan.validation.index') }}?search=' + $el.value">
                 <kbd class="text-[11px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-mono border">ESC</kbd>
