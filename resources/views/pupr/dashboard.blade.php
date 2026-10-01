@@ -135,7 +135,7 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <button onclick="document.getElementById('modal-detail-{{ $laporan->id_laporan }}').classList.remove('hidden')" class="px-3 py-1.5 text-[10px] font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors">Detail Laporan</button>
-                                <button class="px-3 py-1.5 text-[10px] font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-xs transition-colors">Update Progres Lapangan</button>
+                                <a href="{{ route('pupr.progres.show', $laporan->id_laporan) }}" class="px-3 py-1.5 text-[10px] font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-xs transition-colors">Update Progres Lapangan</a>
                             </div>
                         </div>
                     </div>

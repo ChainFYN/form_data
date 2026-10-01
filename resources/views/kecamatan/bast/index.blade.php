@@ -55,100 +55,46 @@
             <!-- TICKET QUEUE LIST -->
             <div class="flex flex-col gap-3 max-h-[750px] overflow-y-auto pr-1 custom-scrollbar">
                 
-                <!-- Ticket 1 (Active) -->
-                <a href="#" class="p-4 rounded-2xl border transition-all text-left block relative bg-emerald-50/40 border-amber-500 shadow-sm ring-1 ring-amber-500">
+                @forelse($laporan_bast as $bast)
+                <a href="#" class="p-4 rounded-2xl border transition-all text-left block relative {{ $loop->first ? 'bg-emerald-50/40 border-amber-500 shadow-sm ring-1 ring-amber-500' : 'bg-white border-slate-200 hover:border-slate-300' }}">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-1.5">
-                            <span class="font-mono text-xs font-bold text-slate-900">#LP-2026-0842</span>
-                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-red-500 text-white">Bahaya Tinggi</span>
+                            <span class="font-mono text-xs font-bold text-slate-900">#LP-{{ date('Y') }}-{{ str_pad($bast->id_laporan, 4, '0', STR_PAD_LEFT) }}</span>
+                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full {{ $bast->tingkat_bahaya == 'Bahaya Tinggi' ? 'bg-red-500 text-white' : ($bast->tingkat_bahaya == 'Sedang' ? 'bg-amber-500 text-white' : 'bg-blue-500 text-white') }}">{{ $bast->tingkat_bahaya }}</span>
                         </div>
                         <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300">
-                            100% Selesai Fisik
+                            100% Selesai
                         </span>
                     </div>
 
                     <h4 class="text-xs font-bold text-slate-900 mt-2 truncate">
-                        Jl. Raya Mayor Oking No. 42
+                        Jl. {{ $bast->jalan->nama_jalan ?? '-' }}
                     </h4>
                     <p class="text-[10px] text-slate-500 line-clamp-1 mt-0.5">
-                        Kel. Ciriung / Kel. Sukamaju, Kec. Cibinong
+                        Kel. {{ $bast->jalan->desa->nama_desa ?? '-' }}, Kec. {{ $bast->jalan->desa->kecamatan->nama_kecamatan ?? '-' }}
                     </p>
 
                     <div class="text-[10px] text-slate-500 font-medium mt-2 pt-2 border-t border-slate-200/60">
-                        <div class="flex justify-between mb-1">
-                            <span>Pelaksana PUPR:</span>
-                            <span class="text-slate-700">Rega Rajawali (UPT 1 Cibinong)</span>
-                        </div>
-                        <div class="flex justify-between mb-1">
-                            <span>No. Registrasi BAST:</span>
-                            <span class="text-slate-700 font-mono">082/BAST-BM/UPT-CBN/IX/2026</span>
-                        </div>
                         <div class="flex justify-between items-center mt-2">
-                            <span>26 Sep 2026, 14:15 WIB</span>
+                            <span>{{ $bast->updated_at->format('d M Y, H:i') }} WIB</span>
                             <span class="text-amber-600 font-bold">Sedang Diperiksa <i class="fa-solid fa-chevron-right ml-1 text-[8px]"></i></span>
                         </div>
                     </div>
                 </a>
-
-                <!-- Ticket 2 -->
-                <a href="#" class="p-4 rounded-2xl border bg-white border-slate-200 hover:border-slate-300 transition-all text-left block relative">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-1.5">
-                            <span class="font-mono text-xs font-bold text-slate-900">#LP-2026-0839</span>
-                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-500 text-white">Sedang</span>
-                        </div>
-                        <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300">
-                            100% Selesai Fisik
-                        </span>
-                    </div>
-
-                    <h4 class="text-xs font-bold text-slate-900 mt-2 truncate">
-                        Jl. Flamboyan Gang 3 (Pabuaran)
-                    </h4>
-                    <p class="text-[10px] text-slate-500 line-clamp-1 mt-0.5">
-                        Kel. Pabuaran Mekar, Kec. Cibinong
-                    </p>
-
-                    <div class="text-[10px] text-slate-500 font-medium mt-2 pt-2 border-t border-slate-100 flex justify-between">
-                        <span class="text-slate-400">No. BAST: 033/BAST-BM/IX/2026</span>
-                        <span>25 Sep 2026, 16:30 WIB</span>
-                    </div>
-                </a>
-
-                <!-- Ticket 3 -->
-                <a href="#" class="p-4 rounded-2xl border bg-white border-slate-200 hover:border-slate-300 transition-all text-left block relative">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-1.5">
-                            <span class="font-mono text-xs font-bold text-slate-900">#LP-2026-0834</span>
-                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-blue-500 text-white">Normal</span>
-                        </div>
-                        <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300">
-                            100% Selesai Fisik
-                        </span>
-                    </div>
-
-                    <h4 class="text-xs font-bold text-slate-900 mt-2 truncate">
-                        Jl. KSR Dadi Kusmayadi
-                    </h4>
-                    <p class="text-[10px] text-slate-500 line-clamp-1 mt-0.5">
-                        Kel. Tengah, Kec. Cibinong
-                    </p>
-
-                    <div class="text-[10px] text-slate-500 font-medium mt-2 pt-2 border-t border-slate-100 flex justify-between">
-                        <span class="text-slate-400">No. BAST: 018/BAST-BM/IX/2026</span>
-                        <span>24 Sep 2026, 09:10 WIB</span>
-                    </div>
-                </a>
+                @empty
+                    <div class="p-4 text-center text-xs text-slate-500 border border-dashed border-slate-300 rounded-xl">Belum ada BAST yang perlu diperiksa.</div>
+                @endforelse
 
             </div>
         </div>
 
         <!-- RIGHT COLUMN: TICKET INSPECTION & DISPOSITION -->
         <div class="lg:col-span-8 flex flex-col gap-6">
-            
+            @if($laporan_bast->count() > 0)
+            @php $activeBast = $laporan_bast->first(); @endphp
             <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs">
-                <h2 class="text-xl font-extrabold text-slate-900 mb-1">Detail Berkas BAST #LP-2026-0842</h2>
-                <p class="text-xs text-slate-500 font-medium">No. Registrasi PUPR: 082/BAST-BM/UPT-CBN/IX/2026 • Klasifikasi: Pemeliharaan Jalan Darurat</p>
+                <h2 class="text-xl font-extrabold text-slate-900 mb-1">Detail Berkas BAST #LP-{{ date('Y') }}-{{ str_pad($activeBast->id_laporan, 4, '0', STR_PAD_LEFT) }}</h2>
+                <p class="text-xs text-slate-500 font-medium">Klasifikasi: {{ $activeBast->kategori->nama_kategori ?? 'Lainnya' }}</p>
                 
                 <div class="mt-6 border-t border-slate-100 pt-6">
                     <div class="flex items-start gap-4">
@@ -158,25 +104,11 @@
                                 <h3 class="text-sm font-bold text-slate-900">Evaluasi Teknis & Rekomendasi Penanganan Selesai</h3>
                                 <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">Wajib Diisi PPK</span>
                             </div>
-                            <p class="text-xs text-slate-500 mb-3">Kajian post-mortem keteknikan Bina Marga untuk preservasi jalan jangka menengah oleh Ir. Hendra Gunawan, S.T. (PPK PUPR).</p>
                             
-                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs text-slate-700 leading-relaxed">
-                                <span class="font-bold">Kajian Teknis Penanganan Selesai:</span> Penanganan darurat lubang struktural dan amblas badan jalan telah dituntaskan dengan metode deep patching dan hamparan laston lapis aus AC-WC tebal padat 4 cm. Direkomendasikan penambahan jadwal pembersihan berkala saluran drainase sisi utara agar tidak terjadi genangan air limpasan yang mempercepat keausan aspal.
+                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs text-slate-700 leading-relaxed mt-2">
+                                <span class="font-bold">Kajian Teknis Penanganan Selesai:</span> Penanganan darurat telah dituntaskan. Tim PUPR telah memastikan kondisi jalan kembali fungsional sesuai standar.
                                 <div class="mt-3 flex items-center gap-1.5 text-[10px] text-emerald-700 font-semibold">
-                                    <i class="fa-solid fa-circle-check"></i> Tersinkronisasi dengan Berita Acara Rekayasa Lapangan (BARL-2026).
-                                </div>
-                            </div>
-                            
-                            <div class="grid grid-cols-2 gap-4 mt-4">
-                                <div class="border border-slate-200 rounded-xl p-3 text-xs">
-                                    <div class="text-[10px] text-slate-400 font-bold uppercase mb-1">REALISASI ANGGARAN</div>
-                                    <div class="font-extrabold text-slate-900 text-sm">Rp 8.450.000</div>
-                                    <div class="text-[10px] text-emerald-600 mt-1">Sesuai DPA (Deviasi 0%)</div>
-                                </div>
-                                <div class="border border-slate-200 rounded-xl p-3 text-xs">
-                                    <div class="text-[10px] text-slate-400 font-bold uppercase mb-1">KECEPATAN RESPONS</div>
-                                    <div class="font-extrabold text-slate-900 text-sm">2 Hari Kerja</div>
-                                    <div class="text-[10px] text-slate-500 mt-1">SLA Maksimal: 7 Hari</div>
+                                    <i class="fa-solid fa-circle-check"></i> Tersinkronisasi dengan Berita Acara Rekayasa Lapangan (BARL).
                                 </div>
                             </div>
                         </div>
@@ -190,27 +122,23 @@
                             <div class="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
                             <span>KOMPARASI VISUAL BUKTI LAPANGAN (SEBELUM VS SELESAI)</span>
                         </div>
-                        <span>GPS: -6.48271, 106.84592 (Akurasi Presisi ±2m)</span>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="border border-slate-200 p-2 rounded-xl">
                             <div class="relative rounded-lg overflow-hidden h-40 bg-slate-100">
-                                <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&q=80" alt="Sebelum" class="w-full h-full object-cover">
+                                @if($activeBast->url_foto)
+                                    <img src="{{ asset('storage/' . $activeBast->url_foto) }}" alt="Sebelum" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-slate-400 text-xs">Tak ada foto</div>
+                                @endif
                                 <div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded">SEBELUM (0%)</div>
-                            </div>
-                            <div class="mt-2 text-[10px] text-slate-500 flex justify-between items-center">
-                                <span>Aduan Awal Warga #LP-2026-0842</span>
-                                <span>24 Sep 2026 • Kedalaman 12cm</span>
                             </div>
                         </div>
                         <div class="border border-emerald-200 p-2 rounded-xl bg-emerald-50/20">
-                            <div class="relative rounded-lg overflow-hidden h-40 bg-slate-100">
-                                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80" alt="Selesai" class="w-full h-full object-cover">
+                            <div class="relative rounded-lg overflow-hidden h-40 bg-slate-100 flex items-center justify-center text-slate-400 text-xs">
+                                <!-- Asumsikan foto progres disimpan atau ditampilkan dari tabel log -->
+                                [Foto Progres PUPR]
                                 <div class="absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-1 rounded">SELESAI (100%)</div>
-                            </div>
-                            <div class="mt-2 text-[10px] flex justify-between items-center">
-                                <span class="text-slate-600">Hasil Akhir Hotmix & Marka Laik</span>
-                                <span class="text-emerald-700 font-bold">26 Sep 2026 • Rata & Steril</span>
                             </div>
                         </div>
                     </div>
@@ -338,6 +266,11 @@
                     </button>
                 </div>
             </div>
+            @else
+            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs text-center py-20 text-slate-500">
+                Belum ada laporan yang diselesaikan dan siap untuk diverifikasi BAST.
+            </div>
+            @endif
 
         </div>
     </div>

@@ -27,7 +27,7 @@
                 <p class="font-bold text-slate-700 uppercase tracking-wide border-b border-slate-200 pb-1 mb-2">A. Capaian & Catatan</p>
                 <div class="flex justify-between">
                     <span class="text-slate-500 font-medium">Jalan:</span>
-                    <span class="font-bold text-slate-900">Jl. Raya Mayor Oking No. 42</span>
+                    <span class="font-bold text-slate-900">Jl. {{ $laporan->jalan->nama_jalan ?? '-' }}</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-slate-500 font-medium">Persentase Capaian:</span>
@@ -90,7 +90,7 @@
         <!-- Footer Pop-up -->
         <div class="bg-slate-50 px-6 py-4 flex justify-end space-x-3 border-t border-slate-200">
             <button onclick="closeModal()" class="px-4 py-2 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors">Periksa Kembali</button>
-            <button class="px-5 py-2 bg-teal-600 text-white rounded-lg text-xs font-bold hover:bg-teal-700 transition-colors shadow-sm" onclick="document.getElementById('formProgres').submit();">
+            <button id="btnSubmitModal" class="px-5 py-2 bg-teal-600 text-white rounded-lg text-xs font-bold hover:bg-teal-700 transition-colors shadow-sm" onclick="document.getElementById('formProgres').submit();">
                 Ya, Publikasikan Sekarang
             </button>
         </div>

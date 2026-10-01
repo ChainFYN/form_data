@@ -6,12 +6,12 @@
     <!-- HEADER -->
     <div class="mb-6">
         <span class="inline-block bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded mb-2">SEDANG DIKERJAKAN PUPR</span>
-        <h2 class="text-2xl font-bold text-slate-900 p-1">Detail Penanganan Lapangan: Jl. Raya Mayor Oking No. 42</h2>
-        <p class="text-sm text-slate-500 mt-1 flex items-center">📍 Cibinong, Kab. Bogor | 🕒 Update Terakhir: 25 Sep 2026, 14:00 WIB</p>
+        <h2 class="text-2xl font-bold text-slate-900 p-1">Detail Penanganan Lapangan: Jl. {{ $laporan->jalan->nama_jalan ?? '-' }}</h2>
+        <p class="text-sm text-slate-500 mt-1 flex items-center">📍 Kec. {{ $laporan->jalan->desa->kecamatan->nama_kecamatan ?? '-' }}, Kab. Jember | 🕒 Update Terakhir: {{ $laporan->updated_at->format('d M Y, H:i') }} WIB</p>
     </div>
 
     <!-- FORM UTAMA -->
-    <form id="formProgres" action="#" method="POST">
+    <form id="formProgres" action="{{ route('pupr.progres.update', $laporan->id_laporan) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <!-- GRID LAYOUT UTAMA (2 Kolom Kiri, 1 Kolom Kanan) -->
@@ -157,22 +157,68 @@
                 <!-- Card: Komparasi Visual Pengerjaan -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
                     <h3 class="font-bold text-lg text-slate-800 mb-4">Komparasi Visual Pengerjaan</h3>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="bg-slate-100 h-24 rounded-lg flex items-center justify-center text-xs text-slate-400 font-medium border border-slate-200">[Foto Awal]</div>
-                        <div class="bg-slate-100 h-24 rounded-lg flex items-center justify-center text-xs text-slate-400 font-medium border border-slate-200">[Foto Progres]</div>
+                    <div class="grid grid-cols-2 gap-4">
+                        
+                        <!-- Kiri: Input Foto Progres -->
+                        <div class="flex flex-col">
+                            <label class="block text-xs font-bold text-slate-700 mb-2">Upload Foto Progres</label>
+                            <label class="flex-1 border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-slate-100 transition-colors rounded-xl flex flex-col items-center justify-center cursor-pointer p-4 group relative overflow-hidden h-32" id="upload-container">
+                                <div id="upload-placeholder" class="text-center">
+                                    <i class="fa-solid fa-cloud-arrow-up text-3xl text-teal-500 mb-2 group-hover:scale-110 transition-transform"></i>
+                                    <p class="text-[10px] font-bold text-slate-700">Pilih atau Tarik Foto</p>
+                                    <p class="text-[9px] text-slate-400 mt-1">PNG/JPG Max 5MB</p>
+                                </div>
+                                <img id="upload-preview" src="#" alt="Preview" class="hidden absolute inset-0 w-full h-full object-cover z-10" />
+                                <input type="file" name="foto_progres" accept="image/png, image/jpeg" class="hidden" onchange="previewImage(this)">
+                            </label>
+                        </div>
+
+                        <!-- Kanan: Foto Awal -->
+                        <div class="flex flex-col">
+                            <label class="block text-xs font-bold text-slate-700 mb-2">Foto Awal Lapangan</label>
+                            <div class="flex-1 bg-slate-100 rounded-xl flex items-center justify-center text-xs text-slate-400 font-medium border border-slate-200 overflow-hidden relative h-32">
+                                @if($laporan->url_foto)
+                                    <img src="{{ asset('storage/' . $laporan->url_foto) }}" alt="Foto Awal" class="absolute inset-0 w-full h-full object-cover">
+                                @else
+                                    <div class="flex flex-col items-center justify-center">
+                                        <i class="fa-solid fa-image text-3xl mb-1 opacity-50"></i>
+                                        <span>Tidak ada foto</span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+
+                <!-- SCRIPT PREVIEW GAMBAR -->
+                <script>
+                    function previewImage(input) {
+                        if (input.files && input.files[0]) {
+                            // Check file size (5MB = 5 * 1024 * 1024 bytes)
+                            if(input.files[0].size > 5242880) {
+                                alert("Ukuran file terlalu besar. Maksimal 5MB.");
+                                input.value = "";
+                                return;
+                            }
+                            
+                            var reader = new FileReader();
+                            reader.onload = function(e) {
+                                document.getElementById('upload-preview').src = e.target.result;
+                                document.getElementById('upload-preview').classList.remove('hidden');
+                                document.getElementById('upload-placeholder').classList.add('hidden');
+                            }
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                </script>
 
             </div>
         </div>
 
         <!-- Tombol Submit & Toggle Pop-up Bawah (Full Lebar Form) -->
-        <div class="mt-6 bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <label class="flex items-center text-sm text-slate-600 cursor-pointer group">
-                <input type="checkbox" class="mr-2 rounded text-teal-600 border-slate-300 focus:ring-teal-500 h-4 w-4"> 
-                <span class="group-hover:text-slate-900 transition-colors font-medium">Notifikasi via WhatsApp API ke pelapor & kantor camat</span>
-            </label>
-            <button type="button" onclick="openModal()" class="w-full sm:w-auto bg-orange-500 text-white px-8 py-3 rounded-xl shadow-sm font-bold text-sm hover:bg-orange-600 transition-colors">
+        <div class="mt-6 bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex justify-end">
+            <button type="button" id="btnSubmitForm" onclick="openModal()" class="w-full sm:w-auto bg-orange-500 text-white px-8 py-3 rounded-xl shadow-sm font-bold text-sm hover:bg-orange-600 transition-colors">
                 Simpan & Publikasikan Progres
             </button>
         </div>
@@ -211,6 +257,19 @@
         document.getElementById('teks_persentase').innerText = currentPersen + '%';
         document.getElementById('input_status').value = currentStatus;
         document.getElementById('input_persentase').value = currentPersen;
+        
+        // Ubah Teks Tombol
+        if(currentPersen === 100) {
+            document.getElementById('btnSubmitForm').innerText = 'Selesaikan & Buat BAST';
+            if(document.getElementById('btnSubmitModal')) {
+                document.getElementById('btnSubmitModal').innerText = 'Selesaikan & Buat BAST';
+            }
+        } else {
+            document.getElementById('btnSubmitForm').innerText = 'Simpan & Publikasikan Progres';
+            if(document.getElementById('btnSubmitModal')) {
+                document.getElementById('btnSubmitModal').innerText = 'Ya, Publikasikan Sekarang';
+            }
+        }
     }
 </script>
 

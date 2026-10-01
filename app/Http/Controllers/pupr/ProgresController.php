@@ -4,77 +4,61 @@ namespace App\Http\Controllers\Pupr;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Laporan;
 
 class ProgresController extends Controller
 {
-    /**
-     * Data dummy sementara untuk keperluan testing UI kelompok.
-     * Nantinya, ini akan diganti dengan pemanggilan Model dari database,
-     * misalnya: Progres::all() atau Progres::find($id)
-     */
-    private $dummyData = [
-        1 => [
-            'id' => 1,
-            'nama_jalan' => 'Jl. Raya Mayor Oking No. 42',
-            'lokasi' => 'Cibinong, Kab. Bogor',
-            'status' => 'SEDANG DIKERJAKAN',
-            'persentase' => 75,
-            'update_terakhir' => '25 Sep 2026, 16:00 WIB'
-        ],
-        2 => [
-            'id' => 2,
-            'nama_jalan' => 'Jl. Tegar Beriman (Simpang Pemda)',
-            'lokasi' => 'Cibinong, Kab. Bogor',
-            'status' => 'PERSIAPAN (SUB-BASE)',
-            'persentase' => 15,
-            'update_terakhir' => '1 Okt 2026, 09:00 WIB'
-        ]
-    ];
-
     /**
      * Menampilkan daftar semua proyek rekonstruksi
      */
     public function index()
     {
-        $progresList = $this->dummyData;
-        
-        // Memanggil file: resources/views/pupr/progres/index.blade.php
-        return view('pupr.progres.index', compact('progresList'));
+        // Redirect ke dashboard karena progres rekonstruksi memerlukan ID spesifik
+        return redirect()->route('pupr.dashboard');
     }
 
     /**
-     * Menampilkan detail spesifik dari satu proyek (halaman UI yang kita buat)
+     * Menampilkan form update progres untuk laporan tertentu
      */
     public function show($id)
     {
-        // Cek apakah data dengan ID tersebut ada
-        if (!isset($this->dummyData[$id])) {
-            abort(404, 'Data Progres Lapangan tidak ditemukan');
-        }
+        $laporan = Laporan::with(['kategori', 'jalan.desa.kecamatan', 'pengguna'])->findOrFail($id);
 
-        $detailProgres = $this->dummyData[$id];
-
-        // Memanggil file: resources/views/pupr/progres/show.blade.php
-        return view('pupr.progres.show', compact('detailProgres'));
+        return view('pupr.progres.index', compact('laporan'));
     }
 
-public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
-        // 1. Validasi data yang masuk
         $request->validate([
-            'status' => 'required|string',
+            'status_pekerjaan_id' => 'required',
+            'persentase_capaian' => 'required',
             'catatan' => 'required|string',
-            // 'foto_lapangan' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        // 2. LOGIKA DATABASE TIM (Nanti diletakkan di sini)
-        // Contoh:
-        // $progres = Progres::findOrFail($id);
-        // $progres->status = $request->status;
-        // $progres->catatan = $request->catatan;
-        // $progres->save();
+        $laporan = Laporan::findOrFail($id);
+        
+        // Simpan log proses (draft / update)
+        $logData = [
+            'id_laporan' => $laporan->id_laporan,
+            'id_pengguna' => session('pupr_id') ?? 1, // atau auth user id jika ada
+            'id_status' => $laporan->id_status,
+            'catatan_update' => "Progres " . $request->persentase_capaian . "%: " . $request->catatan,
+        ];
 
-        // 3. Kembalikan ke halaman sebelumnya dengan pesan sukses
-        return back()->with('success', 'Update progres berhasil disimpan dan dipublikasikan!');
+        if ($request->hasFile('foto_progres')) {
+            $path = $request->file('foto_progres')->store('log_proses', 'public');
+            $logData['url_foto_selesai'] = $path;
+        }
+
+        \App\Models\LogProses::create($logData);
+        
+        if ($request->persentase_capaian == 100) {
+            $laporan->id_status = 3; // Selesai / Menunggu Verifikasi BAST
+            $laporan->save();
+            return redirect()->route('pupr.dashboard')->with('success', 'Laporan diselesaikan dan dikirim ke BAST Kecamatan.');
+        }
+
+        // Jika belum 100%
+        return redirect()->route('pupr.dashboard')->with('success', 'Update progres berhasil disimpan dan dipublikasikan!');
     }
 }
