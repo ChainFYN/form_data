@@ -76,7 +76,8 @@
 </head>
 <body class="h-full flex flex-col text-slate-800 antialiased" x-data="{ mobileMenuOpen: false }">
 
-    <!-- TOP NAVBAR -->
+    <!-- TOP NAVBAR (Disembunyikan pada halaman Login & Register) -->
+    @if(!request()->routeIs('warga.login') && !request()->routeIs('warga.register') && !isset($hideHeader))
     <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
@@ -164,6 +165,7 @@
             </div>
         </div>
     </header>
+    @endif
 
     <!-- TOAST NOTIFICATION -->
     @if(session('success') || session('status'))
