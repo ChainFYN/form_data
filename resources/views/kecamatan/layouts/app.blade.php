@@ -86,20 +86,17 @@
     <!-- TOP NAVBAR -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs no-print">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-18">
+            <div class="flex items-center justify-between h-20">
                 
                 <!-- Left: Logo & Portal Title -->
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('kecamatan.dashboard') }}" class="flex items-center gap-3 group">
-                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-800 flex items-center justify-center text-white shadow-md shadow-emerald-900/20 group-hover:scale-105 transition-transform">
-                            <i class="fa-solid fa-road text-lg"></i>
+                <div class="flex items-center gap-8">
+                    <a href="{{ route('kecamatan.dashboard') }}" class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-building text-lg text-emerald-400"></i>
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <span class="font-extrabold text-xl tracking-tight text-slate-900"><span class="text-brand-600 font-black">SIGAP</span></span>
-                                <span class="text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-300">ADMIN PORTAL</span>
-                            </div>
-                            <p class="text-[11px] text-slate-500 font-medium leading-none mt-0.5">Pemerintah Kabupaten Jember • Seksi Pelayanan Publik & Sarpras</p>
+                            <div class="font-extrabold text-xl tracking-tight text-slate-900 leading-none">SIGAP</div>
+                            <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mt-1">KECAMATAN</div>
                         </div>
                     </a>
 
@@ -112,52 +109,26 @@
                         <a href="{{ route('kecamatan.validation.index') }}" 
                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('validation.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             <span>Validasi Laporan</span>
-                            <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full animate-pulse">3</span>
+                            
                         </a>
                         <a href="{{ route('kecamatan.bast.index') }}" 
                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('kecamatan.bast.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             <span>Verifikasi BAST</span>
                             <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-slate-900 bg-amber-400 rounded">2 Baru</span>
                         </a>
-                        <a href="{{ route('kecamatan.reports.recapitulation') }}" 
-                           class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all {{ request()->routeIs('reports.recapitulation') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Rekapitulasi Progres
-                        </a>
-                        <a href="{{ route('kecamatan.reports.statistics') }}" 
-                           class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all {{ request()->routeIs('reports.statistics') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Statistik Wilayah
-                        </a>
-                        <a href="{{ route('kecamatan.reports.master-desa') }}" 
-                           class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all {{ request()->routeIs('reports.master-desa') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Data Master Desa
-                        </a>
+
                     </nav>
                 </div>
 
-                <!-- Right: Search, Notifications, Profile -->
-                <div class="flex items-center gap-3">
+                <!-- Right: Notifications & Profile -->
+                <div class="flex items-center gap-5">
                     
-                    <!-- Search Input Box -->
-                    <div class="relative hidden sm:block" @click="searchModalOpen = true">
-                        <div class="flex items-center bg-slate-100 hover:bg-slate-200/80 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-500 cursor-pointer w-56 transition-colors">
-                            <i class="fa-solid fa-magnifying-glass mr-2 text-slate-400"></i>
-                            <span class="flex-1 truncate">Cari nomor aduan, jalan...</span>
-                            <kbd class="bg-white border border-slate-300 text-[10px] font-semibold text-slate-500 px-1.5 py-0.5 rounded shadow-2xs">Ctrl K</kbd>
-                        </div>
-                    </div>
-
-                    <!-- Quick Add Citizen Report Button -->
-                    <a href="{{ route('kecamatan.reports.create') }}" class="hidden lg:flex items-center gap-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-2 rounded-lg border border-emerald-200 transition-colors">
-                        <i class="fa-solid fa-plus text-[11px]"></i>
-                        <span>Input Aduan</span>
-                    </a>
-
                     <!-- Notification Bell Dropdown -->
                     <div class="relative" x-data="{ notifOpen: false }">
                         <button @click="notifOpen = !notifOpen" 
-                                class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 relative transition-colors">
-                            <i class="fa-regular fa-bell text-base"></i>
-                            <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
+                                class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 relative transition-colors">
+                            <i class="fa-regular fa-bell text-lg"></i>
+                            <span class="absolute top-0 right-0 w-3.5 h-3.5 bg-amber-500 border-2 border-white rounded-full"></span>
                         </button>
 
                         <!-- Notification Dropdown -->
@@ -203,13 +174,13 @@
                     </div>
 
                     <!-- User Profile Badge -->
-                    <div class="flex items-center gap-3 pl-3 border-l border-slate-200">
-                        <img class="w-9 h-9 rounded-full ring-2 ring-slate-200 object-cover" 
-                             src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" 
-                             alt="Drs. Bambang Suherman">
-                        <div class="hidden xl:block text-left">
-                            <p class="text-xs font-bold text-slate-900 leading-tight">Drs. Bambang Suherman</p>
-                            <p class="text-[11px] text-slate-500 font-medium">Admin Ekbang Kec. Jember</p>
+                    <div class="flex items-center gap-3 pl-5 border-l border-slate-200">
+                        <div class="text-right hidden sm:block">
+                            <div class="text-xs font-extrabold text-slate-900">Kecamatan</div>
+                            <div class="text-[10px] text-slate-500 font-medium">Admin<br>Kecamatan Jember</div>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 shrink-0">
+                            <i class="fa-regular fa-user"></i>
                         </div>
                     </div>
 
