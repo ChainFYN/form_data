@@ -76,7 +76,8 @@
                     <div class="mb-2">
                         <label for="catatan" class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Catatan Teknis Lapangan</label>
                         <textarea id="catatan" name="catatan" 
-                                  class="w-full border border-slate-300 rounded-xl p-4 text-sm h-28 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-400" 
+                                  class="w-full border border-slate-300 rounded-xl p-4 text-sm h-28 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-400"
+                                  oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\n\r.,!?\-()]/g, '')" 
                                   placeholder="Ketik detail pengerjaan, kendala cuaca, atau informasi material yang digunakan di sini..."></textarea>
                     </div>
                 </div>

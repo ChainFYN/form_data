@@ -329,6 +329,7 @@
                         <textarea name="catatan" 
                                   rows="3" 
                                   @input="charCount = $el.value.length"
+                                  oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\n\r.,!?\-()]/g, '')"
                                   class="w-full text-xs font-medium text-slate-800 bg-white border border-slate-300 rounded-xl p-3 focus:outline-none focus:border-brand-500 leading-relaxed"
                                   placeholder="Tuliskan catatan teknis dan arahan penanganan..."></textarea>
                     </div>
