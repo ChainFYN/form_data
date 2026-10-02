@@ -25,7 +25,7 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>
-                        <span class="fw-bold">#LP-{{ str_pad($item->id_laporan, 4, '0', STR_PAD_LEFT) }}</span><br>
+                        <span class="fw-bold">LP-{{ str_pad($item->id_laporan, 4, '0', STR_PAD_LEFT) }}</span><br>
                         <small class="text-muted">{{ $item->created_at->format('d M Y, H:i') }} WIB</small>
                     </td>
                     <td>

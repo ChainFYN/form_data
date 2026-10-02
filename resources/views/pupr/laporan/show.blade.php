@@ -8,7 +8,7 @@
     <div class="col-md-7 mb-4">
         <div class="card card-sigap p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold text-primary mb-0">Detail Laporan #LP-{{ str_pad($laporan->id_laporan ?? 0, 4, '0', STR_PAD_LEFT) }}</h4>
+                <h4 class="fw-bold text-primary mb-0">Detail Laporan LP-{{ str_pad($laporan->id_laporan ?? 0, 4, '0', STR_PAD_LEFT) }}</h4>
                 @php
                     $statusClass = 'status-menunggu';
                     if(($laporan->id_status ?? 1) == 2) $statusClass = 'status-diproses';

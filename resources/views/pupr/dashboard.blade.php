@@ -113,7 +113,7 @@
                     <div class="flex-1">
                         <div class="flex items-center justify-between mb-1">
                             <div class="text-[10px] font-mono font-bold text-slate-500">
-                                #LP-{{ $laporan->created_at->format('Y') }}-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }} — SPK: #SPK-PUPR-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }}
+                                LP-{{ $laporan->created_at->format('Y') }}-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }} — SPK: #SPK-PUPR-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }}
                             </div>
                             <span class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-200">Siap Dikerjakan</span>
                         </div>
@@ -147,7 +147,7 @@
                         <!-- Header -->
                         <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/50">
                             <div>
-                                <h3 class="font-extrabold text-slate-900 text-lg">Detail Laporan #LP-{{ $laporan->created_at->format('Y') }}-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }}</h3>
+                                <h3 class="font-extrabold text-slate-900 text-lg">Detail Laporan LP-{{ $laporan->created_at->format('Y') }}-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }}</h3>
                                 <p class="text-xs text-slate-500 font-medium mt-1">Dilaporkan pada {{ $laporan->created_at->format('d M Y, H:i') }} WIB</p>
                             </div>
                             <button onclick="document.getElementById('modal-detail-{{ $laporan->id_laporan }}').classList.add('hidden')" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors">

@@ -93,7 +93,7 @@
             @if($laporan_bast->count() > 0)
             @php $activeBast = $laporan_bast->first(); @endphp
             <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs">
-                <h2 class="text-xl font-extrabold text-slate-900 mb-1">Detail Berkas BAST #LP-{{ date('Y') }}-{{ str_pad($activeBast->id_laporan, 4, '0', STR_PAD_LEFT) }}</h2>
+                <h2 class="text-xl font-extrabold text-slate-900 mb-1">Detail Berkas BAST LP-{{ date('Y') }}-{{ str_pad($activeBast->id_laporan, 4, '0', STR_PAD_LEFT) }}</h2>
                 <p class="text-xs text-slate-500 font-medium">Klasifikasi: {{ $activeBast->kategori->nama_kategori ?? 'Lainnya' }}</p>
                 
                 <div class="mt-6 border-t border-slate-100 pt-6">

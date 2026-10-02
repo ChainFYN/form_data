@@ -53,7 +53,7 @@ Akses URL berikut:
      - Daftar antrean tiket dengan penanda aktif.
      - Banner Kebijakan Respon Cepat Kecamatan (&lt; 2 jam).
    - **Kolom Kanan (Inspeksi & Disposisi)**:
-     - Header detail tiket `#LP-2026-0842` / tiket terpilih.
+     - Header detail tiket `LP-2026-0842` / tiket terpilih.
      - *Pemeriksaan Bukti Lapangan*: Komparasi foto bukti lapangan dengan **Peta Interaktif GIS (Leaflet)** + radius akurasi GPS 12m.
      - *Identitas Pelapor Warga*: Terverifikasi NIK, reputasi 94/100, alamat domisili, nomor telepon.
      - *Deskripsi Laporan Warga*.

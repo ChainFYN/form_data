@@ -110,7 +110,7 @@
                     <div class="flex-1">
                         <div class="flex items-center justify-between mb-1">
                             <div class="text-[10px] font-mono font-bold text-slate-500">
-                                #LP-{{ $report->created_at->format('Y') }}-{{ str_pad($report->id_laporan, 4, '0', STR_PAD_LEFT) }}
+                                LP-{{ $report->created_at->format('Y') }}-{{ str_pad($report->id_laporan, 4, '0', STR_PAD_LEFT) }}
                             </div>
                             <span class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-200">{{ $report->status->nama_status ?? 'Menunggu Validasi' }}</span>
                         </div>

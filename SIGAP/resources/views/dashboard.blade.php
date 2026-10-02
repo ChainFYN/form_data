@@ -350,7 +350,6 @@
                         </div>
                         <p class="text-[11px] text-amber-800 font-medium mt-1">Lubang jalan > 80cm — Rawan kecelakaan fatal motor</p>
                     </a>
-
                 </div>
 
                 <a href="{{ route('validation.index', ['tab' => 'high']) }}" 
