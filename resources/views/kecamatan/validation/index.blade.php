@@ -89,7 +89,7 @@
                     
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-1.5">
-                            <span class="font-mono text-xs font-bold text-slate-900">#{{ $t->id_laporan }}</span>
+                            <span class="font-mono text-xs font-bold text-slate-900">{{ $t->id_laporan }}</span>
                             <span class="text-[10px] text-slate-400 font-medium">
                                 {{ $t->kategori->nama_kategori ?? '-' }}
                             </span>
@@ -136,7 +136,7 @@
                 <div>
                     <div class="flex items-center gap-3">
                         <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">
-                            Detail Laporan <span class="font-mono text-brand-600">#{{ $activeTicket->id_laporan }}</span>
+                            Detail Laporan <span class="font-mono text-brand-600">   {{ $activeTicket->id_laporan }}</span>
                         </h2>
                         @php
                             $statusClass = match($activeTicket->id_status) {

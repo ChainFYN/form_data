@@ -59,7 +59,7 @@
                 <a href="#" class="p-4 rounded-2xl border transition-all text-left block relative {{ $loop->first ? 'bg-emerald-50/40 border-amber-500 shadow-sm ring-1 ring-amber-500' : 'bg-white border-slate-200 hover:border-slate-300' }}">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-1.5">
-                            <span class="font-mono text-xs font-bold text-slate-900">#LP-{{ date('Y') }}-{{ str_pad($bast->id_laporan, 4, '0', STR_PAD_LEFT) }}</span>
+                            <span class="font-mono text-xs font-bold text-slate-900">LP-{{ date('Y') }}-{{ str_pad($bast->id_laporan, 4, '0', STR_PAD_LEFT) }}</span>
                             <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full {{ $bast->tingkat_bahaya == 'Bahaya Tinggi' ? 'bg-red-500 text-white' : ($bast->tingkat_bahaya == 'Sedang' ? 'bg-amber-500 text-white' : 'bg-blue-500 text-white') }}">{{ $bast->tingkat_bahaya }}</span>
                         </div>
                         <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-300">
