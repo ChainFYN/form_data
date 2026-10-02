@@ -105,8 +105,10 @@
                         <!-- Volume Kerusakan -->
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Volume Kerusakan & Dimensi</label>
-                            <input type="text" id="volume_kerusakan" value="2.7 M³ (6m x 3m x 0.15m)" 
+                            <input type="text" id="volume_kerusakan" value="2.7 M³ (6m x 3m x 0.15m)"
+                                   oninput="validateVolume(this)"
                                    class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                            <p id="error_volume" class="text-red-500 text-[10px] mt-1 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Exception: Hanya boleh diisi angka, huruf, kurung, dan tanda pangkat!</p>
                         </div>
 
                         <!-- Material & Agregat Digunakan -->
@@ -270,6 +272,30 @@
             if(document.getElementById('btnSubmitModal')) {
                 document.getElementById('btnSubmitModal').innerText = 'Ya, Publikasikan Sekarang';
             }
+        }
+    }
+</script>
+
+<!-- SCRIPT UNTUK VALIDASI VOLUME KERUSAKAN -->
+<script>
+    function validateVolume(input) {
+        // Karakter yang diizinkan: angka, huruf, spasi, titik, koma, x (perkalian),
+        // kurung buka/tutup, simbol pangkat unicode (²³¹⁰⁴⁵⁶⁷⁸⁹), dan tanda ^ 
+        const allowed = /^[0-9a-zA-Z\s.,x×()²³¹⁰⁴⁵⁶⁷⁸⁹^]*$/;
+
+        if (!allowed.test(input.value)) {
+            // Hapus karakter yang tidak diizinkan
+            input.value = input.value.replace(/[^0-9a-zA-Z\s.,x×()²³¹⁰⁴⁵⁶⁷⁸⁹^]/g, '');
+
+            // Tampilkan pesan error
+            document.getElementById('error_volume').classList.remove('hidden');
+
+            // Sembunyikan setelah 3 detik
+            setTimeout(() => {
+                document.getElementById('error_volume').classList.add('hidden');
+            }, 3000);
+        } else {
+            document.getElementById('error_volume').classList.add('hidden');
         }
     }
 </script>
