@@ -7,7 +7,7 @@
 
     <!-- KPI CARDS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        
+
         <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32">
             <div class="flex items-start justify-between">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">TERVALIDASI & SPK CAMAT</div>
@@ -78,7 +78,7 @@
 
     <!-- MAIN TWO COLUMNS -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         <!-- LEFT: DAFTAR LAPORAN -->
         <div class="lg:col-span-2">
             <div class="flex items-center justify-between mb-6">
@@ -94,19 +94,19 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                
+
                 @forelse($laporan_diproses as $laporan)
                 <div class="bg-white rounded-2xl p-4 border {{ $laporan->tingkat_bahaya === 'Bahaya Tinggi' ? 'border-red-200 ring-1 ring-red-500/20' : 'border-slate-200' }} shadow-xs flex flex-col sm:flex-row gap-5 relative overflow-hidden">
                     @if($laporan->tingkat_bahaya === 'Bahaya Tinggi')
-                        <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
+                    <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
                     @endif
                     <div class="w-full sm:w-48 h-32 rounded-xl overflow-hidden relative shrink-0">
                         @if($laporan->url_foto)
-                            <img src="{{ asset('storage/' . $laporan->url_foto) }}" alt="Jalan rusak" class="w-full h-full object-cover">
+                        <img src="{{ asset('storage/' . $laporan->url_foto) }}" alt="Jalan rusak" class="w-full h-full object-cover">
                         @else
-                            <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400 flex-col gap-2">
-                                <i class="fa-solid fa-image text-3xl"></i>
-                            </div>
+                        <div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400 flex-col gap-2">
+                            <i class="fa-solid fa-image text-3xl"></i>
+                        </div>
                         @endif
                         <div class="absolute top-2 left-2 {{ $laporan->tingkat_bahaya === 'Bahaya Tinggi' ? 'bg-red-600' : ($laporan->tingkat_bahaya === 'Sedang' ? 'bg-amber-500' : 'bg-slate-600') }} text-white text-[10px] font-extrabold px-2 py-0.5 rounded uppercase">{{ $laporan->tingkat_bahaya }}</div>
                     </div>
@@ -119,7 +119,7 @@
                         </div>
                         <h3 class="text-sm font-extrabold text-slate-900 mb-1">Jl. {{ $laporan->jalan->nama_jalan ?? 'Tidak diketahui' }} ({{ $laporan->jalan->desa->nama_desa ?? '-' }})</h3>
                         <p class="text-[11px] text-slate-600 leading-relaxed mb-3">Kerusakan: <strong>{{ $laporan->kategori->nama_kategori ?? '-' }}</strong>. {{ $laporan->deskripsi }}</p>
-                        
+
                         <div class="flex items-center gap-4 mb-3">
                             <div class="flex items-center gap-1.5 text-[10px] font-bold {{ $laporan->tingkat_bahaya === 'Bahaya Tinggi' ? 'text-red-700 bg-red-50 border-red-200' : 'text-slate-700 bg-slate-100 border-slate-200' }} border px-2.5 py-1.5 rounded-lg">
                                 <i class="fa-solid fa-user"></i> Dilaporkan oleh: {{ $laporan->pengguna->nama_lengkap ?? 'Warga' }}
@@ -162,19 +162,19 @@
                                     <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Foto Lapangan</div>
                                     <div class="w-full h-64 md:h-80 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
                                         @if($laporan->url_foto)
-                                            <img src="{{ asset('storage/' . $laporan->url_foto) }}" alt="Foto Laporan" class="w-full h-full object-cover">
+                                        <img src="{{ asset('storage/' . $laporan->url_foto) }}" alt="Foto Laporan" class="w-full h-full object-cover">
                                         @else
-                                            <div class="w-full h-full flex flex-col items-center justify-center text-slate-400">
-                                                <i class="fa-solid fa-image text-4xl mb-2"></i>
-                                                <span class="text-xs font-medium">Tidak ada foto</span>
-                                            </div>
+                                        <div class="w-full h-full flex flex-col items-center justify-center text-slate-400">
+                                            <i class="fa-solid fa-image text-4xl mb-2"></i>
+                                            <span class="text-xs font-medium">Tidak ada foto</span>
+                                        </div>
                                         @endif
                                     </div>
                                 </div>
                                 <!-- Informasi -->
                                 <div>
                                     <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Informasi Laporan</div>
-                                    
+
                                     <div class="space-y-4">
                                         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
                                             <div class="text-[10px] text-slate-500 font-bold uppercase mb-1">Pelapor</div>
@@ -224,7 +224,7 @@
         <!-- RIGHT: KESIAPAN TIM -->
         <div class="lg:col-span-1">
             <div class="bg-white rounded-2xl border border-slate-200 shadow-xs sticky top-28">
-                
+
                 <div class="p-5 border-b border-slate-100 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center">
@@ -241,7 +241,7 @@
 
                 <div class="p-5">
                     <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-4">STATUS REGU LAPANGAN</div>
-                    
+
                     <div class="space-y-4">
                         <!-- Regu 1 -->
                         <div class="flex items-center justify-between">
@@ -296,7 +296,7 @@
                                     <div class="h-full bg-slate-900" style="width: 76%"></div>
                                 </div>
                             </div>
-                            
+
                             <div>
                                 <div class="flex justify-between text-[10px] font-bold mb-1.5">
                                     <span class="text-slate-700">Agregat Pondasi Kelas A</span>

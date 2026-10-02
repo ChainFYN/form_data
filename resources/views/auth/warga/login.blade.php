@@ -30,19 +30,20 @@
                 @csrf
 
                 <div>
-                    <label for="email" class="block text-xs font-bold text-slate-700 mb-1.5">Alamat Email</label>
+                    <label for="login" class="block text-xs font-bold text-slate-700 mb-1.5">NIK atau Email</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                            <i class="fa-regular fa-envelope text-xs"></i>
+                            <i class="fa-regular fa-id-card text-xs"></i>
                         </div>
-                        <input type="email"
-                               name="email"
-                               id="email"
-                               value="{{ old('email') }}"
+                        <input type="text"
+                               name="login"
+                               id="login"
+                               value="{{ old('login') }}"
                                required
-                               placeholder="nama@email.com"
+                               placeholder="Masukkan NIK (Warga) atau Email (Admin)"
                                class="w-full pl-9 pr-3 py-2.5 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                     </div>
+                    <span class="text-[10px] text-slate-400 block mt-1">Warga: masukkan 16 digit NIK &bull; Admin: masukkan alamat email</span>
                 </div>
 
                 <div>

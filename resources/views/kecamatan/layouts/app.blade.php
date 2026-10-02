@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id" class="h-full bg-slate-50">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +49,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Leaflet GIS CSS & JS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <!-- Chart.js -->
@@ -58,29 +59,45 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
 
     <style>
-        [x-cloak] { display: none !important; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        [x-cloak] {
+            display: none !important;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-track {
             background: #f1f5f9;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 4px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+
         @media print {
-            .no-print { display: none !important; }
-            body { background: white !important; }
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+            }
         }
     </style>
     @stack('styles')
 </head>
+
 <body class="h-full flex flex-col text-slate-800 antialiased" x-data="{ searchModalOpen: false, notifOpen: false }">
 
     <!-- TOP NAVBAR -->
@@ -103,18 +120,23 @@
                     <!-- Main Navigation Menu -->
                     <nav class="hidden md:flex items-center gap-1.5 ml-4">
                         <a href="{{ route('kecamatan.dashboard') }}"
-                           class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             Dashboard Kecamatan
                         </a>
                         <a href="{{ route('kecamatan.validation.index') }}"
-                           class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('validation.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('validation.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             <span>Validasi Laporan</span>
 
                         </a>
+                        @php
+                            $bastBadgeCount = \App\Models\Laporan::where('status_bast', 'MENUNGGU_VERIFIKASI')->count();
+                        @endphp
                         <a href="{{ route('kecamatan.bast.index') }}"
-                           class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('kecamatan.bast.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('kecamatan.bast.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             <span>Verifikasi BAST</span>
-                            <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-slate-900 bg-amber-400 rounded">2 Baru</span>
+                            @if($bastBadgeCount > 0)
+                                <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-slate-900 bg-amber-400 rounded">{{ $bastBadgeCount }} Baru</span>
+                            @endif
                         </a>
 
                     </nav>
@@ -126,14 +148,14 @@
                     <!-- Notification Bell Dropdown -->
                     <div class="relative" x-data="{ notifOpen: false }">
                         <button @click="notifOpen = !notifOpen"
-                                class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 relative transition-colors">
+                            class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 relative transition-colors">
                             <i class="fa-regular fa-bell text-lg"></i>
                             <span class="absolute top-0 right-0 w-3.5 h-3.5 bg-amber-500 border-2 border-white rounded-full"></span>
                         </button>
 
                         <!-- Notification Dropdown -->
                         <div x-show="notifOpen" @click.away="notifOpen = false" x-cloak
-                             class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                            class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                             <div class="px-4 py-2 border-b border-slate-100 flex items-center justify-between">
                                 <span class="text-xs font-bold text-slate-900 uppercase tracking-wider">Notifikasi Masuk (3)</span>
                                 <span class="text-[11px] text-emerald-600 font-semibold cursor-pointer hover:underline">Tandai Dibaca</span>
@@ -187,7 +209,7 @@
 
                         <!-- Profile Dropdown -->
                         <div x-show="profileOpen" @click.away="profileOpen = false" x-cloak
-                             class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                            class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                             <form method="POST" action="{{ route('kecamatan.logout') }}">
                                 @csrf
                                 <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 font-semibold hover:bg-red-50 hover:text-red-700 transition-colors flex items-center gap-2">
@@ -204,16 +226,16 @@
 
     <!-- TOAST NOTIFICATION -->
     @if(session('status'))
-        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
-             class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-sm font-semibold transition-all transform animate-in slide-in-from-bottom-5 duration-300 {{ session('status_type') == 'success' ? 'bg-emerald-600 text-white border-emerald-500' : (session('status_type') == 'warning' ? 'bg-amber-600 text-white border-amber-500' : 'bg-slate-900 text-white border-slate-800') }}">
-            <i class="fa-solid {{ session('status_type') == 'success' ? 'fa-circle-check text-lg' : 'fa-triangle-exclamation text-lg' }}"></i>
-            <div>
-                <p class="leading-tight">{{ session('status') }}</p>
-            </div>
-            <button @click="show = false" class="ml-3 text-white/80 hover:text-white">
-                <i class="fa-solid fa-xmark text-sm"></i>
-            </button>
+    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
+        class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-sm font-semibold transition-all transform animate-in slide-in-from-bottom-5 duration-300 {{ session('status_type') == 'success' ? 'bg-emerald-600 text-white border-emerald-500' : (session('status_type') == 'warning' ? 'bg-amber-600 text-white border-amber-500' : 'bg-slate-900 text-white border-slate-800') }}">
+        <i class="fa-solid {{ session('status_type') == 'success' ? 'fa-circle-check text-lg' : 'fa-triangle-exclamation text-lg' }}"></i>
+        <div>
+            <p class="leading-tight">{{ session('status') }}</p>
         </div>
+        <button @click="show = false" class="ml-3 text-white/80 hover:text-white">
+            <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+    </div>
     @endif
 
     <!-- MAIN BODY CONTENT -->
@@ -253,15 +275,15 @@
 
     <!-- CTRL+K QUICK SEARCH MODAL -->
     <div x-show="searchModalOpen" @keydown.window.ctrl.k.prevent="searchModalOpen = true" @keydown.window.escape="searchModalOpen = false" x-cloak
-         class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-start justify-center pt-20 px-4">
+        class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-start justify-center pt-20 px-4">
         <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-xl w-full overflow-hidden" @click.away="searchModalOpen = false">
             <div class="p-4 border-b border-slate-100 flex items-center gap-3">
                 <i class="fa-solid fa-magnifying-glass text-slate-400 text-lg"></i>
                 <input type="text"
-                       id="modalSearchInput"
-                       placeholder="Ketik nomor tiket (e.g. LP-2026-0842), nama jalan, atau nama pelapor..."
-                       class="w-full text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
-                       @keydown.enter="window.location.href = '{{ route('kecamatan.validation.index') }}?search=' + $el.value">
+                    id="modalSearchInput"
+                    placeholder="Ketik nomor tiket (e.g. LP-2026-0842), nama jalan, atau nama pelapor..."
+                    class="w-full text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
+                    @keydown.enter="window.location.href = '{{ route('kecamatan.validation.index') }}?search=' + $el.value">
                 <kbd class="text-[11px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-mono border">ESC</kbd>
             </div>
             <div class="p-3 bg-slate-50 text-xs text-slate-500 flex items-center justify-between">
@@ -273,4 +295,5 @@
 
     @stack('scripts')
 </body>
+
 </html>

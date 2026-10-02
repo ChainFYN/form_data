@@ -26,7 +26,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>No</th>
-                        <th>Username</th>
+                        <th>NIK</th>
                         <th>Email</th>
                         <th>Nama Lengkap</th>
                         <th>Peran</th>
@@ -39,7 +39,7 @@
                     @foreach($pengguna as $index => $item)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $item->username }}</td>
+                        <td>{{ $item->nik }}</td>
                         <td>{{ $item->email }}</td>
                         <td>{{ $item->nama_lengkap }}</td>
                         <td>{{ $item->peran->nama_peran ?? '-' }}</td>

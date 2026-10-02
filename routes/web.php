@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\Auth\WargaAuthController;
+use App\Http\Controllers\Kecamatan\BastController as KecamatanBast;
+use App\Http\Controllers\Kecamatan\DashboardController as KecamatanDashboard;
+use App\Http\Controllers\Kecamatan\ReportController as KecamatanReport;
+use App\Http\Controllers\Kecamatan\ValidationController as KecamatanValidation;
+use App\Http\Controllers\Pupr\ProgresController;
 use App\Http\Controllers\Warga\DashboardController;
 use App\Http\Controllers\Warga\LaporanController;
-use App\Http\Controllers\Kecamatan\DashboardController as KecamatanDashboard;
-use App\Http\Controllers\Kecamatan\ValidationController as KecamatanValidation;
-use App\Http\Controllers\Kecamatan\ReportController as KecamatanReport;
-use App\Http\Controllers\Kecamatan\BastController as KecamatanBast;
-use App\Http\Controllers\Pupr\ProgresController;
+use App\Models\Laporan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +21,7 @@ Route::get('/', function () {
     if (session()->has('kecamatan_id')) {
         return redirect()->route('kecamatan.dashboard');
     }
+
     return redirect()->route('warga.login');
 });
 
@@ -54,21 +56,39 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
 
     Route::get('/dashboard', function () {
         if (! session()->has('pupr_id')) {
-            return redirect()->route('warga.login')->withErrors(['email' => 'Silakan login terlebih dahulu.']);
+            return redirect()->route('warga.login')->withErrors(['login' => 'Silakan login terlebih dahulu.']);
         }
 
-        $laporan_diproses = \App\Models\Laporan::with(['kategori', 'jalan.desa.kecamatan', 'pengguna'])
+        $laporan_diproses = Laporan::with(['kategori', 'jalan.desa.kecamatan', 'pengguna'])
             ->where('id_status', 2)
+            ->where(function ($q) {
+                $q->whereNull('status_bast')
+                    ->orWhere('status_bast', 'DITOLAK');
+            })
             ->orderBy('created_at', 'desc')
             ->get();
+
+        $menungguCamat = Laporan::where('id_status', 1)->count()
+            + Laporan::where('status_bast', 'MENUNGGU_VERIFIKASI')->count();
+
+        $diprosesAktif = Laporan::where('id_status', 2)
+            ->where(function ($q) {
+                $q->whereNull('status_bast')->orWhere('status_bast', 'DITOLAK');
+            })->count();
+
+        $selesaiDiverifikasi = Laporan::where('id_status', 3)
+            ->where(function ($q) {
+                $q->where('status_bast', 'DIVERIFIKASI')
+                    ->orWhereNull('status_bast');
+            })->count();
 
         return view('pupr.dashboard', [
             'laporan_diproses' => $laporan_diproses,
             'statistik' => [
-                'total' => \App\Models\Laporan::count(),
-                'menunggu' => \App\Models\Laporan::where('id_status', 1)->count(),
-                'diproses' => \App\Models\Laporan::where('id_status', 2)->count(),
-                'selesai' => \App\Models\Laporan::where('id_status', 3)->count(),
+                'total' => Laporan::count(),
+                'menunggu' => $menungguCamat,
+                'diproses' => $diprosesAktif,
+                'selesai' => $selesaiDiverifikasi,
             ],
         ]);
     })->name('dashboard');
@@ -126,5 +146,6 @@ Route::prefix('kecamatan')->name('kecamatan.')->group(function () {
     Route::get('/lapor-baru', [KecamatanReport::class, 'create'])->name('reports.create');
     Route::post('/lapor-baru', [KecamatanReport::class, 'store'])->name('reports.store');
     Route::get('/bast', [KecamatanBast::class, 'index'])->name('bast.index');
+    Route::post('/bast/{id}', [KecamatanBast::class, 'update'])->name('bast.update');
     Route::post('/logout', [WargaAuthController::class, 'logout'])->name('logout');
 });

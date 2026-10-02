@@ -7,20 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class Pengguna extends Model
 {
     protected $table = 'pengguna';
+
     protected $primaryKey = 'id_pengguna';
-    
+
     protected $fillable = [
-        'username',
+        'nik',
         'email',
         'password',
         'nama_lengkap',
         'telepon',
         'id_peran',
-        'id_desa'
+        'id_desa',
     ];
 
     protected $hidden = [
-        'password'
+        'password',
     ];
 
     // Relasi ke Peran

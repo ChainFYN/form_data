@@ -38,18 +38,18 @@
 
     <!-- MAIN TWO-COLUMN VALIDATION WORKSPACE -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 mt-6">
-        
+
         <!-- ==================== LEFT COLUMN: QUEUE & FILTERS (4 COLS) ==================== -->
         <div class="lg:col-span-4 flex flex-col gap-4">
-            
+
             <!-- Live Search Bar -->
             <form action="{{ route('kecamatan.validation.index') }}" method="GET" class="relative">
                 <input type="hidden" name="tab" value="{{ $tab }}">
                 <div class="relative">
-                    <input type="text" 
-                           name="search" 
-                           value="{{ $search }}" 
-                           placeholder="Cari id laporan, jalan, pelapor..." 
+                    <input type="text"
+                           name="search"
+                           value="{{ $search }}"
+                           placeholder="Cari id laporan, jalan, pelapor..."
                            class="w-full pl-9 pr-4 py-2 text-xs font-semibold text-slate-800 bg-white border border-slate-200 rounded-xl shadow-2xs focus:outline-none focus:border-brand-500">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-xs"></i>
                 </div>
@@ -57,19 +57,23 @@
 
             <!-- Filter Tabs Pills -->
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar text-xs">
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'all', 'search' => $search]) }}" 
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'all', 'search' => $search]) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'all' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
                     Semua ({{ $allCount }})
                 </a>
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'high', 'search' => $search]) }}" 
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'high', 'search' => $search]) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'high' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
                     Bahaya Tinggi ({{ $highCount }})
                 </a>
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'pending', 'search' => $search]) }}" 
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'pending', 'search' => $search]) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'pending' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
                     Perlu Verifikasi ({{ $pendingCount }})
                 </a>
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'resolved', 'search' => $search]) }}" 
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'resolved', 'search' => $search]) }}"
+                   class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'resolved' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
+                    Selesai/Ditolak ({{ $resolvedCount }})
+                </a>
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'resolved', 'search' => $search]) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'resolved' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
                     Selesai/Ditolak ({{ $resolvedCount }})
                 </a>
@@ -84,9 +88,9 @@
                         ? 'bg-red-500 text-white'
                         : ($t->tingkat_bahaya === 'Sedang' ? 'bg-amber-500 text-white' : 'bg-emerald-600 text-white');
                 @endphp
-                <a href="{{ route('kecamatan.validation.index', ['ticket' => $t->id_laporan, 'tab' => $tab, 'search' => $search]) }}" 
+                <a href="{{ route('kecamatan.validation.index', ['ticket' => $t->id_laporan, 'tab' => $tab, 'search' => $search]) }}"
                    class="p-4 rounded-2xl border transition-all text-left block relative {{ $isActive ? 'bg-emerald-50/40 border-emerald-500 shadow-sm ring-1 ring-emerald-500' : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-2xs' }}">
-                    
+
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-1.5">
                             <span class="font-mono text-xs font-bold text-slate-900">{{ $t->id_laporan }}</span>
@@ -129,7 +133,7 @@
 
         <!-- ==================== RIGHT COLUMN: TICKET INSPECTION & DISPOSITION (8 COLS) ==================== -->
         <div class="lg:col-span-8 flex flex-col gap-6">
-            
+
             @if($activeTicket)
             <!-- TICKET HEADER -->
             <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -158,8 +162,8 @@
 
                 <!-- Share Actions -->
                 <div class="flex items-center gap-2">
-                    <button onclick="navigator.clipboard.writeText(window.location.href); alert('Tautan berhasil disalin!');" 
-                            class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors" 
+                    <button onclick="navigator.clipboard.writeText(window.location.href); alert('Tautan berhasil disalin!');"
+                            class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-colors"
                             title="Bagikan Tautan">
                         <i class="fa-solid fa-share-nodes text-sm"></i>
                     </button>
@@ -168,7 +172,7 @@
 
             <!-- SECTION 1: PEMERIKSAAN BUKTI LAPANGAN -->
             <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
-                
+
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-2">
                         <div class="w-6 h-6 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center text-xs">
@@ -184,12 +188,12 @@
 
                 <!-- Media Comparison: Photo Evidence + Interactive GIS Map -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    
+
                     <!-- Left: Citizen Photo Evidence -->
                     <div class="relative rounded-xl overflow-hidden bg-slate-100 border border-slate-200 group h-64">
                         @if($activeTicket->url_foto)
-                            <img src="{{ asset('storage/' . $activeTicket->url_foto) }}" 
-                                 alt="Bukti foto jalan rusak" 
+                            <img src="{{ asset('storage/' . $activeTicket->url_foto) }}"
+                                 alt="Bukti foto jalan rusak"
                                  class="w-full h-full object-cover">
                         @else
                             <div class="w-full h-full flex items-center justify-center text-slate-400 flex-col gap-2">
@@ -235,7 +239,7 @@
                                 </span>
                             </div>
                             <p class="text-[11px] text-slate-500 mt-0.5">
-                                Email: {{ $activeTicket->pengguna->email ?? '-' }} 
+                                Email: {{ $activeTicket->pengguna->email ?? '-' }}
                                 • Telepon: {{ $activeTicket->pengguna->telepon ?? '-' }}
                             </p>
                         </div>
@@ -263,12 +267,23 @@
 
             <!-- SECTION 2: KEPUTUSAN VERIFIKATOR KECAMATAN (FORM DISPOSISI) -->
             @if($activeTicket->id_status == 1)
-            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs" x-data="{ decisionAction: 'acc', charCount: 0 }">
-                
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs" x-data="{ decisionAction: '{{ old('action', 'acc') }}', charCount: {{ strlen(old('catatan', '')) }} }">
+
                 <div class="border-b border-slate-200 pb-3">
                     <h3 class="text-sm font-extrabold text-slate-900">Keputusan Verifikator Kecamatan</h3>
                     <p class="text-xs text-slate-500 mt-0.5">Tentukan disposisi status aduan ini untuk diteruskan ke Dinas PUPR Kabupaten Jember.</p>
                 </div>
+
+                {{-- Flash message inline --}}
+                @if(session('status'))
+                    <div class="mt-4 p-3 rounded-xl text-xs font-bold flex items-center gap-2
+                        {{ session('status_type') === 'success' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : '' }}
+                        {{ session('status_type') === 'warning' ? 'bg-amber-50 text-amber-800 border border-amber-200' : '' }}
+                        {{ session('status_type') === 'info' ? 'bg-blue-50 text-blue-800 border border-blue-200' : '' }}">
+                        <i class="fa-solid {{ session('status_type') === 'success' ? 'fa-circle-check text-emerald-600' : (session('status_type') === 'warning' ? 'fa-triangle-exclamation text-amber-600' : 'fa-circle-info text-blue-600') }}"></i>
+                        {{ session('status') }}
+                    </div>
+                @endif
 
                 <form action="{{ route('kecamatan.validation.update', $activeTicket->id_laporan) }}" method="POST" class="mt-4 flex flex-col gap-5">
                     @csrf
@@ -277,16 +292,16 @@
 
                     <!-- Option Cards (ACC vs REJECT) -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        
+
                         <!-- Option 1: ACC -->
-                        <div @click="decisionAction = 'acc'" 
+                        <div @click="decisionAction = 'acc'"
                              :class="decisionAction === 'acc' ? 'border-emerald-500 bg-emerald-50/50 ring-2 ring-emerald-500' : 'border-slate-200 bg-white hover:border-slate-300'"
                              class="p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold" :class="decisionAction === 'acc' ? 'text-emerald-900' : 'text-slate-800'">
                                     ACC — Teruskan ke PUPR
                                 </span>
-                                <div class="w-5 h-5 rounded-full flex items-center justify-center border" 
+                                <div class="w-5 h-5 rounded-full flex items-center justify-center border"
                                      :class="decisionAction === 'acc' ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 bg-white'">
                                     <i class="fa-solid fa-check text-[10px]" x-show="decisionAction === 'acc'"></i>
                                 </div>
@@ -297,14 +312,14 @@
                         </div>
 
                         <!-- Option 2: Reject -->
-                        <div @click="decisionAction = 'reject'" 
+                        <div @click="decisionAction = 'reject'"
                              :class="decisionAction === 'reject' ? 'border-red-500 bg-red-50/50 ring-2 ring-red-500' : 'border-slate-200 bg-white hover:border-slate-300'"
                              class="p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold" :class="decisionAction === 'reject' ? 'text-red-900' : 'text-slate-800'">
                                     REJECT — Tolak Aduan Warga
                                 </span>
-                                <div class="w-5 h-5 rounded-full flex items-center justify-center border" 
+                                <div class="w-5 h-5 rounded-full flex items-center justify-center border"
                                      :class="decisionAction === 'reject' ? 'bg-red-600 border-red-600 text-white' : 'border-slate-300 bg-white'">
                                     <i class="fa-solid fa-xmark text-[10px]" x-show="decisionAction === 'reject'"></i>
                                 </div>
@@ -321,17 +336,24 @@
                         <div class="flex items-center justify-between mb-1.5">
                             <label class="block text-xs font-bold text-slate-700">
                                 Catatan Verifikator Kecamatan
+                                <span class="text-red-500 text-[10px] font-semibold">* (Wajib diisi, tidak boleh simbol)</span>
                             </label>
                             <span class="text-[10px] text-slate-400 font-mono">
                                 <span x-text="charCount"></span> karakter
                             </span>
                         </div>
-                        <textarea name="catatan" 
-                                  rows="3" 
+                        <textarea name="catatan"
+                                  rows="3"
                                   @input="charCount = $el.value.length"
                                   oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\n\r.,!?\-()]/g, '')"
-                                  class="w-full text-xs font-medium text-slate-800 bg-white border border-slate-300 rounded-xl p-3 focus:outline-none focus:border-brand-500 leading-relaxed"
-                                  placeholder="Tuliskan catatan teknis dan arahan penanganan..."></textarea>
+                                  class="w-full text-xs font-medium text-slate-800 bg-white border rounded-xl p-3 focus:outline-none focus:border-brand-500 leading-relaxed {{ $errors->has('catatan') ? 'border-red-400 bg-red-50/30' : 'border-slate-300' }}"
+                                  placeholder="Tuliskan catatan teknis dan arahan penanganan (wajib diisi, tanpa simbol)...">{{ old('catatan') }}</textarea>
+                        @error('catatan')
+                            <div class="mt-1.5 flex items-center gap-1.5 text-red-600 text-[11px] font-semibold">
+                                <i class="fa-solid fa-circle-exclamation text-[10px]"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
                     </div>
 
                     <!-- Digital Verification Badge -->
@@ -347,23 +369,14 @@
                         </span>
                     </div>
 
-                    <!-- Form Action Buttons -->
-                    <div class="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2">
-                        
-                        <button type="submit" 
-                                @click="decisionAction = 'reject'" 
-                                class="w-full sm:w-auto px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold rounded-xl border border-red-200 shadow-2xs transition-colors flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-xmark text-xs"></i>
-                            <span>Tolak & Kembalikan ke Warga</span>
+                    <!-- Form Action Button -->
+                    <div class="flex items-center justify-end gap-3 pt-2">
+                        <button type="submit"
+                                :class="decisionAction === 'acc' ? 'bg-brand-600 hover:bg-brand-700' : 'bg-red-600 hover:bg-red-700'"
+                                class="w-full sm:w-auto px-6 py-2.5 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer">
+                            <i class="fa-solid" :class="decisionAction === 'acc' ? 'fa-paper-plane' : 'fa-xmark'"></i>
+                            <span x-text="decisionAction === 'acc' ? 'Submit Disposisi (ACC ke Dinas PUPR)' : 'Submit Keputusan (Tolak Aduan)'">Submit Keputusan</span>
                         </button>
-
-                        <button type="submit" 
-                                @click="decisionAction = 'acc'" 
-                                class="w-full sm:w-auto px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-paper-plane text-xs"></i>
-                            <span>Kirim Disposisi ACC ke Dinas PUPR</span>
-                        </button>
-
                     </div>
 
                 </form>
@@ -419,7 +432,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         const lat = {{ $activeTicket->latitude }};
         const lng = {{ $activeTicket->longitude }};
-        
+
         const map = L.map('ticketMap', {
             zoomControl: false,
             attributionControl: false

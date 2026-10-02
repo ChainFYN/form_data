@@ -58,18 +58,18 @@
 
         <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32">
             <div class="flex items-start justify-between">
-                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SELESAI / DITOLAK</div>
-                <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center border border-slate-200">
+                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SELESAI DIVERIFIKASI</div>
+                <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
                     <i class="fa-solid fa-check-double text-xs"></i>
                 </div>
             </div>
             <div class="flex items-baseline gap-2">
-                <div class="text-4xl font-extrabold text-slate-900">{{ $totalResolvedRuas + $ditolakCount }}</div>
-                <div class="text-xs font-bold text-slate-500">Total Tiket</div>
+                <div class="text-4xl font-extrabold text-slate-900">{{ $totalResolvedRuas }}</div>
+                <div class="text-xs font-bold text-slate-500">Tiket BAST Selesai</div>
             </div>
             <div class="flex justify-between items-center text-[10px] font-bold mt-2">
-                <span class="text-emerald-700">{{ $totalResolvedRuas }} Selesai</span>
-                <span class="text-red-700">{{ $ditolakCount }} Ditolak</span>
+                <span class="text-emerald-700 font-semibold">Telah Terbit ke Warga</span>
+                <span class="text-slate-500">{{ $ditolakCount }} Ditolak</span>
             </div>
         </div>
 

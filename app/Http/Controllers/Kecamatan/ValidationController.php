@@ -83,12 +83,26 @@ class ValidationController extends Controller
         $laporan = Laporan::findOrFail($id);
         $kecamatanId = Session::get('kecamatan_id');
         $action = $request->input('action', 'acc');
+        $catatan = trim((string) $request->input('catatan', ''));
+
+        // 1. Validasi catatan wajib diisi (baik ACC maupun Reject)
+        if ($catatan === '') {
+            return redirect()
+                ->route('kecamatan.validation.index', ['ticket' => $laporan->id_laporan])
+                ->withInput()
+                ->withErrors(['catatan' => 'Catatan verifikator kecamatan wajib diisi.']);
+        }
+
+        // 2. Validasi catatan tidak boleh mengandung simbol khusus
+        // Hanya huruf, angka, spasi, enter, dan tanda baca standar (. , - ? ! ())
+        if (! preg_match('/^[a-zA-Z0-9\s.,!?\-()]+$/u', $catatan)) {
+            return redirect()
+                ->route('kecamatan.validation.index', ['ticket' => $laporan->id_laporan])
+                ->withInput()
+                ->withErrors(['catatan' => 'Catatan tidak boleh mengandung simbol. Hanya huruf, angka, spasi, dan tanda baca umum (. , - ? ! ()) yang diperbolehkan.']);
+        }
 
         if ($action === 'acc') {
-            $request->validate([
-                'catatan' => 'required|string|min:10',
-            ]);
-
             // Update status ke Diproses (id_status = 2)
             $laporan->update(['id_status' => 2]);
 
@@ -98,7 +112,7 @@ class ValidationController extends Controller
                 [
                     'id_pengguna' => $kecamatanId,
                     'status_valid' => 'VALID',
-                    'catatan' => $request->input('catatan'),
+                    'catatan' => $catatan,
                 ]
             );
 
@@ -113,7 +127,7 @@ class ValidationController extends Controller
                 [
                     'id_pengguna' => $kecamatanId,
                     'status_valid' => 'TIDAK_VALID',
-                    'catatan' => $request->input('catatan', 'Laporan tidak memenuhi ketentuan.'),
+                    'catatan' => $catatan,
                 ]
             );
 

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Pupr;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Laporan;
+use App\Models\LogProses;
+use Illuminate\Http\Request;
 
 class ProgresController extends Controller
 {
@@ -36,13 +37,13 @@ class ProgresController extends Controller
         ]);
 
         $laporan = Laporan::findOrFail($id);
-        
+
         // Simpan log proses (draft / update)
         $logData = [
             'id_laporan' => $laporan->id_laporan,
             'id_pengguna' => session('pupr_id') ?? 1, // atau auth user id jika ada
             'id_status' => $laporan->id_status,
-            'catatan_update' => "Progres " . $request->persentase_capaian . "%: " . $request->catatan,
+            'catatan_update' => 'Progres '.$request->persentase_capaian.'%: '.$request->catatan,
         ];
 
         if ($request->hasFile('foto_progres')) {
@@ -50,12 +51,14 @@ class ProgresController extends Controller
             $logData['url_foto_selesai'] = $path;
         }
 
-        \App\Models\LogProses::create($logData);
-        
+        LogProses::create($logData);
+
         if ($request->persentase_capaian == 100) {
-            $laporan->id_status = 3; // Selesai / Menunggu Verifikasi BAST
+            $laporan->id_status = 2; // Tetap Diproses sampai BAST diverifikasi Camat
+            $laporan->status_bast = 'MENUNGGU_VERIFIKASI';
             $laporan->save();
-            return redirect()->route('pupr.dashboard')->with('success', 'Laporan diselesaikan dan dikirim ke BAST Kecamatan.');
+
+            return redirect()->route('pupr.dashboard')->with('success', 'Laporan diselesaikan dan dikirim ke BAST Kecamatan (Menunggu Validasi Camat).');
         }
 
         // Jika belum 100%

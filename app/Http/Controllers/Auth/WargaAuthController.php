@@ -20,11 +20,22 @@ class WargaAuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'login' => 'required',
             'password' => 'required',
+        ], [
+            'login.required' => 'NIK atau Email wajib diisi.',
         ]);
 
-        $user = Pengguna::where('email', $request->email)->first();
+        $loginValue = $request->login;
+
+        // Tentukan apakah login pakai NIK (16 digit angka) atau email
+        if (preg_match('/^\d{16}$/', $loginValue)) {
+            // Login sebagai Warga dengan NIK
+            $user = Pengguna::where('nik', $loginValue)->first();
+        } else {
+            // Login sebagai Admin (Kecamatan/PUPR) dengan email
+            $user = Pengguna::where('email', $loginValue)->first();
+        }
 
         if ($user && Hash::check($request->password, $user->password)) {
             if ($user->id_peran == 1) {
@@ -44,10 +55,10 @@ class WargaAuthController extends Controller
                 return redirect()->route('kecamatan.dashboard')->with('success', 'Selamat datang Admin Kecamatan, '.$user->nama_lengkap);
             }
 
-            return back()->withErrors(['email' => 'Role tidak sesuai dengan akun Anda.']);
+            return back()->withErrors(['login' => 'Role tidak sesuai dengan akun Anda.']);
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah.']);
+        return back()->withErrors(['login' => 'NIK/Email atau password salah.']);
     }
 
     public function showRegisterForm()
@@ -58,19 +69,19 @@ class WargaAuthController extends Controller
         return view('auth.warga.register', compact('kecamatan', 'desaGrouped'));
     }
 
-public function register(Request $request)
+    public function register(Request $request)
     {
         $request->validate([
-            'username' => ['required', 'alpha', 'max:10', 'unique:pengguna,username'],
+            'nik' => ['required', 'digits:16', 'unique:pengguna,nik'],
             // Menggunakan regex khusus agar hanya menerima domain @gmail.com
             'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/', 'unique:pengguna,email', 'max:100'],
             'password' => ['required', 'min:8', 'max:12', 'confirmed'],
             'nama_lengkap' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:100'],
-            'telepon' => ['required', 'digits_between:12,15'],
+            'telepon' => ['required', 'digits_between:11,12'],
             'id_desa' => ['required', 'exists:desa,id_desa'],
         ], [
-            'username.alpha' => 'Username hanya boleh berisi huruf.',
-            'username.max' => 'Username maksimal 10 karakter.',
+            'nik.digits' => 'NIK harus terdiri dari 16 digit angka.',
+            'nik.unique' => 'NIK sudah terdaftar di sistem.',
             // Pesan error khusus untuk email yang bukan @gmail.com
             'email.regex' => 'Pendaftaran akun wajib menggunakan email berdomain @gmail.com.',
             'nama_lengkap.regex' => 'Nama lengkap hanya boleh berisi huruf.',
@@ -79,7 +90,7 @@ public function register(Request $request)
         ]);
 
         $user = Pengguna::create([
-            'username' => $request->username,
+            'nik' => $request->nik,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'nama_lengkap' => $request->nama_lengkap,

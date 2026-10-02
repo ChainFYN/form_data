@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Laporan extends Model
 {
     protected $table = 'laporan';
+
     protected $primaryKey = 'id_laporan';
-    
+
     protected $fillable = [
-        'id_pengguna', 'id_jalan', 'id_kategori', 'id_status', 
-        'deskripsi', 'latitude', 'longitude', 'url_foto', 'tingkat_bahaya'
+        'id_pengguna', 'id_jalan', 'id_kategori', 'id_status',
+        'deskripsi', 'latitude', 'longitude', 'url_foto', 'tingkat_bahaya',
+        'status_bast', 'catatan_bast', 'tgl_verifikasi_bast',
     ];
 
     public function pengguna()

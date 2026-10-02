@@ -17,7 +17,7 @@
             <div class="bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl p-4 mb-6 space-y-1">
                 <div class="flex items-center gap-2 font-bold mb-1">
                     <i class="fa-solid fa-circle-exclamation text-red-500"></i>
-                    <span>Terdapat kesalahan pengisian data:</span>
+                    <span>Terdapat kesalahan pengisian data loh rek:</span>
                 </div>
                 <ul class="list-disc pl-5 space-y-0.5">
                     @foreach ($errors->all() as $error)
@@ -31,21 +31,22 @@
             @csrf
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <!-- Username -->
+                <!-- NIK -->
                 <div>
-                    <label for="username" class="block text-xs font-bold text-slate-700 mb-1.5">
-                        Username <span class="text-red-500">*</span>
+                    <label for="nik" class="block text-xs font-bold text-slate-700 mb-1.5">
+                        NIK (Nomor Induk Kependudukan) <span class="text-red-500">*</span>
                     </label>
                     <input type="text" 
-                           name="username" 
-                           id="username" 
-                           value="{{ old('username') }}" 
-                           maxlength="10" 
+                           name="nik" 
+                           id="nik" 
+                           value="{{ old('nik') }}" 
+                           maxlength="16" 
+                           minlength="16"
                            required 
-                           placeholder="Maks 10 huruf" 
-                           oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')"
+                           placeholder="16 digit angka NIK" 
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                            class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
-                    <span class="text-[10px] text-slate-400 block mt-1">Hanya huruf alfabet, maks. 10 karakter.</span>
+                    <span class="text-[10px] text-slate-400 block mt-1">Hanya angka, harus 16 digit sesuai KTP.</span>
                 </div>
 
                 <!-- Email -->

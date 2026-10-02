@@ -27,8 +27,9 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" name="username" id="username" class="form-label mb-1 form-control" value="{{ old('username') }}" required>
+                            <label for="nik" class="form-label">NIK</label>
+                            <input type="text" name="nik" id="nik" class="form-label mb-1 form-control" value="{{ old('nik') }}" maxlength="16" minlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                            <small class="text-muted">16 digit angka sesuai KTP.</small>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="email" class="form-label">Email</label>

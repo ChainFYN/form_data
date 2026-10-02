@@ -16,11 +16,11 @@
         <!-- Top Right Tabs -->
         <div class="flex items-center gap-3 shrink-0">
             <a href="{{ route('kecamatan.validation.index') }}" class="px-4 py-2 bg-slate-100 text-slate-600 font-bold text-xs rounded-xl hover:bg-slate-200 transition-colors">
-                Validasi Aduan Awal (2)
+                Validasi Aduan Awal
             </a>
-            <a href="#" class="px-4 py-2 bg-slate-900 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-2">
+            <a href="{{ route('kecamatan.bast.index') }}" class="px-4 py-2 bg-slate-900 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-2">
                 <span>Verifikasi BAST PUPR</span>
-                <span class="bg-amber-400 text-slate-900 px-1.5 py-0.5 rounded text-[10px]">2 Baru</span>
+                <span class="bg-amber-400 text-slate-900 px-1.5 py-0.5 rounded text-[10px]">{{ $laporan_bast->count() }} Baru</span>
             </a>
         </div>
     </div>
@@ -56,7 +56,7 @@
             <div class="flex flex-col gap-3 max-h-[750px] overflow-y-auto pr-1 custom-scrollbar">
                 
                 @forelse($laporan_bast as $bast)
-                <a href="#" class="p-4 rounded-2xl border transition-all text-left block relative {{ $loop->first ? 'bg-emerald-50/40 border-amber-500 shadow-sm ring-1 ring-amber-500' : 'bg-white border-slate-200 hover:border-slate-300' }}">
+                <a href="{{ route('kecamatan.bast.index', ['ticket' => $bast->id_laporan]) }}" class="p-4 rounded-2xl border transition-all text-left block relative {{ (isset($activeBast) && $activeBast->id_laporan == $bast->id_laporan) ? 'bg-emerald-50/40 border-amber-500 shadow-sm ring-1 ring-amber-500' : 'bg-white border-slate-200 hover:border-slate-300' }}">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-1.5">
                             <span class="font-mono text-xs font-bold text-slate-900">LP-{{ date('Y') }}-{{ str_pad($bast->id_laporan, 4, '0', STR_PAD_LEFT) }}</span>
@@ -90,8 +90,15 @@
 
         <!-- RIGHT COLUMN: TICKET INSPECTION & DISPOSITION -->
         <div class="lg:col-span-8 flex flex-col gap-6">
-            @if($laporan_bast->count() > 0)
-            @php $activeBast = $laporan_bast->first(); @endphp
+            @if(session('status'))
+                <div class="p-4 rounded-xl text-xs font-bold flex items-center gap-2 
+                    {{ session('status_type') === 'success' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-amber-50 text-amber-800 border border-amber-200' }}">
+                    <i class="fa-solid {{ session('status_type') === 'success' ? 'fa-circle-check text-emerald-600' : 'fa-triangle-exclamation text-amber-600' }}"></i>
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            @if(isset($activeBast))
             <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs">
                 <h2 class="text-xl font-extrabold text-slate-900 mb-1">Detail Berkas BAST LP-{{ date('Y') }}-{{ str_pad($activeBast->id_laporan, 4, '0', STR_PAD_LEFT) }}</h2>
                 <p class="text-xs text-slate-500 font-medium">Klasifikasi: {{ $activeBast->kategori->nama_kategori ?? 'Lainnya' }}</p>
@@ -136,8 +143,14 @@
                         </div>
                         <div class="border border-emerald-200 p-2 rounded-xl bg-emerald-50/20">
                             <div class="relative rounded-lg overflow-hidden h-40 bg-slate-100 flex items-center justify-center text-slate-400 text-xs">
-                                <!-- Asumsikan foto progres disimpan atau ditampilkan dari tabel log -->
-                                [Foto Progres PUPR]
+                                @php
+                                    $fotoSelesai = $activeBast->logProses->whereNotNull('url_foto_selesai')->last()?->url_foto_selesai;
+                                @endphp
+                                @if($fotoSelesai)
+                                    <img src="{{ asset('storage/' . $fotoSelesai) }}" alt="Selesai" class="w-full h-full object-cover">
+                                @else
+                                    <span class="text-slate-400 text-xs">Foto Progres 100% Tersimpan</span>
+                                @endif
                                 <div class="absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-1 rounded">SELESAI (100%)</div>
                             </div>
                         </div>
@@ -206,16 +219,19 @@
             </div>
 
             <!-- ACTION FORM -->
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs" x-data="{ decisionAction: 'acc' }">
+            <form action="{{ route('kecamatan.bast.update', $activeBast->id_laporan) }}" method="POST" class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs" x-data="{ decisionAction: 'acc' }">
+                @csrf
+                <input type="hidden" name="action" :value="decisionAction">
+
                 <div class="flex items-start justify-between mb-4 border-b border-slate-100 pb-4">
                     <div>
                         <h3 class="text-sm font-extrabold text-slate-900">Keputusan Verifikator Kecamatan (Aksi Akhir BAST)</h3>
                         <p class="text-[11px] text-slate-500 mt-1">Tentukan status verifikasi akhir berkas BAST untuk penutupan laporan warga & penyerahan hasil fisik secara resmi.</p>
                     </div>
-                    <div class="text-[10px] font-bold bg-amber-100 text-amber-900 px-2 py-1 rounded border border-amber-200 shrink-0">Kewenangan Kasie Ekbang</div>
+                    <div class="text-[10px] font-bold bg-amber-100 text-amber-900 px-2 py-1 rounded border border-amber-200 shrink-0">Kewenangan Camat / Kasie Ekbang</div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                     <div @click="decisionAction = 'acc'" 
                          :class="decisionAction === 'acc' ? 'border-amber-500 bg-amber-50 ring-1 ring-amber-500' : 'border-slate-200 bg-white hover:border-slate-300'"
                          class="p-4 rounded-xl border cursor-pointer transition-all">
@@ -247,25 +263,27 @@
                         <label class="text-xs font-bold text-slate-900">Catatan Pemeriksaan & Berita Acara Kecamatan:</label>
                         <span class="text-[10px] text-slate-400">Tercantum pada surat tembusan warga & arsip Pemkab</span>
                     </div>
-                    <textarea class="w-full text-xs text-slate-700 border border-slate-300 rounded-xl p-3 focus:outline-none focus:border-amber-500 bg-slate-50" rows="4">Telah dilakukan uji petik visual dan pengecekan lokasi bersama perwakilan RT 02 / RW 05 Kelurahan Sukamaju pada tanggal 26 September 2026. Pekerjaan perbaikan lapis Laston AC-WC telah memenuhi standar teknis jalan Kecamatan, permukaan rata, dan aliran drainase berfungsi normal tanpa genangan. Berita Acara Serah Terima (BAST) disetujui untuk diteruskan dan diarsipkan ke dalam sistem informasi pelaporan warga.</textarea>
+                    <textarea name="catatan" class="w-full text-xs text-slate-700 border border-slate-300 rounded-xl p-3 focus:outline-none focus:border-amber-500 bg-slate-50" rows="4">Telah dilakukan uji petik visual dan pengecekan lokasi bersama perwakilan warga. Pekerjaan perbaikan lapis Laston AC-WC telah memenuhi standar teknis jalan Kecamatan, permukaan rata, dan aliran drainase berfungsi normal tanpa genangan. Berita Acara Serah Terima (BAST) disetujui untuk diteruskan dan diarsipkan ke dalam sistem informasi pelaporan warga.</textarea>
                 </div>
 
                 <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 mb-6">
                     <div class="w-8 h-8 rounded bg-emerald-700 text-white font-bold flex items-center justify-center text-xs">DG</div>
                     <div>
-                        <div class="text-xs font-bold text-slate-900">Dra. Siti Rahmawati <span class="text-[10px] text-slate-500 font-normal ml-1">NIP. 19790815 200604 2 015</span></div>
-                        <div class="text-[10px] text-slate-500">Kasie Pembangunan & Pemberdayaan Masyarakat Kec. Cibinong</div>
+                        <div class="text-xs font-bold text-slate-900">{{ session('kecamatan_name', 'Dra. Siti Rahmawati') }} <span class="text-[10px] text-slate-500 font-normal ml-1">Otoritas Verifikasi BAST</span></div>
+                        <div class="text-[10px] text-slate-500">Kantor Kecamatan - Pemeriksaan & Serah Terima Hasil Rekonstruksi</div>
                     </div>
                 </div>
 
+                <!-- Form Action Button -->
                 <div class="flex items-center justify-end gap-3 border-t border-slate-100 pt-4">
-                    <button class="px-4 py-2 text-xs font-bold text-slate-600 bg-white border border-slate-300 rounded-xl hover:bg-slate-50">Simpan Draf Pemeriksaan</button>
-                    <button class="px-4 py-2 text-xs font-bold text-red-600 bg-white border border-red-200 hover:bg-red-50 rounded-xl">Tolak & Kembalikan ke PUPR</button>
-                    <button class="px-5 py-2 text-xs font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-sm flex items-center gap-2">
-                        <i class="fa-solid fa-check-double text-[10px]"></i> Verifikasi BAST & Kirim ke Warga
+                    <button type="submit" 
+                            :class="decisionAction === 'acc' ? 'bg-amber-500 hover:bg-amber-600' : 'bg-red-600 hover:bg-red-700'"
+                            class="w-full sm:w-auto px-6 py-2.5 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer">
+                        <i class="fa-solid" :class="decisionAction === 'acc' ? 'fa-check-double text-[11px]' : 'fa-xmark text-xs'"></i>
+                        <span x-text="decisionAction === 'acc' ? 'Submit Verifikasi BAST & Kirim ke Warga' : 'Submit Keputusan (Tolak & Kembalikan ke PUPR)'">Submit Keputusan BAST</span>
                     </button>
                 </div>
-            </div>
+            </form>
             @else
             <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs text-center py-20 text-slate-500">
                 Belum ada laporan yang diselesaikan dan siap untuk diverifikasi BAST.

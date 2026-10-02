@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -34,26 +33,26 @@ class PenggunaSeeder extends Seeder
 
         DB::table('pengguna')->insert([
             [
-                'username'     => 'camat',
-                'email'        => 'camat@example.com',
-                'password'     => Hash::make('password123'),
+                'nik' => '3509012345678901',
+                'email' => 'camat@example.com',
+                'password' => Hash::make('password123'),
                 'nama_lengkap' => 'Administrator Kecamatan',
-                'telepon'      => '081234567890',
-                'id_peran'     => $idPeranKecamatan,
-                'id_desa'      => null,
-                'created_at'   => now(),
-                'updated_at'   => now(),
+                'telepon' => '081234567890',
+                'id_peran' => $idPeranKecamatan,
+                'id_desa' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'username'     => 'pupr',
-                'email'        => 'pupr@example.com',
-                'password'     => Hash::make('password123'),
+                'nik' => '3509012345678902',
+                'email' => 'pupr@example.com',
+                'password' => Hash::make('password123'),
                 'nama_lengkap' => 'Operator PUPR',
-                'telepon'      => '081234567891',
-                'id_peran'     => $idPeranPUPR,
-                'id_desa'      => $idDesa,
-                'created_at'   => now(),
-                'updated_at'   => now(),
+                'telepon' => '081234567891',
+                'id_peran' => $idPeranPUPR,
+                'id_desa' => $idDesa,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }

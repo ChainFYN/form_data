@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Desa;
 use App\Models\Pengguna;
 use App\Models\Peran;
-use App\Models\Desa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,6 +14,7 @@ class PenggunaController extends Controller
     public function index()
     {
         $pengguna = Pengguna::with(['peran', 'desa'])->get();
+
         return view('pengguna.index', compact('pengguna'));
     }
 
@@ -22,6 +23,7 @@ class PenggunaController extends Controller
     {
         $peran = Peran::all();
         $desa = Desa::all();
+
         return view('pengguna.create', compact('peran', 'desa'));
     }
 
@@ -29,7 +31,7 @@ class PenggunaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|unique:pengguna,username|max:50',
+            'nik' => 'required|digits:16|unique:pengguna,nik',
             'email' => 'required|email|unique:pengguna,email|max:100',
             'password' => 'required|min:6',
             'nama_lengkap' => 'required|max:100',
@@ -38,7 +40,7 @@ class PenggunaController extends Controller
         ]);
 
         Pengguna::create([
-            'username' => $request->username,
+            'nik' => $request->nik,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'nama_lengkap' => $request->nama_lengkap,
@@ -56,6 +58,7 @@ class PenggunaController extends Controller
         $pengguna = Pengguna::findOrFail($id);
         $peran = Peran::all();
         $desa = Desa::all();
+
         return view('pengguna.edit', compact('pengguna', 'peran', 'desa'));
     }
 
@@ -65,15 +68,15 @@ class PenggunaController extends Controller
         $pengguna = Pengguna::findOrFail($id);
 
         $request->validate([
-            'username' => 'required|max:50|unique:pengguna,username,' . $id . ',id_pengguna',
-            'email' => 'required|email|max:100|unique:pengguna,email,' . $id . ',id_pengguna',
+            'nik' => 'required|digits:16|unique:pengguna,nik,'.$id.',id_pengguna',
+            'email' => 'required|email|max:100|unique:pengguna,email,'.$id.',id_pengguna',
             'nama_lengkap' => 'required|max:100',
             'id_peran' => 'required|exists:peran,id_peran',
             'id_desa' => 'nullable|exists:desa,id_desa',
         ]);
 
         $data = [
-            'username' => $request->username,
+            'nik' => $request->nik,
             'email' => $request->email,
             'nama_lengkap' => $request->nama_lengkap,
             'telepon' => $request->telepon,

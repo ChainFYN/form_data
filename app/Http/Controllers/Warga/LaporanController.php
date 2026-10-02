@@ -60,13 +60,39 @@ class LaporanController extends Controller
             'longitude' => 'nullable',
         ]);
 
+        $wargaId = Session::get('warga_id');
+
+        // Cek duplikasi laporan: field isian dan file foto yang sama persis
+        $duplicateQuery = Laporan::where('id_pengguna', $wargaId)
+            ->where('id_jalan', $request->id_jalan)
+            ->where('id_kategori', $request->id_kategori)
+            ->where('tingkat_bahaya', $request->tingkat_bahaya)
+            ->where('deskripsi', $request->deskripsi);
+
+        if ($request->hasFile('foto')) {
+            $uploadedFileHash = md5_file($request->file('foto')->getRealPath());
+
+            $existingLaporan = $duplicateQuery->get();
+
+            foreach ($existingLaporan as $laporan) {
+                $existingFilePath = storage_path('app/public/'.$laporan->url_foto);
+
+                if (file_exists($existingFilePath) && md5_file($existingFilePath) === $uploadedFileHash) {
+                    return back()
+                        ->withInput()
+                        ->withErrors(['duplikat' => 'Laporan dengan data dan foto yang sama persis sudah pernah Anda kirim sebelumnya. Silakan ubah isian atau gunakan foto yang berbeda.']);
+                }
+            }
+        }
+
+        // Jika tidak ada duplikat, simpan foto dan buat laporan
         $fotoPath = null;
         if ($request->hasFile('foto')) {
             $fotoPath = $request->file('foto')->store('laporan', 'public');
         }
 
         Laporan::create([
-            'id_pengguna' => Session::get('warga_id'),
+            'id_pengguna' => $wargaId,
             'id_jalan' => $request->id_jalan,
             'id_kategori' => $request->id_kategori,
             'tingkat_bahaya' => $request->tingkat_bahaya,
