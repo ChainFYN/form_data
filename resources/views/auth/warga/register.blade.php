@@ -36,14 +36,14 @@
                     <label for="nik" class="block text-xs font-bold text-slate-700 mb-1.5">
                         NIK (Nomor Induk Kependudukan) <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" 
-                           name="nik" 
-                           id="nik" 
-                           value="{{ old('nik') }}" 
-                           maxlength="16" 
+                    <input type="text"
+                           name="nik"
+                           id="nik"
+                           value="{{ old('nik') }}"
+                           maxlength="16"
                            minlength="16"
-                           required 
-                           placeholder="16 digit angka NIK" 
+                           required
+                           placeholder="16 digit angka NIK"
                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                            class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                     <span class="text-[10px] text-slate-400 block mt-1">Hanya angka, harus 16 digit sesuai KTP.</span>
@@ -54,12 +54,12 @@
                     <label for="email" class="block text-xs font-bold text-slate-700 mb-1.5">
                         Alamat Email <span class="text-red-500">*</span>
                     </label>
-                    <input type="email" 
-                           name="email" 
-                           id="email" 
-                           value="{{ old('email') }}" 
-                           required 
-                           placeholder="nama@email.com" 
+                    <input type="email"
+                           name="email"
+                           id="email"
+                           value="{{ old('email') }}"
+                           required
+                           placeholder="nama@email.com"
                            class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                 </div>
             </div>
@@ -70,14 +70,14 @@
                     <label for="nama_lengkap" class="block text-xs font-bold text-slate-700 mb-1.5">
                         Nama Lengkap (sesuai KTP) <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" 
-                           name="nama_lengkap" 
-                           id="nama_lengkap" 
-                           value="{{ old('nama_lengkap') }}" 
-                           maxlength="50" 
-                           required 
+                    <input type="text"
+                           name="nama_lengkap"
+                           id="nama_lengkap"
+                           value="{{ old('nama_lengkap') }}"
+                           maxlength="50"
+                           required
                            placeholder="Nama Lengkap Anda"
-                           oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" 
+                           oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
                            class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                     <span class="text-[10px] text-slate-400 block mt-1">Hanya huruf dan spasi.</span>
                 </div>
@@ -91,15 +91,15 @@
                         <span class="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-slate-200 bg-slate-100 text-slate-600 text-xs font-bold">
                             +62
                         </span>
-                        <input type="text" 
-                               name="telepon" 
-                               id="telepon" 
-                               value="{{ old('telepon') }}" 
-                               minlength="11" 
-                               maxlength="12" 
-                               required 
-                               placeholder="81234567890" 
-                               onkeypress="return event.charCode >= 48 && event.charCode <= 57" 
+                        <input type="text"
+                               name="telepon"
+                               id="telepon"
+                               value="{{ old('telepon') }}"
+                               minlength="11"
+                               maxlength="12"
+                               required
+                               placeholder="81234567890"
+                               onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                class="w-full py-2.5 px-3 text-xs rounded-r-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                     </div>
                     <span class="text-[10px] text-slate-400 block mt-1">11-12 digit angka (tanpa 0 di depan).</span>
@@ -137,13 +137,13 @@
                     <label for="password" class="block text-xs font-bold text-slate-700 mb-1.5">
                         Kata Sandi <span class="text-red-500">*</span>
                     </label>
-                    <input type="password" 
-                           name="password" 
-                           id="password" 
-                           minlength="8" 
-                           maxlength="12" 
-                           required 
-                           placeholder="8 - 12 karakter" 
+                    <input type="password"
+                           name="password"
+                           id="password"
+                           minlength="8"
+                           maxlength="12"
+                           required
+                           placeholder="8 - 12 karakter"
                            class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                 </div>
 
@@ -152,13 +152,13 @@
                     <label for="password_confirmation" class="block text-xs font-bold text-slate-700 mb-1.5">
                         Ulangi Kata Sandi <span class="text-red-500">*</span>
                     </label>
-                    <input type="password" 
-                           name="password_confirmation" 
-                           id="password_confirmation" 
-                           minlength="8" 
-                           maxlength="12" 
-                           required 
-                           placeholder="Ketik ulang kata sandi" 
+                    <input type="password"
+                           name="password_confirmation"
+                           id="password_confirmation"
+                           minlength="8"
+                           maxlength="12"
+                           required
+                           placeholder="Ketik ulang kata sandi"
                            class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 bg-slate-50 text-slate-800 placeholder-slate-400">
                 </div>
             </div>
@@ -173,7 +173,7 @@
 
         <div class="mt-6 pt-5 border-t border-slate-100 text-center">
             <p class="text-xs text-slate-500">
-                Sudah memiliki akun warga? 
+                Sudah memiliki akun warga?
                 <a href="{{ route('warga.login') }}" class="font-bold text-slate-900 hover:text-brand-600 transition">
                     Masuk ke sini &rarr;
                 </a>
@@ -186,12 +186,12 @@
 @push('scripts')
 <script>
     const desaData = @json($desaGrouped);
-    
+
     $('#id_kecamatan').on('change', function() {
         const idKec = $(this).val();
         const desaSelect = $('#id_desa');
         desaSelect.empty().append('<option value="" disabled selected>Pilih Kelurahan/Desa</option>');
-        
+
         if (desaData[idKec]) {
             desaData[idKec].forEach(function(d) {
                 desaSelect.append(`<option value="${d.id_desa}">${d.nama_desa}</option>`);
