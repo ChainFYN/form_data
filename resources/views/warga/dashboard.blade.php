@@ -6,14 +6,11 @@
 <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- WELCOME BANNER -->
-    <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-6 sm:p-8 text-white mb-8 shadow-sm relative overflow-hidden">
-        <div class="absolute -right-10 -bottom-10 opacity-10 text-white pointer-events-none">
-            <i class="fa-solid fa-users text-9xl"></i>
-        </div>
+    <div class="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white mb-8 shadow-sm relative overflow-hidden">
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold mb-3 border border-emerald-500/30">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-sky-100 text-xs font-semibold mb-3 border border-white/30">
+                    <span class="w-2 h-2 rounded-full bg-sky-300 animate-pulse"></span>
                     Portal Warga Pelapor SIGAP
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
@@ -24,7 +21,7 @@
                 </p>
             </div>
             <div class="flex items-center gap-3 shrink-0">
-                <a href="{{ route('warga.laporan.create') }}" class="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-emerald-500/20">
+                <a href="{{ route('warga.laporan.create') }}" class="px-5 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-black/10">
                     <i class="fa-solid fa-circle-plus"></i>
                     <span>Buat Laporan Baru</span>
                 </a>
@@ -238,69 +235,56 @@
         <!-- RIGHT: INFORMASI & PANDUAN WARGA -->
         <div class="flex flex-col gap-6">
 
-            <!-- Card Buat Laporan Cepat -->
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs">
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center">
-                        <i class="fa-solid fa-road-barrier text-lg"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-extrabold text-slate-900 leading-tight">Laporkan Kerusakan Jalan</h3>
-                        <p class="text-[11px] text-slate-500">Ambil foto & tentukan titik lokasi</p>
-                    </div>
-                </div>
-                <p class="text-xs text-slate-600 leading-relaxed mb-4">
-                    Sistem SIGAP mempercepat respon penanganan kerusakan jalan di Kabupaten Jember dengan menghubungkan aduan Anda ke Kantor Kecamatan dan Dinas PUPR.
-                </p>
-                <a href="{{ route('warga.laporan.create') }}" class="w-full py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs">
-                    <i class="fa-solid fa-camera"></i>
-                    <span>Kirim Aduan Baru</span>
-                </a>
-            </div>
 
             <!-- Card Alur Penanganan Stepper -->
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Alur Kerja Penanganan SIGAP</h3>
-                <ol class="relative border-l border-slate-200 ml-3 space-y-5">
-                    <li class="relative pl-6">
-                        <span class="absolute -left-3 top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-white text-[11px] font-bold">1</span>
-                        <h4 class="text-xs font-bold text-slate-900">Warga Mengirim Laporan</h4>
-                        <p class="text-[11px] text-slate-500 mt-0.5">Sertakan foto kondisi jalan, alamat jalan desa, dan koordinat GPS.</p>
-                    </li>
-                    <li class="relative pl-6">
-                        <span class="absolute -left-3 top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-white text-[11px] font-bold">2</span>
-                        <h4 class="text-xs font-bold text-slate-900">Validasi Kecamatan</h4>
-                        <p class="text-[11px] text-slate-500 mt-0.5">Admin Kecamatan memverifikasi kebenaran dan tingkat urgensi aduan.</p>
-                    </li>
-                    <li class="relative pl-6">
-                        <span class="absolute -left-3 top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white text-[11px] font-bold">3</span>
-                        <h4 class="text-xs font-bold text-slate-900">Penanganan Dinas PUPR</h4>
-                        <p class="text-[11px] text-slate-500 mt-0.5">UPT Bina Marga menerbitkan SPK dan menurunkan tim teknis lapangan.</p>
-                    </li>
-                    <li class="relative pl-6">
-                        <span class="absolute -left-3 top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-white text-[11px] font-bold">4</span>
-                        <h4 class="text-xs font-bold text-slate-900">Selesai & BAST Terbit</h4>
-                        <p class="text-[11px] text-slate-500 mt-0.5">Perbaikan rampung 100% dan bukti fisik dipublikasikan di sistem.</p>
-                    </li>
-                </ol>
-            </div>
-
-            <!-- Card Tips Laporan -->
-            <div class="bg-slate-100 rounded-2xl p-5 border border-slate-200">
-                <div class="flex items-center gap-2 mb-2 text-slate-900 font-bold text-xs">
-                    <i class="fa-solid fa-lightbulb text-amber-500"></i>
-                    <span>Tips Agar Laporan Cepat Diverifikasi</span>
-                </div>
-                <ul class="text-[11px] text-slate-600 space-y-1.5 leading-relaxed">
-                    <li>&bull; Ambil foto dengan sudut yang memperlihatkan skala kerusakan dan patokan sekitar.</li>
-                    <li>&bull; Tekan tombol <strong>Ambil Lokasi Sekarang</strong> agar titik GPS akurat otomatis tersimpan.</li>
-                    <li>&bull; Beri deskripsi jelas seperti nomor rumah terdekat atau nama persimpangan.</li>
-                </ul>
-            </div>
-
+           
         </div>
 
     </div>
+    <!-- ALUR KERJA PENANGANAN SIGAP (HORIZONTAL) -->
+    <section class="mt-10 bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8">
+        <h3 class="text-center text-xs font-bold uppercase tracking-wider text-slate-400 mb-8">Alur Kerja Penanganan SIGAP</h3>
 
+        <ol class="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
+            <!-- Garis penghubung (hanya tampil di desktop) -->
+            <div class="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-0.5 bg-slate-200"></div>
+
+            <li class="relative flex flex-col items-center text-center">
+                <span class="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-slate-900 text-white text-xl shadow-md">
+                    <i class="fa-solid fa-camera"></i>
+                </span>
+                <span class="mt-4 text-[11px] font-bold uppercase tracking-wide text-slate-500">Langkah 1</span>
+                <h4 class="mt-1 text-sm font-extrabold text-slate-900">Warga Mengirim Laporan</h4>
+                <p class="mt-1.5 text-xs text-slate-500 leading-relaxed max-w-[15rem]">Sertakan foto kondisi jalan, alamat jalan desa, dan koordinat GPS.</p>
+            </li>
+
+            <li class="relative flex flex-col items-center text-center">
+                <span class="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-amber-500 text-white text-xl shadow-md">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                </span>
+                <span class="mt-4 text-[11px] font-bold uppercase tracking-wide text-amber-600">Langkah 2</span>
+                <h4 class="mt-1 text-sm font-extrabold text-slate-900">Validasi Kecamatan</h4>
+                <p class="mt-1.5 text-xs text-slate-500 leading-relaxed max-w-[15rem]">Admin Kecamatan memverifikasi kebenaran dan tingkat urgensi aduan.</p>
+            </li>
+
+            <li class="relative flex flex-col items-center text-center">
+                <span class="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-blue-600 text-white text-xl shadow-md">
+                    <i class="fa-solid fa-helmet-safety"></i>
+                </span>
+                <span class="mt-4 text-[11px] font-bold uppercase tracking-wide text-blue-600">Langkah 3</span>
+                <h4 class="mt-1 text-sm font-extrabold text-slate-900">Penanganan Dinas PUPR</h4>
+                <p class="mt-1.5 text-xs text-slate-500 leading-relaxed max-w-[15rem]">UPT Bina Marga menerbitkan SPK dan menurunkan tim teknis lapangan.</p>
+            </li>
+
+            <li class="relative flex flex-col items-center text-center">
+                <span class="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-600 text-white text-xl shadow-md">
+                    <i class="fa-solid fa-circle-check"></i>
+                </span>
+                <span class="mt-4 text-[11px] font-bold uppercase tracking-wide text-emerald-600">Langkah 4</span>
+                <h4 class="mt-1 text-sm font-extrabold text-slate-900">Selesai &amp; BAST Terbit</h4>
+                <p class="mt-1.5 text-xs text-slate-500 leading-relaxed max-w-[15rem]">Perbaikan rampung 100% dan bukti fisik dipublikasikan di sistem.</p>
+            </li>
+        </ol>
+    </section>
 </div>
 @endsection

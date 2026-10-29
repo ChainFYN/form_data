@@ -101,18 +101,18 @@
 <body class="h-full flex flex-col text-slate-800 antialiased" x-data="{ searchModalOpen: false, notifOpen: false }">
 
     <!-- TOP NAVBAR -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs no-print">
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-xs no-print">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
 
                 <!-- Left: Logo & Portal Title -->
                 <div class="flex items-center gap-8">
                     <a href="{{ route('kecamatan.dashboard') }}" class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white">
+                        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-white">
                             <i class="fa-solid fa-building text-lg text-emerald-400"></i>
                         </div>
                         <div>
-                            <div class="font-extrabold text-xl tracking-tight text-slate-900 leading-none">SIGAP</div>
+                            <div class="font-extrabold text-xl tracking-tight text-white leading-none">SIGAP</div>
                             <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mt-1">KECAMATAN</div>
                         </div>
                     </a>
@@ -120,11 +120,11 @@
                     <!-- Main Navigation Menu -->
                     <nav class="hidden md:flex items-center gap-1.5 ml-4">
                         <a href="{{ route('kecamatan.dashboard') }}"
-                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-200 hover:text-white hover:bg-white/10' }}">
                             Dashboard Kecamatan
                         </a>
                         <a href="{{ route('kecamatan.validation.index') }}"
-                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('validation.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('validation.*') ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-200 hover:text-white hover:bg-white/10' }}">
                             <span>Validasi Laporan</span>
 
                         </a>
@@ -132,7 +132,7 @@
                             $bastBadgeCount = \App\Models\Laporan::where('status_bast', 'MENUNGGU_VERIFIKASI')->count();
                         @endphp
                         <a href="{{ route('kecamatan.bast.index') }}"
-                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('kecamatan.bast.*') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('kecamatan.bast.*') ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-200 hover:text-white hover:bg-white/10' }}">
                             <span>Verifikasi BAST</span>
                             @if($bastBadgeCount > 0)
                                 <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-slate-900 bg-amber-400 rounded">{{ $bastBadgeCount }} Baru</span>

@@ -49,18 +49,18 @@
 <body class="h-full flex flex-col text-slate-800 antialiased">
 
     <!-- TOP NAVBAR -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-xs">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
 
                 <!-- Left: Logo & Nav -->
                 <div class="flex items-center gap-8">
                     <a href="{{ route('pupr.dashboard') }}" class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white">
+                        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-white">
                             <i class="fa-solid fa-hard-hat text-lg text-amber-400"></i>
                         </div>
                         <div>
-                            <div class="font-extrabold text-xl tracking-tight text-slate-900 leading-none">SIGAP</div>
+                            <div class="font-extrabold text-xl tracking-tight text-white leading-none">SIGAP</div>
                             <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mt-1">PUPR</div>
                         </div>
                     </a>

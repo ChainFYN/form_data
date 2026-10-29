@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="theme-color" content="#1A3C6E">
+    <meta name="csrf-token"
     <title>@yield('title', 'Portal Warga') - SIGAP Kab. Jember</title>
     
     <!-- Google Fonts -->
@@ -22,13 +23,18 @@
                     },
                     colors: {
                         brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
+                            50: '#eef4fb',
+                            100: '#d9e6f5',
+                            500: '#2f6db5',
+                            600: '#1A3C6E',
+                            700: '#153158'
+                            800: '#102645',
+                            900: '#0b1a30',
+                        },
+                        slate: {
+                            50: '#f0f4f9',
+                            800: '#16315a',
+                            900: '#1A3C6E',
                         },
                         navy: {
                             800: '#0f172a',
@@ -78,35 +84,35 @@
 
     <!-- TOP NAVBAR (Disembunyikan pada halaman Login & Register) -->
     @if(!request()->routeIs('warga.login') && !request()->routeIs('warga.register') && !isset($hideHeader))
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-xs">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 
                 <!-- Left: Logo & Portal Title -->
                 <div class="flex items-center gap-8">
                     <a href="{{ route('warga.dashboard') }}" class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white">
-                            <i class="fa-solid fa-users text-lg text-sky-400"></i>
+                        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-white">
+                            <i class="fa-solid fa-users text-lg text-slate-900"></i>
                         </div>
                         <div>
-                            <div class="font-extrabold text-xl tracking-tight text-slate-900 leading-none">SIGAP</div>
-                            <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mt-1">WARGA</div>
+                            <div class="font-extrabold text-xl tracking-tight text-white leading-none">SIGAP</div>
+                            <div class="text-[10px] font-bold uppercase tracking-wider text-sky-200 mt-1">WARGA</div>
                         </div>
                     </a>
 
                     <!-- Main Navigation Menu -->
                     <nav class="hidden md:flex items-center gap-2">
                         <a href="{{ route('warga.dashboard') }}" 
-                           class="px-4 py-2 text-sm font-semibold rounded-xl transition-all {{ request()->routeIs('warga.dashboard') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                           class="px-4 py-2 text-sm font-semibold rounded-xl transition-all {{ request()->routeIs('warga.dashboard') ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-200 hover:text-white hover:bg-white/10' }}">
                             Dashboard Warga
                         </a>
                         <a href="{{ route('warga.laporan.create') }}" 
-                           class="px-4 py-2 text-sm font-semibold rounded-xl transition-all flex items-center gap-2 {{ request()->routeIs('warga.laporan.create') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            <i class="fa-solid fa-circle-plus text-xs text-amber-500"></i>
+                           class="px-4 py-2 text-sm font-semibold rounded-xl transition-all flex items-center gap-2 {{ request()->routeIs('warga.laporan.create') ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-200 hover:text-white hover:bg-white/10' }}">
+                            <i class="fa-solid fa-circle-plus text-xs text-amber-400"></i>
                             <span>Buat Laporan</span>
                         </a>
                         <a href="{{ route('warga.laporan.index') }}" 
-                           class="px-4 py-2 text-sm font-semibold rounded-xl transition-all relative flex items-center gap-2 {{ request()->routeIs('warga.laporan.index') || request()->routeIs('warga.laporan.show') ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                           class="px-4 py-2 text-sm font-semibold rounded-xl transition-all relative flex items-center gap-2 {{ request()->routeIs('warga.laporan.index') || request()->routeIs('warga.laporan.show') ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-200 hover:text-white hover:bg-white/10' }}">
                             <span>Riwayat Laporan</span>
                         </a>
                     </nav>
@@ -115,10 +121,10 @@
                 <!-- Right: Profile & Actions -->
                 <div class="flex items-center gap-4">
                     @if(Session::has('warga_id'))
-                        <div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+                        <div class="flex items-center gap-3 pl-4 border-l border-white/20">
                             <div class="text-right hidden sm:block">
-                                <div class="text-xs font-extrabold text-slate-900">{{ session('warga_name', 'Warga Pelapor') }}</div>
-                                <div class="text-[10px] text-slate-500 font-medium">Pelapor Terdaftar<br>Kab. Jember</div>
+                                <div class="text-xs font-extrabold text-white">{{ session('warga_name', 'Warga Pelapor') }}</div>
+                                <div class="text-[10px] text-slate-300 font-medium">Pelapor Terdaftar<br>Kab. Jember</div>
                             </div>
                             <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold shrink-0">
                                 <i class="fa-regular fa-user"></i>
@@ -126,40 +132,40 @@
                             <form id="logout-form" action="{{ route('warga.logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
-                            <button type="button" onclick="confirmLogout(event)" title="Keluar / Logout" class="text-slate-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition-colors">
+                            <button type="button" onclick="confirmLogout(event)" title="Keluar / Logout" class="text-slate-300 hover:text-red-300 p-2 rounded-lg hover:bg-white/10 transition-colors">
                                 <i class="fa-solid fa-arrow-right-from-bracket text-base"></i>
                             </button>
                         </div>
                     @else
                         <div class="flex items-center gap-2">
-                            <a href="{{ route('warga.login') }}" class="px-4 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition">
+                            <a href="{{ route('warga.login') }}" class="px-4 py-2 text-xs font-bold text-white hover:bg-white/10 rounded-xl transition">
                                 Masuk
                             </a>
-                            <a href="{{ route('warga.register') }}" class="px-4 py-2 text-xs font-bold bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition shadow-xs">
+                            <a href="{{ route('warga.register') }}" class="px-4 py-2 text-xs font-bold bg-white text-slate-900 rounded-xl hover:bg-slate-100 transition shadow-xs">
                                 Daftar Akun
                             </a>
                         </div>
                     @endif
 
                     <!-- Mobile Hamburger Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg text-white hover:bg-white/10 focus:outline-none">
                         <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark text-lg' : 'fa-bars text-lg'"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Mobile Navigation Drawer -->
-            <div x-show="mobileMenuOpen" x-cloak class="md:hidden py-3 border-t border-slate-100 flex flex-col gap-1.5 animate-in slide-in-from-top-2 duration-150">
+            <div x-show="mobileMenuOpen" x-cloak class="md:hidden py-3 border-t border-white/10 flex flex-col gap-1.5 animate-in slide-in-from-top-2 duration-150">
                 <a href="{{ route('warga.dashboard') }}" 
-                   class="px-3.5 py-2 text-sm font-semibold rounded-lg {{ request()->routeIs('warga.dashboard') ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100' }}">
+                   class="px-3.5 py-2 text-sm font-semibold rounded-lg {{ request()->routeIs('warga.dashboard') ? 'bg-white text-slate-900' : 'text-slate-200 hover:bg-white/10' }}">
                     Dashboard Warga
                 </a>
                 <a href="{{ route('warga.laporan.create') }}" 
-                   class="px-3.5 py-2 text-sm font-semibold rounded-lg {{ request()->routeIs('warga.laporan.create') ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100' }}">
+                   class="px-3.5 py-2 text-sm font-semibold rounded-lg {{ request()->routeIs('warga.laporan.create') ? 'bg-white text-slate-900' : 'text-slate-200 hover:bg-white/10' }}">
                     Buat Laporan Baru
                 </a>
                 <a href="{{ route('warga.laporan.index') }}" 
-                   class="px-3.5 py-2 text-sm font-semibold rounded-lg {{ request()->routeIs('warga.laporan.index') || request()->routeIs('warga.laporan.show') ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100' }}">
+                   class="px-3.5 py-2 text-sm font-semibold rounded-lg {{ request()->routeIs('warga.laporan.index') || request()->routeIs('warga.laporan.show') ? 'bg-white text-slate-900' : 'text-slate-200 hover:bg-white/10' }}">
                     Riwayat Laporan
                 </a>
             </div>
