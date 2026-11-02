@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pengguna;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -13,47 +14,45 @@ class PenggunaSeeder extends Seeder
      */
     public function run(): void
     {
-        // Pastikan peran yang dibutuhkan ada
-        $idPeranKecamatan = DB::table('peran')->where('nama_peran', 'Kecamatan')->value('id_peran')
-            ?? DB::table('peran')->insertGetId([
-                'nama_peran' => 'Kecamatan',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-        $idPeranPUPR = DB::table('peran')->where('nama_peran', 'PUPR')->value('id_peran')
-            ?? DB::table('peran')->insertGetId([
-                'nama_peran' => 'PUPR',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-        // Ambil satu desa yang sudah ada (id_desa nullable, jadi boleh null kalau belum ada)
-        $idDesa = DB::table('desa')->value('id_desa');
-
-        DB::table('pengguna')->insert([
+        // Update atau create Kecamatan user
+        $kecamatan = Pengguna::updateOrCreate(
+            ['email' => 'kecamatan@gmail.com'],
             [
-                'nik' => '3509012345678901',
-                'email' => 'camat@example.com',
-                'password' => Hash::make('password123'),
-                'nama_lengkap' => 'Administrator Kecamatan',
+                'nik' => null,
+                'password' => Hash::make('12345678'),
+                'nama_lengkap' => 'Admin Kecamatan',
                 'telepon' => '081234567890',
-                'id_peran' => $idPeranKecamatan,
+                'id_peran' => 2,
                 'id_desa' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            ]
+        );
+
+        // Update atau create PUPR user
+        $pupr = Pengguna::updateOrCreate(
+            ['email' => 'pupr@gmail.com'],
             [
-                'nik' => '3509012345678902',
-                'email' => 'pupr@example.com',
-                'password' => Hash::make('password123'),
-                'nama_lengkap' => 'Operator PUPR',
+                'nik' => null,
+                'password' => Hash::make('12345678'),
+                'nama_lengkap' => 'Admin PUPR',
                 'telepon' => '081234567891',
-                'id_peran' => $idPeranPUPR,
-                'id_desa' => $idDesa,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+                'id_peran' => 3,
+                'id_desa' => null,
+            ]
+        );
+
+        // Update atau create Warga user
+        $warga = Pengguna::updateOrCreate(
+            ['email' => 'test@gmail.com'],
+            [
+                'nik' => '3515061234567890',
+                'password' => Hash::make('12345678'),
+                'nama_lengkap' => 'Warga Test',
+                'telepon' => '081234567892',
+                'id_peran' => 1,
+                'id_desa' => 1,
+            ]
+        );
+
+        $this->command->info('Users updated/created.');
     }
 }
