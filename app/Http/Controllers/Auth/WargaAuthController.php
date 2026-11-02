@@ -69,8 +69,7 @@ class WargaAuthController extends Controller
     {
         $request->validate([
             'nik' => ['required', 'digits:16', 'unique:pengguna,nik'],
-            // Menggunakan regex khusus agar hanya menerima domain @gmail.com
-            'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+-]+@gmail\.com$/', 'unique:pengguna,email', 'max:100'],
+            'email' => ['required', 'email', 'unique:pengguna,email', 'max:100'],
             'password' => ['required', 'min:8', 'max:12', 'confirmed'],
             'nama_lengkap' => ['required', 'regex:/^[a-zA-Z\s]+$/', 'max:100'],
             'telepon' => ['required', 'digits_between:11,12'],
@@ -78,8 +77,7 @@ class WargaAuthController extends Controller
         ], [
             'nik.digits' => 'NIK harus terdiri dari 16 digit angka.',
             'nik.unique' => 'NIK sudah terdaftar di sistem.',
-            // Pesan error khusus untuk email yang bukan @gmail.com
-            'email.regex' => 'Pendaftaran akun wajib menggunakan email berdomain @gmail.com.',
+            'email.email' => 'Format email yang dimasukkan tidak valid.',
             'nama_lengkap.regex' => 'Nama lengkap hanya boleh berisi huruf.',
             'telepon.digits_between' => 'Nomor telepon harus berupa angka antara 12-15 digit.',
             'password.max' => 'Password tidak boleh lebih dari 12 karakter.',
