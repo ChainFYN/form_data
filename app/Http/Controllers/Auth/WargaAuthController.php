@@ -28,14 +28,10 @@ class WargaAuthController extends Controller
 
         $loginValue = $request->login;
 
-        // Tentukan apakah login pakai NIK (16 digit angka) atau email
-        if (preg_match('/^\d{16}$/', $loginValue)) {
-            // Login sebagai Warga dengan NIK
-            $user = Pengguna::where('nik', $loginValue)->first();
-        } else {
-            // Login sebagai Admin (Kecamatan/PUPR) dengan email
-            $user = Pengguna::where('email', $loginValue)->first();
-        }
+        // Cari pengguna berdasarkan Email atau NIK
+        $user = Pengguna::where('email', $loginValue)
+            ->orWhere('nik', $loginValue)
+            ->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
             if ($user->id_peran == 1) {

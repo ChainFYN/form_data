@@ -57,25 +57,17 @@
 
             <!-- Filter Tabs Pills -->
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar text-xs">
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'all', 'search' => $search]) }}"
-                   class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'all' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
-                    Semua ({{ $allCount }})
-                </a>
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'high', 'search' => $search]) }}"
-                   class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'high' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
-                    Bahaya Tinggi ({{ $highCount }})
-                </a>
                 <a href="{{ route('kecamatan.validation.index', ['tab' => 'pending', 'search' => $search]) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'pending' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
                     Perlu Verifikasi ({{ $pendingCount }})
                 </a>
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'resolved', 'search' => $search]) }}"
-                   class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'resolved' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
-                    Selesai/Ditolak ({{ $resolvedCount }})
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'selesai', 'search' => $search]) }}"
+                   class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ in_array($tab, ['selesai', 'resolved']) ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
+                    Selesai ({{ $selesaiCount }})
                 </a>
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'resolved', 'search' => $search]) }}"
-                   class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'resolved' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
-                    Selesai/Ditolak ({{ $resolvedCount }})
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'ditolak', 'search' => $search]) }}"
+                   class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ in_array($tab, ['ditolak', 'rejected']) ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
+                    Ditolak ({{ $ditolakCount }})
                 </a>
             </div>
 
@@ -144,8 +136,9 @@
                         </h2>
                         @php
                             $statusClass = match($activeTicket->id_status) {
-                                2 => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
-                                4 => 'bg-red-100 text-red-800',
+                                2 => 'bg-blue-100 text-blue-800 border border-blue-300',
+                                3 => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+                                4 => 'bg-red-100 text-red-800 border border-red-300',
                                 default => 'bg-amber-100 text-amber-800 border border-amber-300',
                             };
                         @endphp
@@ -387,11 +380,17 @@
             <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
                 <div class="text-center py-6">
                     @if($activeTicket->id_status == 2)
-                        <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="fa-solid fa-circle-check text-emerald-600 text-2xl"></i>
+                        <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-person-digging text-blue-600 text-2xl"></i>
                         </div>
                         <h3 class="text-sm font-extrabold text-slate-900">Laporan Telah Divalidasi & Diteruskan ke PUPR</h3>
                         <p class="text-xs text-slate-500 mt-1">Catatan: {{ $activeTicket->validasi->catatan ?? '-' }}</p>
+                    @elseif($activeTicket->id_status == 3)
+                        <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-circle-check text-emerald-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-sm font-extrabold text-slate-900">Laporan Selesai Dikerjakan</h3>
+                        <p class="text-xs text-slate-500 mt-1">{{ $activeTicket->validasi->catatan ? 'Catatan Verifikasi: ' . $activeTicket->validasi->catatan : 'Pekerjaan perbaikan jalan telah rampung 100%.' }}</p>
                     @elseif($activeTicket->id_status == 4)
                         <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
                             <i class="fa-solid fa-circle-xmark text-red-600 text-2xl"></i>

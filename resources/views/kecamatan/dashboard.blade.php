@@ -5,6 +5,41 @@
 @section('content')
 <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
+    <!-- TOP HEADER & TIME FILTER -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Dashboard Kecamatan</h1>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">Ringkasan operasional dan antrean validasi laporan aduan kerusakan jalan.</p>
+        </div>
+
+        <!-- Filter Waktu -->
+        <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start md:self-auto overflow-x-auto max-w-full text-xs">
+            <span class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider hidden sm:inline-flex items-center gap-1">
+                <i class="fa-regular fa-calendar text-[11px]"></i> Filter:
+            </span>
+            <a href="{{ route('kecamatan.dashboard', ['waktu' => 'all']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'all' || !$timeFilter ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Semua
+            </a>
+            <a href="{{ route('kecamatan.dashboard', ['waktu' => 'hari_ini']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'hari_ini' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Hari Ini
+            </a>
+            <a href="{{ route('kecamatan.dashboard', ['waktu' => 'kemarin']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'kemarin' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Kemarin
+            </a>
+            <a href="{{ route('kecamatan.dashboard', ['waktu' => '1_minggu']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === '1_minggu' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                1 Minggu Terakhir
+            </a>
+            <a href="{{ route('kecamatan.dashboard', ['waktu' => '1_bulan']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === '1_bulan' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Sebulan Terakhir
+            </a>
+        </div>
+    </div>
+
     <!-- KPI CARDS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
@@ -83,7 +118,7 @@
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h2 class="text-xl font-extrabold text-slate-900">Daftar Antrean Validasi Prioritas</h2>
-                    <p class="text-xs text-slate-500 font-medium">Laporan masuk dari warga yang membutuhkan pemeriksaan dan disposisi Kecamatan.</p>
+                    <p class="text-xs text-slate-500 font-medium">Laporan masuk dari warga yang membutuhkan pemeriksaan dan disposisi Kecamatan &bull; <span class="font-bold text-slate-700">Periode: {{ $filterLabel }}</span></p>
                 </div>
                 <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl">
                     <a href="{{ route('kecamatan.validation.index') }}" class="px-4 py-1.5 text-xs font-bold bg-white text-slate-900 rounded-lg shadow-sm">Lihat Semua Antrean</a>

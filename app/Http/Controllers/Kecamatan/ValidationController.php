@@ -12,7 +12,7 @@ class ValidationController extends Controller
 {
     public function index(Request $request)
     {
-        $tab = $request->query('tab', 'all');
+        $tab = $request->query('tab', 'pending');
         $search = $request->query('search', '');
         $selectedId = $request->query('ticket');
 
@@ -28,13 +28,14 @@ class ValidationController extends Controller
         }
 
         // Apply Tab filters based on id_status
-        // 1 = Menunggu Validasi, 2 = Diproses, 3 = Selesai, 4 = Ditolak
-        if ($tab === 'pending') {
+        // 1 = Menunggu Validasi (Perlu Verifikasi), 2 = Diproses PUPR, 3 = Selesai, 4 = Ditolak
+        if ($tab === 'selesai' || $tab === 'resolved') {
+            $query->where('id_status', 3);
+        } elseif ($tab === 'ditolak' || $tab === 'rejected') {
+            $query->where('id_status', 4);
+        } else {
+            $tab = 'pending';
             $query->where('id_status', 1);
-        } elseif ($tab === 'resolved') {
-            $query->whereIn('id_status', [3, 4]);
-        } elseif ($tab === 'high') {
-            $query->where('tingkat_bahaya', 'Bahaya Tinggi');
         }
 
         $tickets = $query->orderByRaw("CASE
@@ -56,10 +57,9 @@ class ValidationController extends Controller
         }
 
         // Counts for tabs
-        $allCount = Laporan::count();
-        $highCount = Laporan::where('tingkat_bahaya', 'Bahaya Tinggi')->count();
         $pendingCount = Laporan::where('id_status', 1)->count();
-        $resolvedCount = Laporan::whereIn('id_status', [3, 4])->count();
+        $selesaiCount = Laporan::where('id_status', 3)->count();
+        $ditolakCount = Laporan::where('id_status', 4)->count();
 
         $accuracyScore = 98.4;
         $activeQueueToday = Laporan::where('id_status', 1)->where('tingkat_bahaya', 'Bahaya Tinggi')->count();
@@ -69,10 +69,9 @@ class ValidationController extends Controller
             'activeTicket',
             'tab',
             'search',
-            'allCount',
-            'highCount',
             'pendingCount',
-            'resolvedCount',
+            'selesaiCount',
+            'ditolakCount',
             'accuracyScore',
             'activeQueueToday'
         ));
