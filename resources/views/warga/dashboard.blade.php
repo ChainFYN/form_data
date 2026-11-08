@@ -21,7 +21,7 @@
                 </p>
             </div>
             <div class="flex items-center gap-3 shrink-0">
-                <a href="{{ route('warga.laporan.create') }}" class="px-5 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-black/10">
+                <a href="{{ route('warga.laporan.create') }}" class="px-5 py-3 rounded-xl bg-[#F5F5F5] saturate-50 hover:bg-[#f2ddd1] text-slate-900 font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-black/10">
                     <i class="fa-solid fa-circle-plus"></i>
                     <span>Buat Laporan Baru</span>
                 </a>
@@ -36,47 +36,47 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         
         <!-- Menunggu -->
-        <a href="{{ route('warga.laporan.index', ['status' => 1]) }}" class="block bg-white rounded-2xl p-5 border shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 1 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/20 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
+        <a href="{{ route('warga.laporan.index', ['status' => 1]) }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 1 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
             <div class="flex items-start justify-between">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">MENUNGGU VERIFIKASI</div>
             </div>
-            <div class="flex items-baseline gap-2">
+            <div class="flex items-center justify-center h-full">
                 <div class="text-4xl font-extrabold text-slate-900">{{ $statistik['menunggu'] ?? 0 }}</div>
             </div>
         </a>
 
         <!-- Diproses -->
-        <a href="{{ route('warga.laporan.index', ['status' => 2]) }}" class="block bg-white rounded-2xl p-5 border shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 2 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/20 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
+        <a href="{{ route('warga.laporan.index', ['status' => 2]) }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 2 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
             <div class="flex items-start justify-between">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SEDANG DIPROSES PUPR</div>
             </div>
-            <div class="flex items-baseline gap-2">
+            <div class="flex items-center justify-center h-full">
                 <div class="text-4xl font-extrabold text-slate-900">{{ $statistik['diproses'] ?? 0 }}</div>
             </div>
         </a>
 
         <!-- Selesai -->
-        <a href="{{ route('warga.laporan.index', ['status' => 3]) }}" class="block bg-white rounded-2xl p-5 border shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 3 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/20 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
+        <a href="{{ route('warga.laporan.index', ['status' => 3]) }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-[#0B4F6C] shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 3 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
             <div class="flex items-start justify-between">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SELESAI DITANGANI</div>
             </div>
-            <div class="flex items-baseline gap-2">
+            <div class="flex items-center justify-center h-full">
                 <div class="text-4xl font-extrabold text-slate-900">{{ $statistik['selesai'] ?? 0 }}</div>
             </div>
         </a>
 
         <!-- Total -->
-        <a href="{{ route('warga.laporan.index') }}" class="block bg-white rounded-2xl p-5 border shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ !request('status') ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/20 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
+        <a href="{{ route('warga.laporan.index') }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-[#0B4F6C] shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ !request('status') ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
             <div class="flex items-start justify-between">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">TOTAL LAPORAN SAYA</div>
             </div>
-            <div class="flex items-baseline gap-2">
+            <div class="flex items-center justify-center h-full">
                 <div class="text-4xl font-extrabold text-slate-900">{{ $statistik['total'] ?? 0 }}</div>
             </div>
         </a>
 
     </div>
-    <section class="mt-10 bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8">
+    <section class="mt-10 bg-[#FCFAF9] rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8">
         <h3 class="text-center text-xs font-bold uppercase tracking-wider text-slate-400 mb-8">Alur Kerja Penanganan SIGAP</h3>
 
         <ol class="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
@@ -126,7 +126,7 @@
                     <p class="text-xs text-slate-500 font-medium">Lihat status laporan terkini yang telah berhasil dikirimkan ke sistem.</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <a href="{{ route('warga.laporan.index') }}" class="px-4 py-2 text-xs font-bold bg-white text-slate-900 border border-slate-200 rounded-xl hover:bg-slate-100 shadow-xs flex items-center gap-1.5 transition"></a>
+                    <a href="{{ route('warga.laporan.index') }}" class="px-4 py-2 text-xs font-bold bg-[#FCFAF9] text-slate-900 border border-slate-200 rounded-xl hover:bg-[#f2ddd1] shadow-xs flex items-center gap-1.5 transition"></a>
                 </div>
             </div>
             <div>
@@ -134,7 +134,7 @@
                     <div>
                         <div class="flex flex-col gap-4">
                             @forelse($recentLaporan as $item)
-                                <div class="bg-white rounded-2xl p-4 border {{ $item->tingkat_bahaya === 'Bahaya Tinggi' ? 'border-red-200 ring-1 ring-red-500/20' : 'border-slate-200' }} shadow-xs flex flex-col sm:flex-row gap-5 relative overflow-hidden transition-all hover:shadow-md">
+                                <div class="bg-[#FCFAF9] rounded-2xl p-4 border {{ $item->tingkat_bahaya === 'Bahaya Tinggi' ? 'border-red-200 ring-1 ring-red-500/20' : 'border-slate-200' }} shadow-xs flex flex-col sm:flex-row gap-5 relative overflow-hidden transition-all hover:shadow-md">
                                     @if($item->tingkat_bahaya === 'Bahaya Tinggi')
                                         <div class="absolute top-0 left-0 w-1.5 h-full bg-red-500"></div>
                                     @endif
@@ -223,7 +223,7 @@
                                     </div>
                                 </div>
                             @empty
-                                <div class="bg-white rounded-2xl p-10 border border-slate-200 text-center">
+                                <div class="bg-[#F5F5F5] saturate-50 rounded-2xl p-10 border border-slate-200 text-center">
                                     <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4">
                                         <i class="fa-regular fa-folder-open text-2xl"></i>
                                     </div>

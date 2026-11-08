@@ -28,10 +28,11 @@ class WargaAuthController extends Controller
 
         $loginValue = $request->login;
 
-        // Cari pengguna berdasarkan Email atau NIK
-        $user = Pengguna::where('email', $loginValue)
-            ->orWhere('nik', $loginValue)
-            ->first();
+        if (preg_match('/^\d{16}$/', $loginValue)) {
+            $user = Pengguna::where('nik', $loginValue)->first();
+        } else {
+            $user = Pengguna::where('email', $loginValue)->first();
+        }
 
         if ($user && Hash::check($request->password, $user->password)) {
             if ($user->id_peran == 1) {

@@ -25,7 +25,7 @@
     </div>
 
     <!-- FILTER & SEARCH BAR -->
-    <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs mb-6">
+    <div class="bg-[#FCFAF9] rounded-2xl p-4 border border-slate-200 shadow-xs mb-6">
         <form action="{{ route('warga.laporan.index') }}" method="GET" class="flex flex-col sm:flex-row items-center gap-3">
             <!-- Search -->
             <div class="relative flex-1 w-full">
@@ -63,7 +63,7 @@
     </div>
 
     <!-- TABLE CARD -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+    <div class="bg-[#F5F5F5] saturate-50 rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>

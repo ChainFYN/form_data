@@ -61,7 +61,7 @@
         <div class="lg:col-span-2 space-y-6">
 
             <!-- FOTO BUKTI KERUSAKAN -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="bg-[#FCFAF9] rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
                 <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <i class="fa-solid fa-camera text-slate-500"></i>
@@ -84,7 +84,7 @@
             </div>
 
             <!-- DETAIL LOKASI & DESKRIPSI -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
+            <div class="bg-[#F5F5F5] saturate-50 rounded-2xl border border-slate-200 shadow-xs p-6">
                 <h2 class="text-sm font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100">
                     Informasi Lokasi & Kerusakan
                 </h2>
@@ -143,7 +143,7 @@
         <div class="space-y-6">
 
             <!-- TIMELINE PENANGANAN -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
+            <div class="bg-[#FCFAF9] rounded-2xl border border-slate-200 shadow-xs p-6">
                 <div class="flex items-center gap-2 mb-4 pb-2 border-b border-slate-100">
                     <i class="fa-solid fa-timeline text-slate-500"></i>
                     <h2 class="text-sm font-bold text-slate-900">Alur & Riwayat Penanganan</h2>
@@ -254,7 +254,7 @@
             </div>
 
             <!-- BANTUAN & INFORMASI TIKET -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
+            <div class="bg-[#FCFAF9] rounded-2xl border border-slate-200 shadow-xs p-6">
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Informasi Tambahan</h3>
                 <p class="text-xs text-slate-600 leading-relaxed mb-4">
                     Jika ada pembaruan kondisi mendesak terkait ruas jalan ini, Anda dapat menghubungi posko koordinasi penanganan jalan dengan menyebutkan nomor tiket:

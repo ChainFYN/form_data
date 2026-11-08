@@ -34,7 +34,7 @@
     @endif
 
     <!-- FORM CARD -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8">
+    <div class="bg-[#F5F5F5] saturate-50 rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8">
         <form action="{{ route('warga.laporan.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
