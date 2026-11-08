@@ -75,7 +75,7 @@
             </div>
         </a>
     </div>
-    <section class="mt-10 bg-[#FCFAF9] rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8">
+    <section class="bg-[#FCFAF9] rounded-2xl border border-slate-200 shadow-xs p-6 sm:p-8 mb-4">
         <h3 class="text-center text-xs font-bold uppercase tracking-wider text-slate-400 mb-8">Alur Kerja Penanganan SIGAP</h3>
 
         <ol class="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
