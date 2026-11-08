@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Dashboard Admin Kecamatan')</title>
     <meta name="theme-color" content="#141E71">
     <meta name="csrf-token"
 
@@ -96,7 +97,7 @@
     <header class="navy-gradient border-b border-white/10 sticky top-0 z-40 shadow-[0_8px_24px_rgba(20,30,113,0.12)]">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                
+
                 <!-- Left: Logo & Portal Title -->
                 <div class="flex items-center gap-8">
                     <a href="{{ route('warga.dashboard') }}" class="flex items-center gap-3">
@@ -111,16 +112,16 @@
 
                     <!-- Main Navigation Menu -->
                     <nav class="hidden md:flex items-center gap-2">
-                        <a href="{{ route('warga.dashboard') }}" 
+                        <a href="{{ route('warga.dashboard') }}"
                            class="px-4 py-2 text-sm font-semibold rounded-xl transition-all {{ request()->routeIs('warga.dashboard') ? 'bg-[#F5F5F5] saturate-50 text-[#141E71] shadow-sm' : 'text-slate-100 hover:text-white hover:bg-white/10' }}">
                             Dashboard Warga
                         </a>
-                        <a href="{{ route('warga.laporan.create') }}" 
+                        <a href="{{ route('warga.laporan.create') }}"
                            class="px-4 py-2 text-sm font-semibold rounded-xl transition-all flex items-center gap-2 {{ request()->routeIs('warga.laporan.create') ? 'bg-[#F5F5F5] saturate-50 text-[#141E71] shadow-sm' : 'text-slate-100 hover:text-white hover:bg-white/10' }}">
                             <i class="fa-solid fa-circle-plus text-xs text-[#C0EEF4]"></i>
                             <span>Buat Laporan</span>
                         </a>
-                        <a href="{{ route('warga.laporan.index') }}" 
+                        <a href="{{ route('warga.laporan.index') }}"
                            class="px-4 py-2 text-sm font-semibold rounded-xl transition-all relative flex items-center gap-2 {{ request()->routeIs('warga.laporan.index') || request()->routeIs('warga.laporan.show') ? 'bg-[#F5F5F5] saturate-50 text-[#141E71] shadow-sm' : 'text-slate-100 hover:text-white hover:bg-white/10' }}">
                             <span>Riwayat Laporan</span>
                         </a>
@@ -165,15 +166,15 @@
 
             <!-- Mobile Navigation Drawer -->
             <div x-show="mobileMenuOpen" x-cloak class="md:hidden py-3 border-t border-white/10 flex flex-col gap-1.5 animate-in slide-in-from-top-2 duration-150">
-                <a href="{{ route('warga.dashboard') }}" 
+                <a href="{{ route('warga.dashboard') }}"
                    class="px-3.5 py-2 text-sm font-semibold rounded-lg {{ request()->routeIs('warga.dashboard') ? 'bg-[#F5F5F5] saturate-50 text-[#141E71]' : 'text-slate-100 hover:bg-white/10' }}">
                     Dashboard Warga
                 </a>
-                <a href="{{ route('warga.laporan.create') }}" 
+                <a href="{{ route('warga.laporan.create') }}"
                    class="px-3.5 py-2 text-sm font-semibold rounded-lg {{ request()->routeIs('warga.laporan.create') ? 'bg-[#F5F5F5] saturate-50 text-[#141E71]' : 'text-slate-100 hover:bg-white/10' }}">
                     Buat Laporan Baru
                 </a>
-                <a href="{{ route('warga.laporan.index') }}" 
+                <a href="{{ route('warga.laporan.index') }}"
                    class="px-3.5 py-2 text-sm font-semibold rounded-lg {{ request()->routeIs('warga.laporan.index') || request()->routeIs('warga.laporan.show') ? 'bg-[#F5F5F5] saturate-50 text-[#141E71]' : 'text-slate-100 hover:bg-white/10' }}">
                     Riwayat Laporan
                 </a>
@@ -184,7 +185,7 @@
 
     <!-- TOAST NOTIFICATION -->
     @if(session('success') || session('status'))
-        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" 
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
              class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-sm font-semibold transition-all transform animate-in slide-in-from-bottom-5 duration-300 bg-emerald-600 text-white border-emerald-500">
             <i class="fa-solid fa-circle-check text-lg"></i>
             <div>
@@ -197,7 +198,7 @@
     @endif
 
     @if(session('error'))
-        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" 
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)"
              class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-sm font-semibold transition-all transform animate-in slide-in-from-bottom-5 duration-300 bg-red-600 text-white border-red-500">
             <i class="fa-solid fa-triangle-exclamation text-lg"></i>
             <div>
