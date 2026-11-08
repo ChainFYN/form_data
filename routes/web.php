@@ -5,9 +5,12 @@ use App\Http\Controllers\Kecamatan\BastController as KecamatanBast;
 use App\Http\Controllers\Kecamatan\DashboardController as KecamatanDashboard;
 use App\Http\Controllers\Kecamatan\ReportController as KecamatanReport;
 use App\Http\Controllers\Kecamatan\ValidationController as KecamatanValidation;
+use App\Http\Controllers\PUPR\TimLapanganController;
+use App\Http\Controllers\PUPR\LaporanController as PUPRLaporanController;
+use App\Http\Controllers\PUPR\BastController as PUPRBastController;
 use App\Http\Controllers\Pupr\ProgresController;
 use App\Http\Controllers\Warga\DashboardController;
-use App\Http\Controllers\Warga\LaporanController;
+use App\Http\Controllers\Warga\LaporanController as WargaLaporanController;
 use App\Models\Laporan;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +40,7 @@ Route::prefix('warga')->name('warga.')->group(function () {
     // Protected Warga Area
     Route::middleware(['warga.auth'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('laporan', LaporanController::class);
+        Route::resource('laporan', WargaLaporanController::class);
     });
 });
 
@@ -54,82 +57,20 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
     })->name('login');
     Route::post('/logout', [WargaAuthController::class, 'logout'])->name('logout');
 
-    Route::get('/dashboard', function () {
-        if (! session()->has('pupr_id')) {
-            return redirect()->route('warga.login')->withErrors(['login' => 'Silakan login terlebih dahulu.']);
-        }
+    Route::get('/dashboard', [\App\Http\Controllers\PUPR\DashboardController::class, 'index'])->name('dashboard');
 
-        $laporan_diproses = Laporan::with(['kategori', 'jalan.desa.kecamatan', 'pengguna'])
-            ->where('id_status', 2)
-            ->where(function ($q) {
-                $q->whereNull('status_bast')
-                    ->orWhere('status_bast', 'DITOLAK');
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+    Route::get('/laporan', [PUPRLaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/{id}', [PUPRLaporanController::class, 'show'])->name('laporan.show');
+    Route::post('/laporan/{id}/progress', [PUPRLaporanController::class, 'updateProgress'])->name('laporan.update-progress');
+    Route::post('/laporan/{id}/selesai', [PUPRLaporanController::class, 'selesaiBast'])->name('laporan.selesai-bast');
 
-        $menungguCamat = Laporan::where('id_status', 1)->count()
-            + Laporan::where('status_bast', 'MENUNGGU_VERIFIKASI')->count();
-
-        $diprosesAktif = Laporan::where('id_status', 2)
-            ->where(function ($q) {
-                $q->whereNull('status_bast')->orWhere('status_bast', 'DITOLAK');
-            })->count();
-
-        $selesaiDiverifikasi = Laporan::where('id_status', 3)
-            ->where(function ($q) {
-                $q->where('status_bast', 'DIVERIFIKASI')
-                    ->orWhereNull('status_bast');
-            })->count();
-
-        return view('pupr.dashboard', [
-            'laporan_diproses' => $laporan_diproses,
-            'statistik' => [
-                'total' => Laporan::count(),
-                'menunggu' => $menungguCamat,
-                'diproses' => $diprosesAktif,
-                'selesai' => $selesaiDiverifikasi,
-            ],
-        ]);
-    })->name('dashboard');
-
-    Route::get('/laporan', function () {
-        return view('pupr.laporan.index', ['laporan' => []]);
-    })->name('laporan.index');
-
-    Route::get('/laporan/1', function () {
-        // Mock data laporan agar view tidak error
-        $laporan = (object) [
-            'id_laporan' => 1,
-            'created_at' => now(),
-            'tingkat_bahaya' => 'Bahaya Tinggi',
-            'deskripsi' => 'Ada lubang besar di tengah jalan, sangat bahaya kalau malam hari.',
-            'id_status' => 2,
-            'status' => (object) ['nama_status' => 'Diproses'],
-            'kategori' => (object) ['nama_kategori' => 'Jalan Berlubang'],
-            'jalan' => (object) [
-                'nama_jalan' => 'Gajah Mada',
-                'desa' => (object) [
-                    'nama_desa' => 'Jember Kidul',
-                    'kecamatan' => (object) ['nama_kecamatan' => 'Kaliwates'],
-                ],
-            ],
-            'pengguna' => (object) ['nama_lengkap' => 'Warga Tester'],
-            'foto' => 'default.jpg',
-        ];
-
-        return view('pupr.laporan.show', ['laporan' => $laporan]);
-    })->name('laporan.show');
-
-    Route::post('/laporan/{id}/log', function ($id) {
-        return back()->with('success', 'Log berhasil disimpan (Mock)');
-    })->name('laporan.log');
-    Route::post('/laporan/{id}/rekomendasi', function ($id) {
-        return back()->with('success', 'Rekomendasi berhasil disimpan (Mock)');
-    })->name('laporan.rekomendasi');
     Route::get('/progres', [ProgresController::class, 'index'])->name('progres.index');
     Route::get('/progres/{id}', [ProgresController::class, 'show'])->name('progres.show');
     Route::post('/progres/{id}', [ProgresController::class, 'update'])->name('progres.update');
+    // Tim Lapangan Routes
+    Route::get('/tim-lapangan', [TimLapanganController::class, 'index'])->name('tim-lapangan.index');
+    Route::put('/tim-lapangan/{id}/status', [TimLapanganController::class, 'updateStatus'])->name('tim-lapangan.update-status');
+    Route::put('/tim-lapangan/{id}/personel', [TimLapanganController::class, 'updatePersonel'])->name('tim-lapangan.update-personel');
 });
 
 // Kecamatan Routes
@@ -145,7 +86,9 @@ Route::prefix('kecamatan')->name('kecamatan.')->group(function () {
     Route::get('/ekspor-bap', [KecamatanReport::class, 'exportBap'])->name('reports.export-bap');
     Route::get('/lapor-baru', [KecamatanReport::class, 'create'])->name('reports.create');
     Route::post('/lapor-baru', [KecamatanReport::class, 'store'])->name('reports.store');
-    Route::get('/bast', [KecamatanBast::class, 'index'])->name('bast.index');
-    Route::post('/bast/{id}', [KecamatanBast::class, 'update'])->name('bast.update');
+    Route::get('/bast', [PUPRBastController::class, 'index'])->name('bast.index');
+    Route::get('/bast/{id}/generate', [PUPRBastController::class, 'generatePdf'])->name('bast.generate');
+    Route::post('/bast/{id}', [PUPRBastController::class, 'store'])->name('bast.store');
+    Route::put('/bast/{id}/status', [PUPRBastController::class, 'updateStatus'])->name('bast.update-status');
     Route::post('/logout', [WargaAuthController::class, 'logout'])->name('logout');
 });
