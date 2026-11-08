@@ -14,7 +14,6 @@
                 <span class="text-slate-800 font-semibold">Riwayat Laporan</span>
             </div>
             <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Riwayat Laporan Anda</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Seluruh aduan kondisi jalan yang telah Anda laporkan ke sistem SIGAP Kabupaten Jember.</p>
         </div>
         <div class="flex items-center gap-3">
             <a href="{{ route('warga.laporan.create') }}" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs">

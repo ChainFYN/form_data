@@ -123,7 +123,6 @@
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h2 class="text-xl font-extrabold text-slate-900">Riwayat Laporan Terkini Anda</h2>
-                    <p class="text-xs text-slate-500 font-medium">Lihat status laporan terkini yang telah berhasil dikirimkan ke sistem.</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <a href="{{ route('warga.laporan.index') }}" class="px-4 py-2 text-xs font-bold bg-white text-slate-900 border border-slate-200 rounded-xl hover:bg-slate-100 shadow-xs flex items-center gap-1.5 transition"></a>

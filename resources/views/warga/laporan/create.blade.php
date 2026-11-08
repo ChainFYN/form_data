@@ -15,7 +15,6 @@
             <span class="text-slate-800 font-semibold">Buat Laporan Baru</span>
         </div>
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Formulir Laporan Kerusakan Jalan</h1>
-        <p class="text-xs text-slate-500 mt-0.5">Sampaikan informasi kondisi kerusakan jalan secara lengkap agar dapat segera diverifikasi oleh tim kecamatan.</p>
     </div>
 
     <!-- ERROR ALERT -->
@@ -44,7 +43,6 @@
                     <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-bold">1</div>
                     <div>
                         <h2 class="text-sm font-bold text-slate-900">Lokasi Kerusakan Jalan</h2>
-                        <p class="text-[11px] text-slate-500">Pilih wilayah kecamatan, kelurahan/desa, dan ruas jalan terkait.</p>
                     </div>
                 </div>
 
@@ -84,7 +82,6 @@
                     <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-bold">2</div>
                     <div>
                         <h2 class="text-sm font-bold text-slate-900">Detail Kerusakan & Tingkat Bahaya</h2>
-                        <p class="text-[11px] text-slate-500">Tentukan kategori fisik jalan rusak serta tingkat bahaya bagi pengguna jalan.</p>
                     </div>
                 </div>
 
@@ -134,18 +131,17 @@
                     <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-bold">3</div>
                     <div>
                         <h2 class="text-sm font-bold text-slate-900">Titik Koordinat GPS (Opsional)</h2>
-                        <p class="text-[11px] text-slate-500">Membantu petugas UPT PUPR menemukan titik pasti kerusakan di peta GIS.</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Latitude</label>
-                        <input type="text" name="latitude" id="latitude" value="{{ old('latitude') }}" placeholder="Contoh: -8.1724" class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 bg-slate-100 text-slate-700 font-mono" readonly>
+                        <input type="text" name="latitude" id="latitude" value="{{ old('latitude') }}"  class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 bg-slate-100 text-slate-700 font-mono" readonly>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Longitude</label>
-                        <input type="text" name="longitude" id="longitude" value="{{ old('longitude') }}" placeholder="Contoh: 113.6995" class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 bg-slate-100 text-slate-700 font-mono" readonly>
+                        <input type="text" name="longitude" id="longitude" value="{{ old('longitude') }}"  class="w-full py-2.5 px-3 text-xs rounded-xl border border-slate-200 bg-slate-100 text-slate-700 font-mono" readonly>
                     </div>
                 </div>
 
@@ -164,7 +160,6 @@
                     <div class="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-bold">4</div>
                     <div>
                         <h2 class="text-sm font-bold text-slate-900">Foto Bukti Kerusakan <span class="text-red-500">*</span></h2>
-                        <p class="text-[11px] text-slate-500">Unggah foto kondisi fisik jalan yang rusak (Format: JPG, JPEG, PNG. Maks: 5MB).</p>
                     </div>
                 </div>
 
@@ -176,13 +171,18 @@
                         Pilih foto atau ambil gambar dari kamera
                     </div>
                     <p class="text-[11px] text-slate-400 mb-4">Pastikan gambar terlihat terang dan menampilkan titik kerusakan jalan</p>
-                    <input type="file" name="foto" id="foto-input" accept="image/*" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-slate-800 cursor-pointer max-w-sm mx-auto" required>
-                    
                     <!-- Preview Image -->
-                    <div id="image-preview-container" class="mt-4 hidden">
-                        <p class="text-[11px] font-bold text-slate-500 mb-2">Pratinjau Foto:</p>
-                        <img id="image-preview" src="#" alt="Pratinjau Foto" class="max-h-56 mx-auto rounded-xl border border-slate-200 shadow-xs object-cover">
+                   <div class="flex items-center justify-center gap-3">
+                <label for="foto-input" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold cursor-pointer transition">
+                         Choose File
+                </label>
+                 <span id="nama-file" class="text-xs text-slate-500">No file chosen</span>
+                     </div>
+                     <div id="image-preview-container" class="mt-4 hidden">
+                <p class="text-[11px] font-bold text-slate-500 mb-2">Pratinjau Foto:</p>
+                <img id="image-preview" src="#" alt="Pratinjau Foto" class="max-h-56 mx-auto rounded-xl border border-slate-200 shadow-xs object-cover">
                     </div>
+                    <input type="file" name="foto" id="foto-input" accept="image/*" class="sr-only" required>
                 </div>
             </div>
 
@@ -259,17 +259,20 @@
         }
     });
 
-    // Image Preview
-    $('#foto-input').on('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                $('#image-preview').attr('src', evt.target.result);
-                $('#image-preview-container').removeClass('hidden');
-            }
-            reader.readAsDataURL(file);
+   // Image Preview
+$('#foto-input').on('change', function(e) {
+    const file = e.target.files[0];
+    $('#nama-file').text(file ? file.name : 'No file chosen');
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            $('#image-preview').attr('src', evt.target.result);
+            $('#image-preview-container').removeClass('hidden');
         }
-    });
+        reader.readAsDataURL(file);
+    } else {
+        $('#image-preview-container').addClass('hidden');
+    }
+});
 </script>
 @endpush
