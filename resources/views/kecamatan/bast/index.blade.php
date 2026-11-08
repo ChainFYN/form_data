@@ -8,19 +8,38 @@
     <!-- BREADCRUMB & HEADER -->
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Pemeriksaan Verifikasi BAST dari PUPR
-            </h1>
+            <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-1">
+                <a href="{{ route('kecamatan.dashboard') }}" class="hover:text-slate-700 transition-colors">Halaman Utama</a>
+                <span>/</span>
+                <span class="text-slate-800">Verifikasi BAST PUPR</span>
+            </nav>
+            <div class="flex items-center gap-3">
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                    Pemeriksaan Verifikasi BAST dari PUPR
+                </h1>
+            </div>
         </div>
 
-        <!-- Top Right Tabs -->
-        <div class="flex items-center gap-3 shrink-0">
-            <a href="{{ route('kecamatan.validation.index') }}" class="px-4 py-2 bg-slate-100 text-slate-600 font-bold text-xs rounded-xl hover:bg-slate-200 transition-colors">
-                Validasi Aduan Awal
+        <!-- Filter Waktu -->
+        <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start lg:self-auto overflow-x-auto max-w-full text-xs shrink-0">
+            <span class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider hidden sm:inline-flex items-center gap-1">
+                <i class="fa-regular fa-calendar text-[11px]"></i> Filter:
+            </span>
+            <a href="{{ route('kecamatan.bast.index', ['search' => $search, 'waktu' => 'all']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'all' || !$timeFilter ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Semua
             </a>
-            <a href="{{ route('kecamatan.bast.index') }}" class="px-4 py-2 bg-slate-900 text-white font-bold text-xs rounded-xl shadow-xs flex items-center gap-2">
-                <span>Verifikasi BAST PUPR</span>
-                <span class="bg-amber-400 text-slate-900 px-1.5 py-0.5 rounded text-[10px]">{{ $laporan_bast->count() }} Baru</span>
+            <a href="{{ route('kecamatan.bast.index', ['search' => $search, 'waktu' => 'hari_ini']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'hari_ini' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Hari Ini
+            </a>
+            <a href="{{ route('kecamatan.bast.index', ['search' => $search, 'waktu' => '1_minggu']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === '1_minggu' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                1 Minggu Terakhir
+            </a>
+            <a href="{{ route('kecamatan.bast.index', ['search' => $search, 'waktu' => '1_bulan']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === '1_bulan' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Sebulan Terakhir
             </a>
         </div>
     </div>
@@ -31,9 +50,12 @@
         <!-- LEFT COLUMN: QUEUE & FILTERS -->
         <div class="lg:col-span-4 flex flex-col gap-4">
             
-            <form action="#" method="GET" class="relative">
+            <form action="{{ route('kecamatan.bast.index') }}" method="GET" class="relative">
+                <input type="hidden" name="waktu" value="{{ $timeFilter }}">
                 <div class="relative">
-                    <input type="text" 
+                    <input type="text"
+                           name="search"
+                           value="{{ $search }}"
                            placeholder="Cari id laporan, jalan..." 
                            class="w-full pl-9 pr-4 py-2 text-xs font-semibold text-slate-800 bg-white border border-slate-200 rounded-xl shadow-2xs focus:outline-none focus:border-brand-500">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-xs"></i>
@@ -41,22 +63,21 @@
             </form>
 
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar text-xs">
-                <a href="#" class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap bg-slate-900 text-white shadow-xs">
-                    Semua BAST (3)
-                </a>
-                <a href="#" class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100">
-                    Perlu Segera ACC (2)
-                </a>
-                <a href="#" class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:bg-slate-100">
-                    Prioritas Tinggi
-                </a>
+                <div class="px-3 py-1.5 rounded-lg font-bold whitespace-nowrap bg-slate-900 text-white shadow-xs">
+                    Antrean BAST ({{ $laporan_bast->count() }})
+                </div>
+                @if($laporan_bast->where('tingkat_bahaya', 'Bahaya Tinggi')->count() > 0)
+                <div class="px-3 py-1.5 rounded-lg font-bold whitespace-nowrap bg-red-50 text-red-700 border border-red-200">
+                    Prioritas Tinggi ({{ $laporan_bast->where('tingkat_bahaya', 'Bahaya Tinggi')->count() }})
+                </div>
+                @endif
             </div>
 
             <!-- TICKET QUEUE LIST -->
             <div class="flex flex-col gap-3 max-h-[750px] overflow-y-auto pr-1 custom-scrollbar">
                 
                 @forelse($laporan_bast as $bast)
-                <a href="{{ route('kecamatan.bast.index', ['ticket' => $bast->id_laporan]) }}" class="p-4 rounded-2xl border transition-all text-left block relative {{ (isset($activeBast) && $activeBast->id_laporan == $bast->id_laporan) ? 'bg-emerald-50/40 border-amber-500 shadow-sm ring-1 ring-amber-500' : 'bg-white border-slate-200 hover:border-slate-300' }}">
+                <a href="{{ route('kecamatan.bast.index', ['ticket' => $bast->id_laporan, 'search' => $search, 'waktu' => $timeFilter]) }}" class="p-4 rounded-2xl border transition-all text-left block relative {{ (isset($activeBast) && $activeBast->id_laporan == $bast->id_laporan) ? 'bg-emerald-50/40 border-amber-500 shadow-sm ring-1 ring-amber-500' : 'bg-white border-slate-200 hover:border-slate-300' }}">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-1.5">
                             <span class="font-mono text-xs font-bold text-slate-900">LP-{{ date('Y') }}-{{ str_pad($bast->id_laporan, 4, '0', STR_PAD_LEFT) }}</span>

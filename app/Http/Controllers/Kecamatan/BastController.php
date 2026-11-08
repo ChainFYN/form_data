@@ -12,18 +12,53 @@ class BastController extends Controller
 {
     public function index(Request $request)
     {
+        $timeFilter = $request->query('waktu', 'all');
+        $search = $request->query('search', '');
         $selectedId = $request->query('ticket');
 
+        $applyTimeFilter = function ($query) use ($timeFilter) {
+            return match ($timeFilter) {
+                'hari_ini', 'today' => $query->where(function ($q) {
+                    $q->whereDate('updated_at', now()->today())
+                        ->orWhereDate('created_at', now()->today());
+                }),
+                'kemarin', 'yesterday' => $query->where(function ($q) {
+                    $q->whereDate('updated_at', now()->subDay()->toDateString())
+                        ->orWhereDate('created_at', now()->subDay()->toDateString());
+                }),
+                '1_minggu', 'minggu_ini', 'week' => $query->where(function ($q) {
+                    $q->where('updated_at', '>=', now()->subDays(7)->startOfDay())
+                        ->orWhere('created_at', '>=', now()->subDays(7)->startOfDay());
+                }),
+                '1_bulan', 'bulan_ini', 'month' => $query->where(function ($q) {
+                    $q->where('updated_at', '>=', now()->subDays(30)->startOfDay())
+                        ->orWhere('created_at', '>=', now()->subDays(30)->startOfDay());
+                }),
+                default => $query,
+            };
+        };
+
         // Laporan yang butuh verifikasi BAST oleh Camat
-        $laporan_bast = Laporan::with(['jalan.desa.kecamatan', 'kategori', 'pengguna', 'logProses'])
+        $query = Laporan::with(['jalan.desa.kecamatan', 'kategori', 'pengguna', 'logProses'])
             ->where(function ($q) {
                 $q->where('status_bast', 'MENUNGGU_VERIFIKASI')
                     ->orWhere(function ($q2) {
                         $q2->where('id_status', 3)->whereNull('status_bast');
                     });
-            })
-            ->orderBy('updated_at', 'desc')
-            ->get();
+            });
+
+        $query = $applyTimeFilter($query);
+
+        if (! empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('id_laporan', 'like', "%{$search}%")
+                    ->orWhere('deskripsi', 'like', "%{$search}%")
+                    ->orWhereHas('pengguna', fn ($q2) => $q2->where('nama_lengkap', 'like', "%{$search}%"))
+                    ->orWhereHas('jalan', fn ($q2) => $q2->where('nama_jalan', 'like', "%{$search}%"));
+            });
+        }
+
+        $laporan_bast = $query->orderBy('updated_at', 'desc')->get();
 
         $activeBast = null;
         if ($selectedId) {
@@ -33,7 +68,15 @@ class BastController extends Controller
             $activeBast = $laporan_bast->first();
         }
 
-        return view('kecamatan.bast.index', compact('laporan_bast', 'activeBast'));
+        $filterLabel = match ($timeFilter) {
+            'hari_ini', 'today' => 'Hari Ini',
+            'kemarin', 'yesterday' => 'Kemarin',
+            '1_minggu', 'minggu_ini', 'week' => '1 Minggu Terakhir',
+            '1_bulan', 'bulan_ini', 'month' => 'Sebulan Terakhir',
+            default => 'Semua Waktu',
+        };
+
+        return view('kecamatan.bast.index', compact('laporan_bast', 'activeBast', 'timeFilter', 'filterLabel', 'search'));
     }
 
     public function update(Request $request, $id)
