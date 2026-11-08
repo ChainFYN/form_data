@@ -18,21 +18,29 @@
                     Pemeriksaan & Disposisi Aduan Warga
                 </h1>
             </div>
-            <p class="text-xs sm:text-sm text-slate-500 font-medium mt-1">
-                Validasi kelayakan data laporan, keabsahan foto bukti lapangan, dan koordinasi disposisi teknis perbaikan ke UPT Dinas PUPR.
-            </p>
         </div>
 
-        <!-- Top Right KPI Badges -->
-        <div class="flex items-center gap-3 shrink-0">
-            <div class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-right shadow-2xs">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Skor Akurasi Validasi</p>
-                <p class="text-lg font-black text-emerald-600">{{ $accuracyScore }}%</p>
-            </div>
-            <div class="bg-white border border-red-200 rounded-xl px-4 py-2 text-right shadow-2xs bg-red-50/40">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-red-500">Antrean Aktif Hari Ini</p>
-                <p class="text-lg font-black text-red-600">{{ $activeQueueToday }} Aduan</p>
-            </div>
+        <!-- Filter Waktu -->
+        <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start lg:self-auto overflow-x-auto max-w-full text-xs shrink-0">
+            <span class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider hidden sm:inline-flex items-center gap-1">
+                <i class="fa-regular fa-calendar text-[11px]"></i> Filter:
+            </span>
+            <a href="{{ route('kecamatan.validation.index', ['tab' => $tab, 'search' => $search, 'waktu' => 'all']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'all' || !$timeFilter ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Semua
+            </a>
+            <a href="{{ route('kecamatan.validation.index', ['tab' => $tab, 'search' => $search, 'waktu' => 'hari_ini']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'hari_ini' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Hari Ini
+            </a>
+            <a href="{{ route('kecamatan.validation.index', ['tab' => $tab, 'search' => $search, 'waktu' => '1_minggu']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === '1_minggu' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                1 Minggu Terakhir
+            </a>
+            <a href="{{ route('kecamatan.validation.index', ['tab' => $tab, 'search' => $search, 'waktu' => '1_bulan']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === '1_bulan' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Sebulan Terakhir
+            </a>
         </div>
     </div>
 
@@ -45,6 +53,7 @@
             <!-- Live Search Bar -->
             <form action="{{ route('kecamatan.validation.index') }}" method="GET" class="relative">
                 <input type="hidden" name="tab" value="{{ $tab }}">
+                <input type="hidden" name="waktu" value="{{ $timeFilter }}">
                 <div class="relative">
                     <input type="text"
                            name="search"
@@ -57,15 +66,15 @@
 
             <!-- Filter Tabs Pills -->
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar text-xs">
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'pending', 'search' => $search]) }}"
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'pending', 'search' => $search, 'waktu' => $timeFilter]) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $tab == 'pending' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
                     Perlu Verifikasi ({{ $pendingCount }})
                 </a>
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'selesai', 'search' => $search]) }}"
-                   class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ in_array($tab, ['selesai', 'resolved']) ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
-                    Selesai ({{ $selesaiCount }})
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'diterima', 'search' => $search, 'waktu' => $timeFilter]) }}"
+                   class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ in_array($tab, ['diterima', 'selesai', 'resolved']) ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
+                    Diterima ({{ $diterimaCount }})
                 </a>
-                <a href="{{ route('kecamatan.validation.index', ['tab' => 'ditolak', 'search' => $search]) }}"
+                <a href="{{ route('kecamatan.validation.index', ['tab' => 'ditolak', 'search' => $search, 'waktu' => $timeFilter]) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ in_array($tab, ['ditolak', 'rejected']) ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100' }}">
                     Ditolak ({{ $ditolakCount }})
                 </a>
@@ -80,7 +89,7 @@
                         ? 'bg-red-500 text-white'
                         : ($t->tingkat_bahaya === 'Sedang' ? 'bg-amber-500 text-white' : 'bg-emerald-600 text-white');
                 @endphp
-                <a href="{{ route('kecamatan.validation.index', ['ticket' => $t->id_laporan, 'tab' => $tab, 'search' => $search]) }}"
+                <a href="{{ route('kecamatan.validation.index', ['ticket' => $t->id_laporan, 'tab' => $tab, 'search' => $search, 'waktu' => $timeFilter]) }}"
                    class="p-4 rounded-2xl border transition-all text-left block relative {{ $isActive ? 'bg-emerald-50/40 border-emerald-500 shadow-sm ring-1 ring-emerald-500' : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-2xs' }}">
 
                     <div class="flex items-center justify-between">
@@ -329,7 +338,7 @@
                         <div class="flex items-center justify-between mb-1.5">
                             <label class="block text-xs font-bold text-slate-700">
                                 Catatan Verifikator Kecamatan
-                                <span class="text-red-500 text-[10px] font-semibold">* (Wajib diisi, tidak boleh simbol)</span>
+                                <span class="text-red-500 text-[10px] font-semibold">* (Wajib diisil)</span>
                             </label>
                             <span class="text-[10px] text-slate-400 font-mono">
                                 <span x-text="charCount"></span> karakter
