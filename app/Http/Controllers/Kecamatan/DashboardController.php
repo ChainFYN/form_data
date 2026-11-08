@@ -76,6 +76,10 @@ class DashboardController extends Controller
             default => 'Semua Waktu',
         };
 
+        if ($request->ajax()) {
+            return view('kecamatan.partials.antrean_list', compact('priorityReports'));
+        }
+
         return view('kecamatan.dashboard', compact(
             'perluTindakanCount',
             'menungguValidasiCount',
