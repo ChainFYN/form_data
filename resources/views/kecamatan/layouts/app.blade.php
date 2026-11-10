@@ -132,7 +132,7 @@
                             $bastBadgeCount = \App\Models\Laporan::where('status_bast', 'MENUNGGU_VERIFIKASI')->count();
                         @endphp
                         <a href="{{ route('kecamatan.bast.index') }}"
-                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('kecamatan.bast.*') ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-200 hover:text-white hover:bg-white/10' }}">
+                            class="px-3.5 py-2 text-sm font-semibold rounded-lg transition-all relative flex items-center gap-2 {{ request()->routeIs('kecamatan.bast.index') ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-200 hover:text-white hover:bg-white/10' }}">
                             <span>Verifikasi BAST</span>
                             @if($bastBadgeCount > 0)
                                 <span class="inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-bold leading-none text-slate-900 bg-amber-400 rounded">{{ $bastBadgeCount }} Baru</span>

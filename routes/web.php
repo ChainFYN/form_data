@@ -5,10 +5,11 @@ use App\Http\Controllers\Kecamatan\BastController as KecamatanBast;
 use App\Http\Controllers\Kecamatan\DashboardController as KecamatanDashboard;
 use App\Http\Controllers\Kecamatan\ReportController as KecamatanReport;
 use App\Http\Controllers\Kecamatan\ValidationController as KecamatanValidation;
-use App\Http\Controllers\PUPR\BastController as PUPRBastController;
-use App\Http\Controllers\PUPR\LaporanController as PUPRLaporanController;
+use App\Http\Controllers\Pupr\BastController as PUPRBastController;
+use App\Http\Controllers\Pupr\DashboardController as PUPRDashboardController;
+use App\Http\Controllers\Pupr\LaporanController as PUPRLaporanController;
 use App\Http\Controllers\Pupr\ProgresController;
-use App\Http\Controllers\PUPR\TimLapanganController;
+use App\Http\Controllers\Pupr\TimLapanganController;
 use App\Http\Controllers\Warga\DashboardController;
 use App\Http\Controllers\Warga\LaporanController as WargaLaporanController;
 use Illuminate\Support\Facades\Route;
@@ -56,7 +57,7 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
     })->name('login');
     Route::post('/logout', [WargaAuthController::class, 'logout'])->name('logout');
 
-    Route::get('/dashboard', [App\Http\Controllers\PUPR\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [PUPRDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/laporan', [PUPRLaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/{id}', [PUPRLaporanController::class, 'show'])->name('laporan.show');

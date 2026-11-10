@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\PUPR;
+namespace App\Http\Controllers\Pupr;
 
 use App\Http\Controllers\Controller;
 use App\Models\TimLapangan;
@@ -14,7 +14,7 @@ class TimLapanganController extends Controller
         $timLapangan = TimLapangan::withCount('laporan')->get();
         $timTersedia = TimLapangan::where('status', 'Tersedia')->count();
         $timDiLapangan = TimLapangan::where('status', 'Di Lapangan')->count();
-        
+
         return view('pupr.tim-lapangan.index', compact('timLapangan', 'timTersedia', 'timDiLapangan'));
     }
 

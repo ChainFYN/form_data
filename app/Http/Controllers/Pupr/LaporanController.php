@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\PUPR;
+namespace App\Http\Controllers\Pupr;
 
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
