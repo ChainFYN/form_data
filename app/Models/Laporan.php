@@ -24,6 +24,9 @@ class Laporan extends Model
         'status_bast',
         'catatan_bast',
         'tgl_verifikasi_bast',
+        'id_tim',
+        'no_bast',
+        'url_pdf_bast',
     ];
 
     /**
@@ -49,7 +52,8 @@ class Laporan extends Model
         return Attribute::make(
             get: function () {
                 $year = $this->created_at ? $this->created_at->format('Y') : date('Y');
-                return '#LP-' . $year . '-' . str_pad($this->id_laporan, 4, '0', STR_PAD_LEFT);
+
+                return '#LP-'.$year.'-'.str_pad($this->id_laporan, 4, '0', STR_PAD_LEFT);
             }
         );
     }
@@ -61,7 +65,7 @@ class Laporan extends Model
     {
         return Attribute::make(
             get: function () {
-                if (!$this->url_foto) {
+                if (! $this->url_foto) {
                     return null;
                 }
                 // Jika sudah berupa URL lengkap (http/https)
@@ -72,7 +76,8 @@ class Laporan extends Model
                 if (str_starts_with($cleanPath, 'storage/')) {
                     return asset($cleanPath);
                 }
-                return asset('storage/' . $cleanPath);
+
+                return asset('storage/'.$cleanPath);
             }
         );
     }
@@ -154,5 +159,10 @@ class Laporan extends Model
     public function logProses()
     {
         return $this->hasMany(LogProses::class, 'id_laporan', 'id_laporan');
+    }
+
+    public function timLapangan()
+    {
+        return $this->belongsTo(TimLapangan::class, 'id_tim', 'id_tim');
     }
 }

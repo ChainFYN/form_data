@@ -14,6 +14,7 @@ class LogProses extends Model
     protected $fillable = [
         'id_laporan',
         'id_pengguna',
+        'id_tim',
         'id_status',
         'catatan_update',
         'url_foto_selesai',
@@ -31,13 +32,14 @@ class LogProses extends Model
     {
         return Attribute::make(
             get: function () {
-                if (!$this->url_foto_selesai) {
+                if (! $this->url_foto_selesai) {
                     return null;
                 }
                 if (str_starts_with($this->url_foto_selesai, 'http://') || str_starts_with($this->url_foto_selesai, 'https://')) {
                     return $this->url_foto_selesai;
                 }
-                return url('storage/' . $this->url_foto_selesai);
+
+                return url('storage/'.$this->url_foto_selesai);
             }
         );
     }
@@ -65,5 +67,10 @@ class LogProses extends Model
     public function status()
     {
         return $this->belongsTo(StatusLaporan::class, 'id_status', 'id_status');
+    }
+
+    public function timLapangan()
+    {
+        return $this->belongsTo(TimLapangan::class, 'id_tim', 'id_tim');
     }
 }

@@ -89,8 +89,8 @@
 
         <!-- Footer Pop-up -->
         <div class="bg-slate-50 px-6 py-4 flex justify-end space-x-3 border-t border-slate-200">
-            <button onclick="closeModal()" class="px-4 py-2 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors">Periksa Kembali</button>
-            <button id="btnSubmitModal" class="px-5 py-2 bg-teal-600 text-white rounded-lg text-xs font-bold hover:bg-teal-700 transition-colors shadow-sm" onclick="document.getElementById('formProgres').submit();">
+            <button type="button" onclick="closeModal()" class="px-4 py-2 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors">Periksa Kembali</button>
+            <button type="button" id="btnSubmitModal" class="px-5 py-2 bg-teal-600 text-white rounded-lg text-xs font-bold hover:bg-teal-700 transition-colors shadow-sm" onclick="this.disabled=true; this.innerText='Menyimpan...'; document.getElementById('formProgres').submit();">
                 Ya, Publikasikan Sekarang
             </button>
         </div>

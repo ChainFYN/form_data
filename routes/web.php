@@ -5,13 +5,12 @@ use App\Http\Controllers\Kecamatan\BastController as KecamatanBast;
 use App\Http\Controllers\Kecamatan\DashboardController as KecamatanDashboard;
 use App\Http\Controllers\Kecamatan\ReportController as KecamatanReport;
 use App\Http\Controllers\Kecamatan\ValidationController as KecamatanValidation;
-use App\Http\Controllers\PUPR\TimLapanganController;
-use App\Http\Controllers\PUPR\LaporanController as PUPRLaporanController;
 use App\Http\Controllers\PUPR\BastController as PUPRBastController;
+use App\Http\Controllers\PUPR\LaporanController as PUPRLaporanController;
 use App\Http\Controllers\Pupr\ProgresController;
+use App\Http\Controllers\PUPR\TimLapanganController;
 use App\Http\Controllers\Warga\DashboardController;
 use App\Http\Controllers\Warga\LaporanController as WargaLaporanController;
-use App\Models\Laporan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -57,7 +56,7 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
     })->name('login');
     Route::post('/logout', [WargaAuthController::class, 'logout'])->name('logout');
 
-    Route::get('/dashboard', [\App\Http\Controllers\PUPR\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\PUPR\DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/laporan', [PUPRLaporanController::class, 'index'])->name('laporan.index');
     Route::get('/laporan/{id}', [PUPRLaporanController::class, 'show'])->name('laporan.show');
@@ -71,6 +70,9 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
     Route::get('/tim-lapangan', [TimLapanganController::class, 'index'])->name('tim-lapangan.index');
     Route::put('/tim-lapangan/{id}/status', [TimLapanganController::class, 'updateStatus'])->name('tim-lapangan.update-status');
     Route::put('/tim-lapangan/{id}/personel', [TimLapanganController::class, 'updatePersonel'])->name('tim-lapangan.update-personel');
+
+    // BAST PDF Route
+    Route::get('/bast/{id}/generate', [PUPRBastController::class, 'generatePdf'])->name('bast.generate');
 });
 
 // Kecamatan Routes
@@ -86,9 +88,7 @@ Route::prefix('kecamatan')->name('kecamatan.')->group(function () {
     Route::get('/ekspor-bap', [KecamatanReport::class, 'exportBap'])->name('reports.export-bap');
     Route::get('/lapor-baru', [KecamatanReport::class, 'create'])->name('reports.create');
     Route::post('/lapor-baru', [KecamatanReport::class, 'store'])->name('reports.store');
-    Route::get('/bast', [PUPRBastController::class, 'index'])->name('bast.index');
-    Route::get('/bast/{id}/generate', [PUPRBastController::class, 'generatePdf'])->name('bast.generate');
-    Route::post('/bast/{id}', [PUPRBastController::class, 'store'])->name('bast.store');
-    Route::put('/bast/{id}/status', [PUPRBastController::class, 'updateStatus'])->name('bast.update-status');
+    Route::get('/bast', [KecamatanBast::class, 'index'])->name('bast.index');
+    Route::post('/bast/{id}', [KecamatanBast::class, 'update'])->name('bast.update');
     Route::post('/logout', [WargaAuthController::class, 'logout'])->name('logout');
 });

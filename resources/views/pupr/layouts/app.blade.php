@@ -114,6 +114,34 @@
 
     <!-- MAIN CONTENT -->
     <main class="flex-1 bg-slate-50">
+        @if(session('success'))
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+                <button type="button" onclick="this.parentElement.parentElement.remove()" class="text-emerald-600 hover:text-emerald-800 text-xs">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+            <div class="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm font-semibold flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-triangle-exclamation text-red-600 text-lg"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+                <button type="button" onclick="this.parentElement.parentElement.remove()" class="text-red-600 hover:text-red-800 text-xs">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+        @endif
+
         @yield('content')
     </main>
 

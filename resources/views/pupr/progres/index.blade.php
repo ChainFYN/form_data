@@ -10,6 +10,25 @@
         <p class="text-sm text-slate-500 mt-1 flex items-center">📍 Kec. {{ $laporan->jalan->desa->kecamatan->nama_kecamatan ?? '-' }}, Kab. Jember | 🕒 Update Terakhir: {{ $laporan->updated_at->format('d M Y, H:i') }} WIB</p>
     </div>
 
+    @if($errors->any())
+    <div class="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm font-semibold flex items-center gap-3">
+        <i class="fa-solid fa-triangle-exclamation text-red-600 text-lg"></i>
+        <div>
+            <p class="font-bold">Terjadi kendala saat menyimpan:</p>
+            <ul class="list-disc list-inside mt-1 text-xs">
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+    @endif
+
+    @php
+        $initPersen = old('persentase_capaian', $currentPersen ?? 0);
+        $initStatus = old('status_pekerjaan_id', $currentStatus ?? 0);
+    @endphp
+
     <!-- FORM UTAMA -->
     <form id="formProgres" action="{{ route('pupr.progres.update', $laporan->id_laporan) }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -34,31 +53,31 @@
                             <div class="space-y-3 bg-slate-50 p-5 rounded-xl border border-slate-200 flex-1">
                                 <label class="flex items-center space-x-3 cursor-pointer group">
                                     <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white" 
-                                           data-index="1" data-persen="25" onchange="aturUrutan(1)">
+                                           data-index="1" data-persen="25" onchange="aturUrutan(1)" {{ $initPersen >= 25 ? 'checked' : '' }}>
                                     <span class="text-sm font-medium text-slate-700 group-hover:text-teal-700 transition-colors">Pengecekan Lokasi</span>
                                 </label>
                                 
                                 <label class="flex items-center space-x-3 cursor-pointer group">
                                     <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white" 
-                                           data-index="2" data-persen="50" onchange="aturUrutan(2)">
+                                           data-index="2" data-persen="50" onchange="aturUrutan(2)" {{ $initPersen >= 50 ? 'checked' : '' }}>
                                     <span class="text-sm font-medium text-slate-700 group-hover:text-teal-700 transition-colors">Persiapan Material & Alat</span>
                                 </label>
                                 
                                 <label class="flex items-center space-x-3 cursor-pointer group">
                                     <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white" 
-                                           data-index="3" data-persen="75" onchange="aturUrutan(3)">
+                                           data-index="3" data-persen="75" onchange="aturUrutan(3)" {{ $initPersen >= 75 ? 'checked' : '' }}>
                                     <span class="text-sm font-medium text-slate-700 group-hover:text-teal-700 transition-colors">Pengerjaan Fisik / Eksekusi</span>
                                 </label>
                                 
                                 <label class="flex items-center space-x-3 cursor-pointer group">
                                     <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white" 
-                                           data-index="4" data-persen="100" onchange="aturUrutan(4)">
+                                           data-index="4" data-persen="100" onchange="aturUrutan(4)" {{ $initPersen >= 100 ? 'checked' : '' }}>
                                     <span class="text-sm font-medium text-slate-700 group-hover:text-teal-700 transition-colors">Selesai & Publikasi Progres</span>
                                 </label>
                             </div>
 
-                            <input type="hidden" name="status_pekerjaan_id" id="input_status" value="0">
-                            <input type="hidden" name="persentase_capaian" id="input_persentase" value="0">
+                            <input type="hidden" name="status_pekerjaan_id" id="input_status" value="{{ $initStatus }}">
+                            <input type="hidden" name="persentase_capaian" id="input_persentase" value="{{ $initPersen }}">
                         </div>
 
                         <!-- Kotak Persentase -->
@@ -67,7 +86,7 @@
                             
                             <div class="bg-orange-50/80 border border-orange-100 rounded-xl p-6 flex flex-col items-center justify-center text-center flex-1">
                                 <p class="text-sm font-bold text-orange-800 mb-3 uppercase tracking-wider">Persentase Capaian</p>
-                                <p id="teks_persentase" class="text-6xl font-black text-orange-600 transition-all duration-300 drop-shadow-sm">0%</p>
+                                <p id="teks_persentase" class="text-6xl font-black text-orange-600 transition-all duration-300 drop-shadow-sm">{{ $initPersen }}%</p>
                             </div>
                         </div>
                     </div>
@@ -78,7 +97,7 @@
                         <textarea id="catatan" name="catatan" 
                                   class="w-full border border-slate-300 rounded-xl p-4 text-sm h-28 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-400"
                                   oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\n\r.,!?\-()]/g, '')" 
-                                  placeholder="Ketik detail pengerjaan, kendala cuaca, atau informasi material yang digunakan di sini..."></textarea>
+                                  placeholder="Ketik detail pengerjaan, kendala cuaca, atau informasi material yang digunakan di sini...">{{ old('catatan') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -86,7 +105,7 @@
             <!-- ================= KOLOM KANAN (Spesifikasi & Visual Menjadi Form Input) ================= -->
             <div class="space-y-6">
                 
-<!-- Card: Spesifikasi Teknis Berbentuk Form Input -->
+                <!-- Card: Spesifikasi Teknis Berbentuk Form Input -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
                     <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
                         <h3 class="font-bold text-lg text-slate-800">Spesifikasi Teknis</h3>
@@ -96,17 +115,17 @@
                         <!-- Metode Penanganan -->
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Metode Penanganan</label>
-                            <select id="metode_penanganan" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none bg-white">
-                                <option value="Deep Patching & Hotmix Overlay" selected>Deep Patching & Hotmix Overlay</option>
-                                <option value="Full Depth Reclamation">Full Depth Reclamation</option>
-                                <option value="Patching Manual">Patching Manual</option>
+                            <select name="metode_penanganan" id="metode_penanganan" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none bg-white">
+                                <option value="Deep Patching & Hotmix Overlay" {{ old('metode_penanganan', 'Deep Patching & Hotmix Overlay') == 'Deep Patching & Hotmix Overlay' ? 'selected' : '' }}>Deep Patching & Hotmix Overlay</option>
+                                <option value="Full Depth Reclamation" {{ old('metode_penanganan') == 'Full Depth Reclamation' ? 'selected' : '' }}>Full Depth Reclamation</option>
+                                <option value="Patching Manual" {{ old('metode_penanganan') == 'Patching Manual' ? 'selected' : '' }}>Patching Manual</option>
                             </select>
                         </div>
 
                         <!-- Volume Kerusakan -->
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Volume Kerusakan & Dimensi</label>
-                            <input type="text" id="volume_kerusakan" value="2.7 M³ (6m x 3m x 0.15m)"
+                            <input type="text" name="volume_kerusakan" id="volume_kerusakan" value="{{ old('volume_kerusakan', '2.7 M³ (6m x 3m x 0.15m)') }}"
                                    oninput="validateVolume(this)"
                                    class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none">
                             <p id="error_volume" class="text-red-500 text-[10px] mt-1 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Exception: Hanya boleh diisi angka, huruf, kurung, dan tanda pangkat!</p>
@@ -119,7 +138,7 @@
                             <div class="flex items-center justify-between gap-2">
                                 <span class="text-xs text-slate-600 font-medium">Aspal Hotmix Laston AC-WC</span>
                                 <div class="flex items-center gap-1 w-32">
-                                    <input type="number" min="0" step="0.1" id="material_asphalt" value="3.2" oninput="checkNegativeMaterial(this)" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
+                                    <input type="number" min="0" step="0.1" name="material_asphalt" id="material_asphalt" value="{{ old('material_asphalt', '3.2') }}" oninput="checkNegativeMaterial(this)" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
                                     <span class="text-xs text-slate-500 font-bold">Ton</span>
                                 </div>
                             </div>
@@ -127,15 +146,15 @@
                             <div class="flex items-center justify-between gap-2">
                                 <span class="text-xs text-slate-600 font-medium">Emulsi Tack Coat CRS-1</span>
                                 <div class="flex items-center gap-1 w-32">
-                                    <input type="number" min="0" id="material_emulsi" value="40" oninput="checkNegativeMaterial(this)" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
+                                    <input type="number" min="0" name="material_emulsi" id="material_emulsi" value="{{ old('material_emulsi', '40') }}" oninput="checkNegativeMaterial(this)" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
                                     <span class="text-xs text-slate-500 font-bold">Liter</span>
-                                    </div>
+                                </div>
                             </div>
 
                             <div class="flex items-center justify-between gap-2">
                                 <span class="text-xs text-slate-600 font-medium">Lapis Pondasi Agregat Kelas A</span>
                                 <div class="flex items-center gap-1 w-32">
-                                    <input type="number" min="0" step="0.1" id="material_agregat" value="3.0" oninput="checkNegativeMaterial(this)" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
+                                    <input type="number" min="0" step="0.1" name="material_agregat" id="material_agregat" value="{{ old('material_agregat', '3.0') }}" oninput="checkNegativeMaterial(this)" class="w-full border border-slate-300 rounded p-1.5 text-xs text-right focus:outline-none focus:border-teal-500 bg-white">
                                     <span class="text-xs text-slate-500 font-bold">M³</span>
                                 </div>
                             </div>
@@ -146,12 +165,12 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 mb-1">Estimasi Anggaran (Rp)</label>
-                                <input type="text" id="estimasi_anggaran" placeholder="Contoh: 8.450.000" oninput="formatAnggaran(this)" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-teal-500 placeholder:font-normal placeholder:text-slate-400">
+                                <input type="text" name="estimasi_anggaran" id="estimasi_anggaran" value="{{ old('estimasi_anggaran') }}" placeholder="Contoh: 8.450.000" oninput="formatAnggaran(this)" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs font-bold text-slate-900 focus:outline-none focus:border-teal-500 placeholder:font-normal placeholder:text-slate-400">
                                 <p id="error_anggaran" class="text-red-500 text-[10px] mt-1 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Exception: Angka tidak boleh negatif!</p>
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 mb-1">Target Selesai</label>
-                                <input type="date" id="target_selesai" min="{{ date('Y-m-d', strtotime('+1 day')) }}" onchange="validateDate(this)" class="w-full border border-slate-300 rounded-lg p-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-teal-500 bg-white">
+                                <input type="date" name="target_selesai" id="target_selesai" value="{{ old('target_selesai') }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}" onchange="validateDate(this)" class="w-full border border-slate-300 rounded-lg p-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-teal-500 bg-white">
                                 <p id="error_target" class="text-red-500 text-[10px] mt-1 hidden"><i class="fa-solid fa-triangle-exclamation"></i> Exception: Tidak boleh memilih hari ini atau tanggal berlalu!</p>
                             </div>
                         </div>
@@ -227,6 +246,48 @@
             </button>
         </div>
     </form>
+
+    <!-- RIWAYAT LOG PROGRES LAPANGAN -->
+    <div class="mt-8 bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+        <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+            <h3 class="font-bold text-base text-slate-800 flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-teal-600"></i> Riwayat Log Progres Lapangan
+            </h3>
+            <span class="text-xs text-slate-500 font-semibold">{{ $laporan->logProses ? $laporan->logProses->count() : 0 }} Entri Tercatat</span>
+        </div>
+
+        @if($laporan->logProses && $laporan->logProses->count() > 0)
+        <div class="space-y-4">
+            @foreach($laporan->logProses->sortByDesc('created_at') as $log)
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-teal-100 text-teal-800">
+                            {{ $log->pengguna->nama_lengkap ?? 'Admin PUPR' }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-700">
+                            {{ $log->catatan_update }}
+                        </span>
+                    </div>
+                    <span class="text-[11px] text-slate-400 font-medium shrink-0">
+                        <i class="fa-regular fa-calendar-check mr-1"></i> {{ $log->created_at->format('d M Y, H:i') }} WIB ({{ $log->time_ago }})
+                    </span>
+                </div>
+                @if($log->url_foto_selesai)
+                <div class="mt-3">
+                    <img src="{{ asset('storage/' . $log->url_foto_selesai) }}" alt="Foto Progres" class="w-48 h-32 object-cover rounded-lg border border-slate-200">
+                </div>
+                @endif
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="text-center py-8 text-slate-400 text-xs">
+            <i class="fa-solid fa-clipboard-list text-3xl mb-2 text-slate-300 block"></i>
+            Belum ada log progres yang tercatat untuk laporan ini. Silakan centang tahapan dan isi formulir di atas.
+        </div>
+        @endif
+    </div>
 
     <!-- Include File Pop-Up (Show) -->
     @include('pupr.progres.show')

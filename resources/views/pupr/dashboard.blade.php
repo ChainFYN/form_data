@@ -5,6 +5,39 @@
 @section('content')
 <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
+    <!-- TOP HEADER & TIME FILTER -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Dashboard PUPR</h1>
+        </div>
+
+        <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start md:self-auto overflow-x-auto max-w-full text-xs">
+            <span class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider hidden sm:inline-flex items-center gap-1">
+                <i class="fa-regular fa-calendar text-[11px]"></i> Filter:
+            </span>
+            <a href="{{ route('pupr.dashboard', ['waktu' => 'all']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'all' || !$timeFilter ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Semua
+            </a>
+            <a href="{{ route('pupr.dashboard', ['waktu' => 'hari_ini']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'hari_ini' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Hari Ini
+            </a>
+            <a href="{{ route('pupr.dashboard', ['waktu' => 'kemarin']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === 'kemarin' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Kemarin
+            </a>
+            <a href="{{ route('pupr.dashboard', ['waktu' => '1_minggu']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === '1_minggu' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                1 Minggu Terakhir
+            </a>
+            <a href="{{ route('pupr.dashboard', ['waktu' => '1_bulan']) }}"
+               class="px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap {{ $timeFilter === '1_bulan' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }}">
+                Sebulan Terakhir
+            </a>
+        </div>
+    </div>
+
     <!-- KPI CARDS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
@@ -80,23 +113,44 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
         <!-- LEFT: DAFTAR LAPORAN -->
-        <div class="lg:col-span-2">
-            <div class="flex items-center justify-between mb-6">
+        <div class="lg:col-span-2" x-data="{ filterStatus: 'all' }">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Daftar Laporan Tervalidasi Siap Kerja</h2>
-                    <p class="text-xs text-slate-500 font-medium">Disposisi masuk dari Kantor Kecamatan Cibinong yang telah lolos verifikasi teknis UPT 1.</p>
+                    <h2 class="text-xl font-extrabold text-slate-900">Daftar Laporan Penanganan Jalan</h2>
+                    <p class="text-xs text-slate-500 font-medium">Disposisi masuk dari Kantor Kecamatan dan progres pekerjaan lapangan PUPR.</p>
                 </div>
-                <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl">
-                    <button class="px-4 py-1.5 text-xs font-bold bg-white text-slate-900 rounded-lg shadow-sm">Semua (18)</button>
-                    <button class="px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900">Darurat / Prioritas 1 (4)</button>
-                    <button class="px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900">Reguler (9)</button>
+                <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl overflow-x-auto max-w-full text-xs shrink-0">
+                    <button type="button" @click="filterStatus = 'all'"
+                        :class="filterStatus === 'all' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+                        class="px-3.5 py-1.5 font-bold rounded-lg transition-all whitespace-nowrap">
+                        Semua ({{ $laporan_diproses->count() }})
+                    </button>
+                    <button type="button" @click="filterStatus = 'siap_dikerjakan'"
+                        :class="filterStatus === 'siap_dikerjakan' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+                        class="px-3.5 py-1.5 font-bold rounded-lg transition-all whitespace-nowrap flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        Siap Dikerjakan ({{ $siapDikerjakanCount }})
+                    </button>
+                    <button type="button" @click="filterStatus = 'diproses'"
+                        :class="filterStatus === 'diproses' ? 'bg-white text-amber-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+                        class="px-3.5 py-1.5 font-bold rounded-lg transition-all whitespace-nowrap flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                        Di Proses ({{ $diprosesCount }})
+                    </button>
+                    <button type="button" @click="filterStatus = 'selesai'"
+                        :class="filterStatus === 'selesai' ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'"
+                        class="px-3.5 py-1.5 font-bold rounded-lg transition-all whitespace-nowrap flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        Selesai ({{ $selesaiCount }})
+                    </button>
                 </div>
             </div>
 
             <div class="flex flex-col gap-4">
 
                 @forelse($laporan_diproses as $laporan)
-                <div class="bg-white rounded-2xl p-4 border {{ $laporan->tingkat_bahaya === 'Bahaya Tinggi' ? 'border-red-200 ring-1 ring-red-500/20' : 'border-slate-200' }} shadow-xs flex flex-col sm:flex-row gap-5 relative overflow-hidden">
+                <div x-show="filterStatus === 'all' || filterStatus === '{{ $laporan->tahap_progres }}'"
+                     class="bg-white rounded-2xl p-4 border {{ $laporan->tingkat_bahaya === 'Bahaya Tinggi' ? 'border-red-200 ring-1 ring-red-500/20' : 'border-slate-200' }} shadow-xs flex flex-col sm:flex-row gap-5 relative overflow-hidden">
                     @if($laporan->tingkat_bahaya === 'Bahaya Tinggi')
                     <div class="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
                     @endif
@@ -115,10 +169,46 @@
                             <div class="text-[10px] font-mono font-bold text-slate-500">
                                 LP-{{ $laporan->created_at->format('Y') }}-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }} — SPK: #SPK-PUPR-{{ str_pad($laporan->id_laporan, 4, '0', STR_PAD_LEFT) }}
                             </div>
-                            <span class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded border border-blue-200">Siap Dikerjakan</span>
+                            @if($laporan->tahap_progres === 'selesai')
+                                <span class="text-[10px] font-extrabold bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                                    <i class="fa-solid fa-check-double text-[9px]"></i> Selesai ({{ $laporan->progres_persen }}%)
+                                </span>
+                            @elseif($laporan->tahap_progres === 'diproses')
+                                <span class="text-[10px] font-extrabold bg-amber-50 text-amber-700 px-2.5 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
+                                    <i class="fa-solid fa-spinner fa-spin-pulse text-[9px]"></i> Di Proses ({{ $laporan->progres_persen }}%)
+                                </span>
+                            @else
+                                <span class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full border border-blue-200 flex items-center gap-1">
+                                    <i class="fa-solid fa-file-circle-check text-[9px]"></i> Siap Dikerjakan (0%)
+                                </span>
+                            @endif
                         </div>
                         <h3 class="text-sm font-extrabold text-slate-900 mb-1">Jl. {{ $laporan->jalan->nama_jalan ?? 'Tidak diketahui' }} ({{ $laporan->jalan->desa->nama_desa ?? '-' }})</h3>
-                        <p class="text-[11px] text-slate-600 leading-relaxed mb-3">Kerusakan: <strong>{{ $laporan->kategori->nama_kategori ?? '-' }}</strong>. {{ $laporan->deskripsi }}</p>
+                        <p class="text-[11px] text-slate-600 leading-relaxed mb-2">Kerusakan: <strong>{{ $laporan->kategori->nama_kategori ?? '-' }}</strong>. {{ $laporan->deskripsi }}</p>
+
+                        <!-- TAMPILAN PERSENTASE PROGRES PENANGANAN -->
+                        <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-2.5 mb-3">
+                            <div class="flex items-center justify-between text-[11px] font-bold mb-1.5">
+                                <span class="text-slate-600 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-bars-progress {{ $laporan->progres_persen >= 100 ? 'text-emerald-500' : ($laporan->progres_persen >= 25 ? 'text-amber-500' : 'text-blue-500') }}"></i>
+                                    Progres Fisik:
+                                    @if($laporan->tahap_progres === 'selesai')
+                                        <span class="text-emerald-700 font-extrabold">Rampung (100%)</span>
+                                    @elseif($laporan->tahap_progres === 'diproses')
+                                        <span class="text-amber-700 font-extrabold">Sedang Di Proses ({{ $laporan->progres_persen }}%)</span>
+                                    @else
+                                        <span class="text-blue-700 font-medium">Siap Dikerjakan (0%)</span>
+                                    @endif
+                                </span>
+                                <span class="text-xs font-black {{ $laporan->progres_persen >= 100 ? 'text-emerald-600' : ($laporan->progres_persen >= 25 ? 'text-amber-600' : 'text-slate-400') }}">
+                                    {{ $laporan->progres_persen }}%
+                                </span>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                                <div class="{{ $laporan->progres_persen >= 100 ? 'bg-emerald-500' : ($laporan->progres_persen >= 25 ? 'bg-amber-500' : 'bg-slate-300') }} h-full rounded-full transition-all duration-500" 
+                                     style="width: {{ $laporan->progres_persen }}%"></div>
+                            </div>
+                        </div>
 
                         <div class="flex items-center gap-4 mb-3">
                             <div class="flex items-center gap-1.5 text-[10px] font-bold {{ $laporan->tingkat_bahaya === 'Bahaya Tinggi' ? 'text-red-700 bg-red-50 border-red-200' : 'text-slate-700 bg-slate-100 border-slate-200' }} border px-2.5 py-1.5 rounded-lg">
@@ -135,7 +225,9 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <button onclick="document.getElementById('modal-detail-{{ $laporan->id_laporan }}').classList.remove('hidden')" class="px-3 py-1.5 text-[10px] font-bold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors">Detail Laporan</button>
-                                <a href="{{ route('pupr.progres.show', $laporan->id_laporan) }}" class="px-3 py-1.5 text-[10px] font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-xs transition-colors">Update Progres Lapangan</a>
+                                <a href="{{ route('pupr.progres.show', $laporan->id_laporan) }}" class="px-3 py-1.5 text-[10px] font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-xs transition-colors flex items-center gap-1">
+                                    <i class="fa-solid fa-pen-to-square text-[9px]"></i> Update Progres Lapangan
+                                </a>
                             </div>
                         </div>
                     </div>
