@@ -74,6 +74,9 @@ Route::prefix('pupr')->name('pupr.')->group(function () {
 
     // BAST PDF Route
     Route::get('/bast/{id}/generate', [PUPRBastController::class, 'generatePdf'])->name('bast.generate');
+
+    // Riwayat Laporan (25% - 100%)
+    Route::get('/riwayat', [PUPRDashboardController::class, 'riwayat'])->name('riwayat');
 });
 
 // Kecamatan Routes

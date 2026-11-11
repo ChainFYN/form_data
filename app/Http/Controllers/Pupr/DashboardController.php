@@ -110,4 +110,70 @@ class DashboardController extends Controller
             ],
         ]);
     }
+
+    public function riwayat(Request $request)
+    {
+        if (! session()->has('pupr_id')) {
+            return redirect()->route('warga.login')->withErrors(['login' => 'Silakan login terlebih dahulu.']);
+        }
+
+        $filterStatus = $request->query('status', 'semua'); // semua, 25-75, 100
+        $search = $request->query('search', '');
+
+        // Ambil laporan yang statusnya diproses (2) atau selesai (3)
+        $query = Laporan::with(['kategori', 'jalan.desa.kecamatan', 'pengguna', 'logProses', 'timLapangan'])
+            ->whereIn('id_status', [2, 3]);
+
+        if (! empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('id_laporan', 'like', "%{$search}%")
+                  ->orWhere('deskripsi', 'like', "%{$search}%")
+                  ->orWhereHas('jalan', fn ($q2) => $q2->where('nama_jalan', 'like', "%{$search}%"));
+            });
+        }
+
+        $laporanList = $query->orderBy('updated_at', 'desc')->get();
+
+        // Petakan progres dan status validasi untuk masing-masing laporan
+        $riwayatLaporan = $laporanList->map(function ($laporan) {
+            $latestLog = $laporan->logProses->sortByDesc('created_at')->first();
+            $persen = 0;
+
+            if ($laporan->id_status == 3 || $laporan->status_bast === 'DIVERIFIKASI' || $laporan->status_bast === 'MENUNGGU_VERIFIKASI') {
+                $persen = 100;
+            } elseif ($latestLog && preg_match('/Progres\s*(\d+)%/i', $latestLog->catatan_update, $matches)) {
+                $persen = (int) $matches[1];
+            }
+
+            // Tentukan status validasi khusus 100%
+            $statusValidasi = null;
+            if ($persen >= 100) {
+                if ($laporan->status_bast === 'DIVERIFIKASI' || $laporan->id_status == 3) {
+                    $statusValidasi = 'tervalidasi';
+                } elseif ($laporan->status_bast === 'DITOLAK') {
+                    $statusValidasi = 'tidak_tervalidasi';
+                } else {
+                    $statusValidasi = 'menunggu_validasi';
+                }
+            }
+
+            $laporan->progres_persen = $persen;
+            $laporan->status_validasi_100 = $statusValidasi;
+            $laporan->latest_log = $latestLog;
+
+            return $laporan;
+        })->filter(function ($laporan) {
+            // Hanya ambil laporan dengan progres 25% sampai 100%
+            return $laporan->progres_persen >= 25 && $laporan->progres_persen <= 100;
+        });
+
+        // Filter tab jika dipilih
+        if ($filterStatus === '25-75') {
+            $riwayatLaporan = $riwayatLaporan->where('progres_persen', '<', 100);
+        } elseif ($filterStatus === '100') {
+            $riwayatLaporan = $riwayatLaporan->where('progres_persen', '>=', 100);
+        }
+
+        return view('pupr.riwayat.index', compact('riwayatLaporan', 'filterStatus', 'search'));
+    }
 }

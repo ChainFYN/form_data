@@ -2,11 +2,11 @@
 
 @section('content')
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
-    
+
     <!-- HEADER -->
     <div class="mb-6">
         <span class="inline-block bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded mb-2">SEDANG DIKERJAKAN PUPR</span>
-        <h2 class="text-2xl font-bold text-slate-900 p-1">Detail Penanganan Lapangan: Jl. {{ $laporan->jalan->nama_jalan ?? '-' }}</h2>
+        <h2 class="text-2xl font-bold text-slate-900 p-1">Detail Penanganan Lapangan: {{ $laporan->jalan->nama_jalan ?? '-' }}</h2>
         <p class="text-sm text-slate-500 mt-1 flex items-center">📍 Kec. {{ $laporan->jalan->desa->kecamatan->nama_kecamatan ?? '-' }}, Kab. Jember | 🕒 Update Terakhir: {{ $laporan->updated_at->format('d M Y, H:i') }} WIB</p>
     </div>
 
@@ -35,42 +35,42 @@
 
         <!-- GRID LAYOUT UTAMA (2 Kolom Kiri, 1 Kolom Kanan) -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
+
             <!-- ================= KOLOM KIRI (Form Log & Tahapan) ================= -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
                     <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-6">
                         <h3 class="font-bold text-lg text-slate-800">Form Update Log Progres Lapangan</h3>
                     </div>
-                    
+
                     <!-- GRID 2 KOLOM: Tahapan & Persentase -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        
+
                         <!-- Checkbox Berurutan -->
                         <div class="flex flex-col">
                             <label class="block text-xs font-bold text-slate-700 mb-2 uppercase tracking-wide">Status Tahapan Pekerjaan</label>
-                            
+
                             <div class="space-y-3 bg-slate-50 p-5 rounded-xl border border-slate-200 flex-1">
                                 <label class="flex items-center space-x-3 cursor-pointer group">
-                                    <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white" 
+                                    <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white"
                                            data-index="1" data-persen="25" onchange="aturUrutan(1)" {{ $initPersen >= 25 ? 'checked' : '' }}>
                                     <span class="text-sm font-medium text-slate-700 group-hover:text-teal-700 transition-colors">Pengecekan Lokasi</span>
                                 </label>
-                                
+
                                 <label class="flex items-center space-x-3 cursor-pointer group">
-                                    <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white" 
+                                    <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white"
                                            data-index="2" data-persen="50" onchange="aturUrutan(2)" {{ $initPersen >= 50 ? 'checked' : '' }}>
                                     <span class="text-sm font-medium text-slate-700 group-hover:text-teal-700 transition-colors">Persiapan Material & Alat</span>
                                 </label>
-                                
+
                                 <label class="flex items-center space-x-3 cursor-pointer group">
-                                    <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white" 
+                                    <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white"
                                            data-index="3" data-persen="75" onchange="aturUrutan(3)" {{ $initPersen >= 75 ? 'checked' : '' }}>
                                     <span class="text-sm font-medium text-slate-700 group-hover:text-teal-700 transition-colors">Pengerjaan Fisik / Eksekusi</span>
                                 </label>
-                                
+
                                 <label class="flex items-center space-x-3 cursor-pointer group">
-                                    <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white" 
+                                    <input type="checkbox" class="tahapan-checkbox form-checkbox h-5 w-5 text-teal-600 rounded border-slate-300 focus:ring-teal-500 transition-all cursor-pointer bg-white"
                                            data-index="4" data-persen="100" onchange="aturUrutan(4)" {{ $initPersen >= 100 ? 'checked' : '' }}>
                                     <span class="text-sm font-medium text-slate-700 group-hover:text-teal-700 transition-colors">Selesai & Publikasi Progres</span>
                                 </label>
@@ -83,7 +83,7 @@
                         <!-- Kotak Persentase -->
                         <div class="flex flex-col">
                             <label class="block text-xs font-bold text-transparent mb-2 uppercase tracking-wide select-none">Spacer</label>
-                            
+
                             <div class="bg-orange-50/80 border border-orange-100 rounded-xl p-6 flex flex-col items-center justify-center text-center flex-1">
                                 <p class="text-sm font-bold text-orange-800 mb-3 uppercase tracking-wider">Persentase Capaian</p>
                                 <p id="teks_persentase" class="text-6xl font-black text-orange-600 transition-all duration-300 drop-shadow-sm">{{ $initPersen }}%</p>
@@ -94,9 +94,9 @@
                     <!-- Catatan Teknis (Placeholder / Shadow Text) -->
                     <div class="mb-2">
                         <label for="catatan" class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Catatan Teknis Lapangan</label>
-                        <textarea id="catatan" name="catatan" 
+                        <textarea id="catatan" name="catatan"
                                   class="w-full border border-slate-300 rounded-xl p-4 text-sm h-28 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all placeholder-slate-400"
-                                  oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\n\r.,!?\-()]/g, '')" 
+                                  oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\n\r.,!?\-()]/g, '')"
                                   placeholder="Ketik detail pengerjaan, kendala cuaca, atau informasi material yang digunakan di sini...">{{ old('catatan') }}</textarea>
                     </div>
                 </div>
@@ -104,13 +104,13 @@
 
             <!-- ================= KOLOM KANAN (Spesifikasi & Visual Menjadi Form Input) ================= -->
             <div class="space-y-6">
-                
+
                 <!-- Card: Spesifikasi Teknis Berbentuk Form Input -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
                     <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
                         <h3 class="font-bold text-lg text-slate-800">Spesifikasi Teknis</h3>
                     </div>
-                    
+
                     <div class="space-y-4">
                         <!-- Metode Penanganan -->
                         <div>
@@ -134,7 +134,7 @@
                         <!-- Material & Agregat Digunakan -->
                         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
                             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide">MATERIAL & AGREGAT DIGUNAKAN:</label>
-                            
+
                             <div class="flex items-center justify-between gap-2">
                                 <span class="text-xs text-slate-600 font-medium">Aspal Hotmix Laston AC-WC</span>
                                 <div class="flex items-center gap-1 w-32">
@@ -181,7 +181,7 @@
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
                     <h3 class="font-bold text-lg text-slate-800 mb-4">Komparasi Visual Pengerjaan</h3>
                     <div class="grid grid-cols-2 gap-4">
-                        
+
                         <!-- Kiri: Input Foto Progres -->
                         <div class="flex flex-col">
                             <label class="block text-xs font-bold text-slate-700 mb-2">Upload Foto Progres</label>
@@ -224,7 +224,7 @@
                                 input.value = "";
                                 return;
                             }
-                            
+
                             var reader = new FileReader();
                             reader.onload = function(e) {
                                 document.getElementById('upload-preview').src = e.target.result;
@@ -302,7 +302,7 @@
         const isChecking = clickedCheckbox.checked;
 
         let targetIndex = isChecking ? clickedIndex : clickedIndex - 1;
-        
+
         let currentPersen = 0;
         let currentStatus = 0;
 
@@ -313,7 +313,7 @@
             if (index <= targetIndex) {
                 cb.checked = true;
                 currentPersen = persen;
-                currentStatus = index; 
+                currentStatus = index;
             } else {
                 cb.checked = false;
             }
@@ -322,7 +322,7 @@
         document.getElementById('teks_persentase').innerText = currentPersen + '%';
         document.getElementById('input_status').value = currentStatus;
         document.getElementById('input_persentase').value = currentPersen;
-        
+
         // Ubah Teks Tombol
         if(currentPersen === 100) {
             document.getElementById('btnSubmitForm').innerText = 'Selesaikan & Buat BAST';
@@ -342,7 +342,7 @@
 <script>
     function validateVolume(input) {
         // Karakter yang diizinkan: angka, huruf, spasi, titik, koma, x (perkalian),
-        // kurung buka/tutup, simbol pangkat unicode (²³¹⁰⁴⁵⁶⁷⁸⁹), dan tanda ^ 
+        // kurung buka/tutup, simbol pangkat unicode (²³¹⁰⁴⁵⁶⁷⁸⁹), dan tanda ^
         const allowed = /^[0-9a-zA-Z\s.,x×()²³¹⁰⁴⁵⁶⁷⁸⁹^]*$/;
 
         if (!allowed.test(input.value)) {
@@ -370,7 +370,7 @@
             document.getElementById('error_anggaran').classList.remove('hidden');
             // Hapus tanda negatif langsung
             input.value = input.value.replace(/-/g, '');
-            
+
             // Sembunyikan notif setelah 3 detik
             setTimeout(() => {
                 document.getElementById('error_anggaran').classList.add('hidden');
@@ -378,10 +378,10 @@
         } else {
             document.getElementById('error_anggaran').classList.add('hidden');
         }
-        
+
         // Hapus semua karakter selain angka
         let val = input.value.replace(/[^0-9]/g, '');
-        
+
         // Format dengan titik (Ribuan)
         if (val !== '') {
             input.value = new Intl.NumberFormat('id-ID').format(val);
@@ -395,7 +395,7 @@
 
         let selectedDate = new Date(input.value);
         let minDate = new Date("{{ date('Y-m-d', strtotime('+1 day')) }}");
-        
+
         selectedDate.setHours(0,0,0,0);
         minDate.setHours(0,0,0,0);
 
@@ -413,13 +413,13 @@
     function checkNegativeMaterial(input) {
         if (input.value.includes('-') || input.value < 0) {
             document.getElementById('error_material').classList.remove('hidden');
-            
+
             // Hapus tanda negatif
             input.value = Math.abs(input.value);
             if(input.value == 0 || input.value === "") {
                 input.value = "";
             }
-            
+
             // Sembunyikan notif setelah 3 detik
             setTimeout(() => {
                 document.getElementById('error_material').classList.add('hidden');
@@ -449,7 +449,7 @@
         // 3. Masukkan nilai ke dalam elemen Pop-up (modal show.blade.php)
         document.getElementById('modal_persentase').innerText = persentase + '%';
         document.getElementById('modal_catatan').innerText = catatan ? catatan : '- Tidak ada catatan -';
-        
+
         document.getElementById('modal_metode').innerText = metode;
         document.getElementById('modal_volume').innerText = volume;
         document.getElementById('modal_asphalt').innerText = asphalt ? asphalt : '0';
@@ -461,7 +461,7 @@
         // 4. Tampilkan modal
         document.getElementById('modalShow').classList.remove('hidden');
     }
-    
+
     function closeModal() {
         document.getElementById('modalShow').classList.add('hidden');
     }

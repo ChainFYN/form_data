@@ -70,8 +70,10 @@
                             Dashboard Operasional
                         </a>
 
-
-
+                        <a href="{{ route('pupr.riwayat') }}"
+                              class="px-4 py-2.5 text-xs font-bold rounded-xl transition-all {{ request()->routeIs('pupr.riwayat') ? 'bg-slate-900 text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800' }}">
+                               Riwayat Penanganan
+                           </a>
                     </nav>
                 </div>
 
