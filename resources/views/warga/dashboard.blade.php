@@ -9,10 +9,6 @@
     <div class="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white mb-4 shadow-sm relative overflow-hidden">
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-sky-100 text-xs font-semibold mb-3 border border-white/30">
-                    <span class="w-2 h-2 rounded-full bg-sky-300 animate-pulse"></span>
-                    Portal Warga Pelapor SIGAP
-                </div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
                     Selamat Datang, {{ session('warga_name', 'Warga Jember') }}!
                 </h1>
@@ -66,7 +62,7 @@
         </a>
 
         <!-- Total -->
-        <a href="{{ route('warga.laporan.index') }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-[#0B4F6C] shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ !request('status') ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
+        <a href="{{ route('warga.laporan.index') }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md">
             <div class="flex items-start justify-between">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">TOTAL LAPORAN SAYA</div>
             </div>

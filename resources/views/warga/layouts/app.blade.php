@@ -216,6 +216,7 @@
     </main>
 
     <!-- FOOTER (Matching PUPR & Kecamatan) -->
+    @if(!request()->routeIs('warga.login') && !request()->routeIs('warga.register'))
     <footer class="footer-gradient border-t border-white/10 mt-12 py-8">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -244,6 +245,7 @@
             </div>
         </div>
     </footer>
+    @endif
 
     <script>
         function confirmLogout(e) {
