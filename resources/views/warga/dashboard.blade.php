@@ -32,8 +32,8 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
 
         <!-- Menunggu -->
-        <a href="{{ route('warga.laporan.index', ['status' => 1]) }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 1 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
-            <div class="flex items-start justify-between">
+        <a href="{{ route('warga.laporan.index', ['status' => 1]) }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 1 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }} text-center">
+            <div class="flex items-start justify-center w-full">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">MENUNGGU VERIFIKASI</div>
             </div>
             <div class="flex items-center justify-center h-full">
@@ -42,8 +42,8 @@
         </a>
 
         <!-- Diproses -->
-        <a href="{{ route('warga.laporan.index', ['status' => 2]) }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 2 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
-            <div class="flex items-start justify-between">
+        <a href="{{ route('warga.laporan.index', ['status' => 2]) }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 2 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }} text-center">
+            <div class="flex items-start justify-center w-full">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SEDANG DIPROSES PUPR</div>
             </div>
             <div class="flex items-center justify-center h-full">
@@ -52,8 +52,8 @@
         </a>
 
         <!-- Selesai -->
-        <a href="{{ route('warga.laporan.index', ['status' => 3]) }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-[#0B4F6C] shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 3 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }}">
-            <div class="flex items-start justify-between">
+        <a href="{{ route('warga.laporan.index', ['status' => 3]) }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-[#0B4F6C] shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md {{ $selectedStatus == 3 ? 'border-[#0B4F6C] border-2 ring-2 ring-[#0B4F6C]/15 shadow-lg shadow-[#0B4F6C]/10' : 'border-slate-200' }} text-center">
+            <div class="flex items-start justify-center w-full">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">SELESAI DITANGANI</div>
             </div>
             <div class="flex items-center justify-center h-full">
@@ -62,8 +62,8 @@
         </a>
 
         <!-- Total -->
-        <a href="{{ route('warga.laporan.index') }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md">
-            <div class="flex items-start justify-between">
+        <a href="{{ route('warga.laporan.index') }}" class="block bg-[#FCFAF9] rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between h-32 transition-all hover:shadow-md text-center">
+            <div class="flex items-start justify-center w-full">
                 <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">TOTAL LAPORAN SAYA</div>
             </div>
             <div class="flex items-center justify-center h-full">
@@ -147,8 +147,7 @@
             </div>
             <div>
                 <div>
-                    <div>
-                        <div id="riwayat-container">
+                    <div id="riwayat-container">
                             @include('warga.partials.riwayat_list')
                         </div>
                     </div>

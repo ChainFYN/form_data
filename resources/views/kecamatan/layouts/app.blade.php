@@ -67,6 +67,16 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        .navy-gradient {
+            background: linear-gradient(180deg, #0C146A 0%, #101B93 95%, #1523BC 100%);
+            box-shadow: 0 4px 18px rgba(20, 30, 113, 0.18);
+        }
+
+        .footer-gradient {
+            background: linear-gradient(180deg, #1523BC 0%, #101B93 20%, #0C146A 100%);
+            box-shadow: 0 -4px 18px rgba(20, 30, 113, 0.12);
+        }
+
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -101,7 +111,7 @@
 <body class="h-full flex flex-col text-slate-800 antialiased" x-data="{ searchModalOpen: false, notifOpen: false }">
 
     <!-- TOP NAVBAR -->
-    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-xs no-print">
+    <header class="navy-gradient border-b border-white/10 sticky top-0 z-40 shadow-[0_8px_24px_rgba(20,30,113,0.12)] no-print">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
 
@@ -113,7 +123,7 @@
                         </div>
                         <div>
                             <div class="font-extrabold text-xl tracking-tight text-white leading-none">SIGAP</div>
-                            <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500 mt-1">KECAMATAN</div>
+                            <div class="text-[10px] font-bold uppercase tracking-wider text-slate-300 mt-1">KECAMATAN</div>
                         </div>
                     </a>
 
@@ -199,8 +209,8 @@
                     <div class="relative" x-data="{ profileOpen: false }">
                         <button @click="profileOpen = !profileOpen" class="flex items-center gap-3 pl-5 border-l border-slate-200 focus:outline-none">
                             <div class="text-right hidden sm:block text-slate-900">
-                                <div class="text-xs font-extrabold">{{ session('kecamatan_name', 'Kecamatan') }}</div>
-                                <div class="text-[10px] text-slate-500 font-medium">Admin<br>Kecamatan Jember</div>
+                                <div class="text-xs font-extrabold text-white">{{ session('kecamatan_name', 'Kecamatan') }}</div>
+                                <div class="text-[10px] text-slate-200 font-medium">Admin<br>Kecamatan Jember</div>
                             </div>
                             <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 shrink-0 hover:bg-slate-300 transition-colors">
                                 <i class="fa-regular fa-user"></i>
@@ -244,29 +254,29 @@
     </main>
 
     <!-- FOOTER (Matching Figma Exactly) -->
-    <footer class="bg-white border-t border-slate-200 mt-12 py-8 no-print">
+    <footer class="footer-gradient border-t border-white/10 mt-12 py-8 no-print">
         <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <!-- Left -->
                 <div>
                     <div class="flex items-center gap-2">
-                        <div class="w-6 h-6 rounded-md bg-emerald-700 flex items-center justify-center text-white text-xs">
+                        <div class="w-6 h-6 rounded-md bg-white/95 flex items-center justify-center text-[#141E71] text-xs shadow-sm">
                             <i class="fa-solid fa-landmark"></i>
                         </div>
-                        <h4 class="font-bold text-slate-900 text-sm">Pemerintah Kabupaten Jember</h4>
+                        <h4 class="font-bold text-white text-sm">Pemerintah Kabupaten Jember</h4>
                     </div>
-                    <p class="text-xs text-slate-500 mt-1">Dinas Pekerjaan Umum dan Penataan Ruang (PUPR) berkolaborasi dengan Kantor Kecamatan Jember.</p>
-                    <p class="text-[11px] text-slate-400 mt-2">© 2026 Portal SIGAP Kabupaten Jember. Hak Cipta Dilindungi Undang-Undang.</p>
+                    <p class="text-xs text-slate-200 mt-1">Dinas Pekerjaan Umum dan Penataan Ruang (PUPR) berkolaborasi dengan Kantor Kecamatan Jember.</p>
+                    <p class="text-[11px] text-slate-300 mt-2">© 2026 Portal SIGAP Kabupaten Jember. Hak Cipta Dilindungi Undang-Undang.</p>
                 </div>
 
                 <!-- Right -->
                 <div class="text-left md:text-right">
-                    <p class="text-xs font-semibold text-slate-700">Layanan Darurat Jalan Rusak:</p>
-                    <p class="text-sm font-bold text-brand-600 mt-0.5">Call Center Kab. Jember: 112 / (021) 879-0123</p>
-                    <div class="flex items-center md:justify-end gap-3 text-[11px] text-slate-400 mt-2">
+                    <p class="text-xs font-semibold text-slate-200">Layanan Darurat Jalan Rusak:</p>
+                    <p class="text-sm font-bold text-white mt-0.5">Call Center Kab. Jember: 112 / (021) 879-0123</p>
+                    <div class="flex items-center md:justify-end gap-3 text-[11px] text-slate-300 mt-2">
                         <span>Standar Pelayanan Publik No. 201/KORD-UPR/2026</span>
                         <span>•</span>
-                        <span class="font-mono bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 text-slate-600">Versi 2.4.1</span>
+                        <span class="font-mono bg-white/10 px-1.5 py-0.5 rounded border border-white/15 text-white">Versi 2.4.1</span>
                     </div>
                 </div>
             </div>
